@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import fulllock from '../assets/fulllock.png';
 import pick from '../assets/pick.png';
 
@@ -13,7 +13,6 @@ export const LockpadContainer = styled.div`
   position: relative;
   width: 400px;
   height: 400px;
-  padding: 12px;
   background: grey;
 `;
 
@@ -21,21 +20,23 @@ export const Lockpad = styled.img.attrs({
   src: fulllock,
   alt: 'an ugly but functional lockpad'
 })`
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
+  width: 100%;
+  margin: 12px auto;
   z-index: 0;
 `;
 
-export const Pick = styled.img.attrs({
+export const Pick = styled.img.attrs((props) => ({
   src: pick,
-  alt: 'a picklock that looks like a twig'
-})`
+  alt: 'a picklock that looks like a twig',
+  style: {
+    transform: `rotate(${props.position}deg)`
+  }
+}))`
   cursor: none;
   pointer-events: none;
   position: absolute;
   top: -50%; left: 50%;
   transform-origin: bottom;
-  transform: rotate(${(props) => props.position}deg) translate(-50%, 0);
+  transform: translate(-50%, 0);
   z-index: 10; 
 `;
