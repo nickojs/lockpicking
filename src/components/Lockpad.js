@@ -9,7 +9,10 @@ const LockPad = (props) => {
 
   const mousePositionHandler = (event) => {
     const currentAngle = returnFinalAngle(event.nativeEvent);
-    setAngle(currentAngle);
+    if (currentAngle > -115 && currentAngle < 115) {
+      console.log(angle);
+      return setAngle(currentAngle);
+    }
   };
 
   return (
