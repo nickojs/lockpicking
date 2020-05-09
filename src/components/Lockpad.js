@@ -1,25 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import * as S from './styles';
 
 const LockPad = (props) => {
-  const [mousePosition, setMousePosition] = useState({
-    x: null, y: null
-  });
+  const [angle, setAngle] = useState([]);
+  const pickRef = useRef(null);
+
+  useEffect(() => {
+    // element.offset().left + element.width()/2
+    // element.offset().top + element.height()/2
+    const elementWidthHalf = pickRef.current.offsetWidth / 2;
+    const elementHeightHalf = pickRef.current.offsetHeight / 2;
+
+    const elementOffsetLeft = pickRef.current.getBoundingClientRect().left;
+    const elementOffsetTop = pickRef.current.getBoundingClientRect().top;
+
+    setAngle([elementOffsetLeft + elementWidthHalf, elementOffsetTop + elementHeightHalf]);
+  }, []);
 
   const mousePositionHandler = (event) => {
-    event.preventDefault();
-    const position = {
-      x: event.nativeEvent.offsetX - event.nativeEvent.target.x,
-      y: event.nativeEvent.offsetY - event.nativeEvent.target.y
-    };
-    console.log(event.nativeEvent.target.x);
-    setMousePosition(position);
+    // Math.atan2(e.pageX- angle[0],- (e.pageY- angle[1]) )*(180/Math.PI);
+    const { pageX } = event.nativeEvent;
+    const { pageY } = event.nativeEvent;
+
+    console.log(pageX, pageY);
   };
 
   return (
-    <S.Container>
-      <S.LockpadContainer onMouseMove={(event) => mousePositionHandler(event)}>
-        <S.Pick position={mousePosition.x} />
+    <S.Container onMouseMove={(event) => mousePositionHandler(event)}>
+      <S.LockpadContainer>
+        <S.Pick ref={pickRef} position={12} />
         <S.Lockpad />
       </S.LockpadContainer>
     </S.Container>
