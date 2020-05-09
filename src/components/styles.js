@@ -29,14 +29,14 @@ export const Pick = styled.img.attrs((props) => ({
   src: pick,
   alt: 'a picklock that looks like a twig',
   style: {
-    transform: `rotate(${props.position}deg)`
+    transform: `rotate(${props.position}deg) translate(-50%, 0%)`
   }
 }))`
   cursor: none;
   pointer-events: none;
   position: absolute;
-  top: -50%; left: 50%;
-  transform-origin: bottom;
-  transform: translate(-50%, 0);
+  top: -60%; left: 50%;
+  transform-origin: 50% 100%;
+  transform: rotate(0deg) translate(-50%, 0%);
   z-index: 10; 
 `;
