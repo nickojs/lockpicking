@@ -1,34 +1,21 @@
 import React, { useEffect, useState, useRef } from 'react';
 import * as S from './styles';
+import useAngle from '../hooks/angle';
 
 const LockPad = (props) => {
-  const [angle, setAngle] = useState([]);
   const pickRef = useRef(null);
-
-  useEffect(() => {
-    // element.offset().left + element.width()/2
-    // element.offset().top + element.height()/2
-    const elementWidthHalf = pickRef.current.offsetWidth / 2;
-    const elementHeightHalf = pickRef.current.offsetHeight / 2;
-
-    const elementOffsetLeft = pickRef.current.getBoundingClientRect().left;
-    const elementOffsetTop = pickRef.current.getBoundingClientRect().top;
-
-    setAngle([elementOffsetLeft + elementWidthHalf, elementOffsetTop + elementHeightHalf]);
-  }, []);
+  const returnFinalAngle = useAngle(pickRef);
+  const [angle, setAngle] = useState(null);
 
   const mousePositionHandler = (event) => {
-    // Math.atan2(e.pageX- angle[0],- (e.pageY- angle[1]) )*(180/Math.PI);
-    const { pageX } = event.nativeEvent;
-    const { pageY } = event.nativeEvent;
-
-    console.log(pageX, pageY);
+    const currentAngle = returnFinalAngle(event.nativeEvent);
+    setAngle(currentAngle);
   };
 
   return (
     <S.Container onMouseMove={(event) => mousePositionHandler(event)}>
       <S.LockpadContainer>
-        <S.Pick ref={pickRef} position={12} />
+        <S.Pick ref={pickRef} position={angle} />
         <S.Lockpad />
       </S.LockpadContainer>
     </S.Container>
