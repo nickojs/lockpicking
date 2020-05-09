@@ -9,10 +9,10 @@ const LockPad = (props) => {
   const mousePositionHandler = (event) => {
     event.preventDefault();
     const position = {
-      x: event.nativeEvent.offsetX,
-      y: event.nativeEvent.offsetY
+      x: event.nativeEvent.offsetX - event.nativeEvent.target.x,
+      y: event.nativeEvent.offsetY - event.nativeEvent.target.y
     };
-    console.log(position);
+    console.log(event.nativeEvent.target.x);
     setMousePosition(position);
   };
 

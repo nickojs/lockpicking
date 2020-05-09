@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import fulllock from '../assets/fulllock.png';
 import pick from '../assets/pick.png';
 
@@ -31,8 +31,11 @@ export const Pick = styled.img.attrs({
   src: pick,
   alt: 'a picklock that looks like a twig'
 })`
+  cursor: none;
+  pointer-events: none;
   position: absolute;
   top: -50%; left: 50%;
-  transform: translate(-50%, 0);
+  transform-origin: bottom;
+  transform: rotate(${(props) => props.position}deg) translate(-50%, 0);
   z-index: 10; 
 `;
