@@ -5,12 +5,12 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  margin: 12px auto;
-  padding: 24px;
 `;
 
 export const LockpadContainer = styled.div`
+  position: relative;
   width: 400px;
   height: 400px;
+  padding: 12px;
   background: grey;
 `;
