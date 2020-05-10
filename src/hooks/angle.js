@@ -23,7 +23,7 @@ export default (elementRef, event) => {
 
     if (angle <= -115 || angle >= 115) return null;
 
-    return angle;
+    return Math.ceil(angle);
   };
 
   return calculateAngle();
