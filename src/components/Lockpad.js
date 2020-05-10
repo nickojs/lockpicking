@@ -1,15 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState, useEffect, useRef, useReducer
+} from 'react';
+import { actionTypes as actions, inputReducer } from './reducer';
+
 import * as S from './styles';
 import useAngle from '../hooks/angle';
 import genArray from '../helpers/array-generator';
 
+
 const LockPad = () => {
   const [hotzone, setHotzone] = useState([]);
-  const [mouseDown, setMouseDown] = useState(false);
-  const [keyDown, setKeyDown] = useState(false);
   const [event, setEvent] = useState(null);
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event);
+
+  const [inputState, dispatch] = useReducer(inputReducer, {
+    mouseDown: false,
+    keyDown: false
+  });
 
   useEffect(() => {
     const zone = genArray([10, 30]);
