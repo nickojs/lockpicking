@@ -8,10 +8,7 @@ const LockPad = () => {
   const [mouseDown, setMouseDown] = useState(false);
   const [event, setEvent] = useState(null);
   const pickRef = useRef(null);
-  // 'angle' don't serves only for indicating the pick's alignment,
-  // it will also be useful to determine if the pick's on the hotzone
-  const angle = useAngle(pickRef, event);
-
+  const pickPosition = useAngle(pickRef, event);
 
   useEffect(() => {
     const zone = genArray([10, 30]);
@@ -27,7 +24,7 @@ const LockPad = () => {
       onMouseMove={(e) => setPickPosition(e)}
     >
       <S.LockpadContainer>
-        <S.Pick ref={pickRef} position={angle} />
+        <S.Pick ref={pickRef} position={pickPosition} />
         <S.Lockpad />
       </S.LockpadContainer>
     </S.Container>
