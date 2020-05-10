@@ -23,6 +23,12 @@
   ],
   "rules": {
     "consistent-return": 0,
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
     "import/newline-after-import": 0,
     "import/prefer-default-export": 0,
     "linebreak-style": 0,
