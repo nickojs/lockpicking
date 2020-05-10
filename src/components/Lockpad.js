@@ -17,16 +17,15 @@ const LockPad = () => {
   }, []);
 
   // lockpad starts here
-  const [event, setEvent] = useState(null);
-  const pickRef = useRef(null);
-  const pickPosition = useAngle(pickRef, event);
-
   const [inputState, dispatch] = useReducer(inputReducer, {
     mouseDown: false,
-    keyDown: false
+    keyDown: false,
+    event: null
   });
-  const [pickOnHotzone, setPickOnHotzone] = useState(false);
+  const pickRef = useRef(null);
+  const pickPosition = useAngle(pickRef, inputState.event);
 
+  const [pickOnHotzone, setPickOnHotzone] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => {
       const isPickInsideHotzone = hotzone.includes(pickPosition);
@@ -38,7 +37,10 @@ const LockPad = () => {
   }, [inputState.keyDown, hotzone, pickPosition]);
 
   const setPickPosition = (e) => (
-    inputState.mouseDown && setEvent(e.nativeEvent)
+    inputState.mouseDown && dispatch({
+      type: actions.INPUT_EVENT,
+      event: e.nativeEvent
+    })
   );
 
   const keyDownHandler = () => (
