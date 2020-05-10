@@ -6,6 +6,7 @@ import genArray from '../helpers/array-generator';
 const LockPad = () => {
   const [hotzone, setHotzone] = useState([]);
   const [mouseDown, setMouseDown] = useState(false);
+  const [keyDown, setKeyDown] = useState(false);
   const [event, setEvent] = useState(null);
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event);
@@ -27,14 +28,17 @@ const LockPad = () => {
   return (
     <S.Container
       tabIndex="0"
-      onKeyDown={turnLock}
+      onKeyDown={() => setKeyDown(true)}
+      onKeyUp={() => setKeyDown(false)}
       onMouseDown={() => setMouseDown(true)}
       onMouseUp={() => setMouseDown(false)}
       onMouseMove={setPickPosition}
     >
       <S.LockpadContainer>
         <S.Pick ref={pickRef} position={pickPosition} />
-        <S.Lockpad />
+        <S.LockpadBackground>
+          <S.Lockpad />
+        </S.LockpadBackground>
       </S.LockpadContainer>
     </S.Container>
   );
