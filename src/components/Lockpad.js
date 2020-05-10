@@ -14,17 +14,19 @@ const LockPad = () => {
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event);
 
-  const [inputState, dispatch] = useReducer(inputReducer, {
-    mouseDown: false,
-    keyDown: false
-  });
-
   useEffect(() => {
     const zone = genArray([10, 30]);
     setHotzone(zone);
   }, []);
 
-  const setPickPosition = (e) => inputState.mouseDown && setEvent(e.nativeEvent);
+  const [inputState, dispatch] = useReducer(inputReducer, {
+    mouseDown: false,
+    keyDown: false
+  });
+
+  const setPickPosition = (e) => (
+    inputState.mouseDown && setEvent(e.nativeEvent)
+  );
 
   const keyDownHandler = () => {
     if (!inputState.keyDown) {
