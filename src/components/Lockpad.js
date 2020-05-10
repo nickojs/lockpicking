@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import * as S from './styles';
 import useAngle from '../hooks/angle';
 
-const LockPad = (props) => {
+const LockPad = () => {
   const [event, setEvent] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
   const pickRef = useRef(null);
