@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import fulllock from '../assets/fulllock.png';
-import pick from '../assets/pick.png';
+import pick from '../assets/pick_with_space.png';
 
 export const Container = styled.div`
   display: flex;
@@ -37,7 +37,7 @@ export const Pick = styled.img.attrs((props) => ({
   cursor: none;
   pointer-events: none;
   position: absolute;
-  top: -60%; left: 50%;
+  top: -70%; left: 50%;
   transform-origin: 0 100%;
   transform: rotate(0deg) translate(-50%, 0%);
   z-index: 10; 
