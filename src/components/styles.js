@@ -20,6 +20,8 @@ export const Lockpad = styled.img.attrs({
   src: fulllock,
   alt: 'an ugly but functional lockpad'
 })`
+  cursor: none;
+  pointer-events: none;
   width: 100%;
   margin: 12px auto;
   z-index: 0;
@@ -36,7 +38,7 @@ export const Pick = styled.img.attrs((props) => ({
   pointer-events: none;
   position: absolute;
   top: -60%; left: 50%;
-  transform-origin: 50% 100%;
+  transform-origin: 0 100%;
   transform: rotate(0deg) translate(-50%, 0%);
   z-index: 10; 
 `;
