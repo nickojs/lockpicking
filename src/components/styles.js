@@ -35,9 +35,7 @@ export const LockpadBackground = styled.div`
 export const Lockpad = styled.img.attrs({
   src: lockhole,
   alt: 'an ugly but functional lockpad'
-})`
-  transform-origin: 35% 40%;
-`;
+})``;
 
 export const Pick = styled.img.attrs((props) => ({
   src: pick,
@@ -49,7 +47,7 @@ export const Pick = styled.img.attrs((props) => ({
   cursor: none;
   pointer-events: none;
   position: absolute;
-  top: -70%; left: 50%;
+  top: -75%; left: 50%;
   transform-origin: 0 100%;
   transform: rotate(0deg) translate(-50%, 0%);
   z-index: 10; 
