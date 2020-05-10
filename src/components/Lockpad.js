@@ -1,43 +1,30 @@
-import React, {
-  useState, useEffect, useRef, useReducer
-} from 'react';
-import { actionTypes as actions, inputReducer } from './reducer';
+import React, { useEffect, useRef, useReducer } from 'react';
+import { actionTypes as actions, inputReducer, initialState } from './reducer';
 
 import * as S from './styles';
-import useAngle from '../hooks/angle';
 import genArray from '../helpers/array-generator';
+import useAngle from '../hooks/angle';
+import useHotzone from '../hooks/hotzone';
 
 const hotzone = genArray([10, 30]);
 
 const LockPad = () => {
-  const [inputState, dispatch] = useReducer(inputReducer, {
-    mouseDown: false,
-    keyDown: false,
-    event: null
-  });
+  const [inputState, dispatch] = useReducer(inputReducer, initialState);
+  const { mouseDown, keyDown, event } = inputState;
   const pickRef = useRef(null);
-  const pickPosition = useAngle(pickRef, inputState.event);
+  const pickPosition = useAngle(pickRef, event);
+  const pickOnHotzone = useHotzone(hotzone, pickPosition);
 
-  const [pickOnHotzone, setPickOnHotzone] = useState(false);
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const isPickInsideHotzone = hotzone.includes(pickPosition);
-      setPickOnHotzone(isPickInsideHotzone);
-      console.log('isPickInsideHotzone: ', isPickInsideHotzone);
-    }, 500);
-
-    return () => { clearTimeout(timer); };
-  }, [inputState.keyDown, hotzone, pickPosition]);
+    console.log(pickOnHotzone);
+  }, [pickOnHotzone, keyDown]);
 
   const setPickPosition = (e) => (
-    inputState.mouseDown && dispatch({
-      type: actions.INPUT_EVENT,
-      event: e.nativeEvent
-    })
+    mouseDown && dispatch({ type: actions.INPUT_EVENT, event: e.nativeEvent })
   );
 
   const keyDownHandler = () => (
-    !inputState.keyDown && dispatch({ type: actions.KEY_DOWN })
+    !keyDown && dispatch({ type: actions.KEY_DOWN })
   );
 
   return (
