@@ -1,22 +1,20 @@
 import { useEffect, useState } from 'react';
+import useWindowSize from './window-size';
 
 export default (elementRef, event) => {
   const [internalAngle, setInternalAngle] = useState([]);
+  const windowSize = useWindowSize();
 
   useEffect(() => {
-    // element.offset().left + element.width()/2
-    // element.offset().top + element.height()/2
     const elementWidth = elementRef.current.offsetWidth;
     const elementHeight = elementRef.current.offsetHeight;
 
     const elementOffsetLeft = elementRef.current.getBoundingClientRect().left;
     const elementOffsetTop = elementRef.current.getBoundingClientRect().top;
-    console.log('[useAngle]: useEffect fired');
-    setInternalAngle([elementOffsetLeft + elementWidth / 2, elementOffsetTop + elementHeight]);
-  }, [elementRef]);
+    setInternalAngle([elementOffsetLeft + elementWidth, elementOffsetTop + elementHeight]);
+  }, [elementRef, windowSize]);
 
-  // Math.atan2(e.pageX- angle[0],- (e.pageY- angle[1]) )*(180/Math.PI);
-  const returnFinalAngle = () => {
+  const calculateAngle = () => {
     if (!event) return;
 
     const angle = Math.atan2(
@@ -28,5 +26,5 @@ export default (elementRef, event) => {
     return angle;
   };
 
-  return returnFinalAngle();
+  return calculateAngle();
 };
