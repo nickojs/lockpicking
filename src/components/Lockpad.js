@@ -7,16 +7,9 @@ import * as S from './styles';
 import useAngle from '../hooks/angle';
 import genArray from '../helpers/array-generator';
 
+const hotzone = genArray([10, 30]);
 
 const LockPad = () => {
-  // this will become incoming props later
-  const [hotzone, setHotzone] = useState([]);
-  useEffect(() => {
-    const zone = genArray([10, 30]);
-    setHotzone(zone);
-  }, []);
-
-  // lockpad starts here
   const [inputState, dispatch] = useReducer(inputReducer, {
     mouseDown: false,
     keyDown: false,
