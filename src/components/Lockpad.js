@@ -17,11 +17,20 @@ const LockPad = () => {
 
   const setPickPosition = (e) => mouseDown && setEvent(e.nativeEvent);
 
+  const turnLock = (e) => {
+    // check if the pick is inside hotzone
+    //   ↳ check how close it is to the unlock zone
+    // rotates the lock
+    console.log('key pressed');
+  };
+
   return (
     <S.Container
+      tabIndex="0"
+      onKeyDown={turnLock}
       onMouseDown={() => setMouseDown(true)}
       onMouseUp={() => setMouseDown(false)}
-      onMouseMove={(e) => setPickPosition(e)}
+      onMouseMove={setPickPosition}
     >
       <S.LockpadContainer>
         <S.Pick ref={pickRef} position={pickPosition} />
