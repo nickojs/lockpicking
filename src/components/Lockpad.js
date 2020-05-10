@@ -3,27 +3,18 @@ import * as S from './styles';
 import useAngle from '../hooks/angle';
 
 const LockPad = (props) => {
-  const pickRef = useRef(null);
-  const returnFinalAngle = useAngle(pickRef);
-  const [angle, setAngle] = useState(null);
+  const [event, setEvent] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
+  const pickRef = useRef(null);
+  const angle = useAngle(pickRef, event);
 
-  const setPickPosition = (event) => {
-    if (mouseDown) {
-      const outsideEvent = event.nativeEvent;
-      const currentAngle = returnFinalAngle(outsideEvent);
-      if (currentAngle > -115 && currentAngle < 115) {
-        console.log(angle);
-        return setAngle(currentAngle);
-      }
-    }
-  };
+  const setPickPosition = (e) => mouseDown && setEvent(e.nativeEvent);
 
   return (
     <S.Container
       onMouseDown={() => setMouseDown(true)}
       onMouseUp={() => setMouseDown(false)}
-      onMouseMove={(event) => setPickPosition(event)}
+      onMouseMove={(e) => setPickPosition(e)}
     >
       <S.LockpadContainer>
         <S.Pick ref={pickRef} position={angle} />
