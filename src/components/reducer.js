@@ -6,6 +6,12 @@ export const actionTypes = {
   INPUT_EVENT: 'INPUT_EVENT'
 };
 
+export const initialState = {
+  mouseDown: false,
+  keyDown: false,
+  event: null
+};
+
 export const inputReducer = (state, action) => {
   switch (action.type) {
     case actionTypes.INPUT_EVENT: return { ...state, event: action.event };
