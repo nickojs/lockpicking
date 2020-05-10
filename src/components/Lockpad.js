@@ -7,6 +7,11 @@ const LockPad = () => {
   const [mouseDown, setMouseDown] = useState(false);
   const pickRef = useRef(null);
   const angle = useAngle(pickRef, event);
+  /*
+    'angle' don't serves only for indicating the pick's alignment,
+    it will also be useful to determine the pick's position
+    on the lockpad array
+  */
 
   const setPickPosition = (e) => mouseDown && setEvent(e.nativeEvent);
 
