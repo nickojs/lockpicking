@@ -9,37 +9,41 @@ import genArray from '../helpers/array-generator';
 
 
 const LockPad = () => {
+  // this will become incoming props later
   const [hotzone, setHotzone] = useState([]);
-  const [event, setEvent] = useState(null);
-  const pickRef = useRef(null);
-  const pickPosition = useAngle(pickRef, event);
-
   useEffect(() => {
     const zone = genArray([10, 30]);
     setHotzone(zone);
   }, []);
 
+  // lockpad starts here
+  const [event, setEvent] = useState(null);
+  const pickRef = useRef(null);
+  const pickPosition = useAngle(pickRef, event);
+
   const [inputState, dispatch] = useReducer(inputReducer, {
     mouseDown: false,
     keyDown: false
   });
+  const [pickOnHotzone, setPickOnHotzone] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const isPickInsideHotzone = hotzone.includes(pickPosition);
+      setPickOnHotzone(isPickInsideHotzone);
+      console.log('isPickInsideHotzone: ', isPickInsideHotzone);
+    }, 500);
+
+    return () => { clearTimeout(timer); };
+  }, [inputState.keyDown, hotzone, pickPosition]);
 
   const setPickPosition = (e) => (
     inputState.mouseDown && setEvent(e.nativeEvent)
   );
 
-  const keyDownHandler = () => {
-    if (!inputState.keyDown) {
-      dispatch({ type: actions.KEY_DOWN });
-    }
-  };
-
-  const turnLock = (e) => {
-    // check if the pick is inside hotzone
-    //   ↳ check how close it is to the unlock zone
-    // rotates the lock
-    console.log('key pressed');
-  };
+  const keyDownHandler = () => (
+    !inputState.keyDown && dispatch({ type: actions.KEY_DOWN })
+  );
 
   return (
     <S.Container
