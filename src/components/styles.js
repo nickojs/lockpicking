@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import fulllock from '../assets/fulllock.png';
+import lockhole from '../assets/lockhole.png';
+import lockpadBackground from '../assets/lockpad_background.png';
 import pick from '../assets/pick_with_space.png';
 
 export const Container = styled.div`
@@ -7,6 +8,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  user-select: none;
 `;
 
 export const LockpadContainer = styled.div`
@@ -16,15 +18,25 @@ export const LockpadContainer = styled.div`
   background: grey;
 `;
 
+export const LockpadBackground = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;  
+
+  background: url(${lockpadBackground});
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+`;
+
 export const Lockpad = styled.img.attrs({
-  src: fulllock,
+  src: lockhole,
   alt: 'an ugly but functional lockpad'
 })`
-  cursor: none;
-  pointer-events: none;
-  width: 100%;
-  margin: 12px auto;
-  z-index: 0;
+  transform-origin: 35% 40%;
 `;
 
 export const Pick = styled.img.attrs((props) => ({
