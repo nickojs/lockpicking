@@ -24,7 +24,13 @@ const LockPad = () => {
     setHotzone(zone);
   }, []);
 
-  const setPickPosition = (e) => mouseDown && setEvent(e.nativeEvent);
+  const setPickPosition = (e) => inputState.mouseDown && setEvent(e.nativeEvent);
+
+  const keyDownHandler = () => {
+    if (!inputState.keyDown) {
+      dispatch({ type: actions.KEY_DOWN });
+    }
+  };
 
   const turnLock = (e) => {
     // check if the pick is inside hotzone
@@ -36,10 +42,10 @@ const LockPad = () => {
   return (
     <S.Container
       tabIndex="0"
-      onKeyDown={() => setKeyDown(true)}
-      onKeyUp={() => setKeyDown(false)}
-      onMouseDown={() => setMouseDown(true)}
-      onMouseUp={() => setMouseDown(false)}
+      onMouseUp={() => dispatch({ type: actions.MOUSE_UP })}
+      onMouseDown={() => dispatch({ type: actions.MOUSE_DOWN })}
+      onKeyUp={() => dispatch({ type: actions.KEY_UP })}
+      onKeyDown={keyDownHandler}
       onMouseMove={setPickPosition}
     >
       <S.LockpadContainer>
