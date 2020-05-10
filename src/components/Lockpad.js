@@ -1,17 +1,22 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as S from './styles';
 import useAngle from '../hooks/angle';
+import genArray from '../helpers/array-generator';
 
 const LockPad = () => {
-  const [event, setEvent] = useState(null);
+  const [hotzone, setHotzone] = useState([]);
   const [mouseDown, setMouseDown] = useState(false);
+  const [event, setEvent] = useState(null);
   const pickRef = useRef(null);
+  // 'angle' don't serves only for indicating the pick's alignment,
+  // it will also be useful to determine if the pick's on the hotzone
   const angle = useAngle(pickRef, event);
-  /*
-    'angle' don't serves only for indicating the pick's alignment,
-    it will also be useful to determine the pick's position
-    on the lockpad array
-  */
+
+
+  useEffect(() => {
+    const zone = genArray([10, 30]);
+    setHotzone(zone);
+  }, []);
 
   const setPickPosition = (e) => mouseDown && setEvent(e.nativeEvent);
 
