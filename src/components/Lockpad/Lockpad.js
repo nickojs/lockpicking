@@ -33,13 +33,20 @@ const LockPad = () => {
     if (!isPickOnHotzone) return dispatchLockpad({ type: lockpadActions.CLEAR_HOTZONE });
 
     const distance = distanceMeter(pickPosition, unlockZone);
-    dispatchLockpad({ type: lockpadActions.SET_HOTZONE, status: isPickOnHotzone, distance });
+    dispatchLockpad({ type: lockpadActions.SET_HOTZONE, distance });
   }, [pickPosition]);
 
   useEffect(() => {
     console.log('distanceFromUnlock effect');
+    if (distanceFromUnlock !== 0) {
+      dispatchLockpad({ type: lockpadActions.CLEAR_UNLOCK });
+      dispatchLockpad({ type: lockpadActions.CLEAR_ROTATION });
+      return;
+    }
+
     const degsToRotate = 90 - (distanceFromUnlock * 2);
     dispatchLockpad({ type: lockpadActions.SET_ROTATION, rotation: degsToRotate });
+    dispatchLockpad({ type: lockpadActions.SET_UNLOCK });
   }, [distanceFromUnlock]);
 
   useEffect(() => {
