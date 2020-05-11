@@ -1,7 +1,14 @@
 import React, {
   useState, useEffect, useRef, useReducer
 } from 'react';
-import { actions, inputReducer, initialState } from './reducers/inputReducer';
+
+import inputActions, {
+  inputReducer, initState as initInput
+} from './reducers/inputReducer';
+
+import lockpadActions, {
+  lockpadReducer, initState as initLockpad
+} from './reducers/lockpadReducer';
 
 import * as S from './styles';
 import genArray from '../../helpers/array-generator';
@@ -11,51 +18,66 @@ const hotzone = genArray([0, 50]);
 const unlockZone = genArray([20, 40]);
 
 const LockPad = () => {
-  const [inputState, dispatch] = useReducer(inputReducer, initialState);
+  const [inputState, dispatchInput] = useReducer(inputReducer, initInput);
   const { mouseDown, keyDown, event } = inputState;
-  const pickRef = useRef(null);
-  const pickPosition = useAngle(pickRef, event);
 
-  const [pickOnHotzone, setPickOnHotzone] = useState(false);
-  const [unlock, setUnlock] = useState(false);
-  const [rotateLock, setRotateLock] = useState(0);
+  const [lockpadState, dispatchLockpad] = useReducer(lockpadReducer, initLockpad);
+  const { pickOnHotzone, distanceFromUnlock, unlock } = lockpadState;
+
+  const pickRef = useRef(null);
+  const pickPosition = useAngle(pickRef, event, hotzone);
 
   useEffect(() => {
-    const isPickInsideHotzone = hotzone.includes(pickPosition);
-    setPickOnHotzone(isPickInsideHotzone);
-    const isPickInsideUnlockZone = unlockZone.includes(pickPosition);
-    setUnlock(isPickInsideUnlockZone);
+    const isPickOnHotzone = hotzone.includes(pickPosition);
+    if (!isPickOnHotzone) {
+      return dispatchLockpad({ type: lockpadActions.EXIT_HOTZONE });
+    }
+
+    let distance;
+    const unlockZoneLimit = unlockZone.length - 1;
+    if (pickPosition < unlockZone[0]) {
+      distance = unlockZone[0] - pickPosition;
+    }
+    if (pickPosition > unlockZone[unlockZoneLimit]) {
+      distance = pickPosition - unlockZone[unlockZoneLimit];
+    }
+    if (pickPosition >= unlockZone[0] && pickPosition <= unlockZone[unlockZoneLimit]) {
+      distance = 0;
+    }
+
+    dispatchLockpad({
+      type: lockpadActions.SET_HOTZONE,
+      status: isPickOnHotzone,
+      distance
+    });
+
+    const isPickOnUnlockzone = unlockZone.includes(pickPosition);
+    dispatchLockpad({ type: lockpadActions.UNLOCK, status: isPickOnUnlockzone });
   }, [pickPosition]);
 
   useEffect(() => {
     console.log('hotzone: ', pickOnHotzone);
     console.log('unlockZone: ', unlock);
-
-    setRotateLock(0);
-
-    if (unlock && keyDown) {
-      setRotateLock(90);
-    }
   }, [pickOnHotzone, unlock, keyDown]);
 
   const setPickPosition = (e) => (
-    mouseDown && dispatch({ type: actions.INPUT_EVENT, event: e.nativeEvent })
+    mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: e.nativeEvent })
   );
 
   const keyDownHandler = () => (
-    !keyDown && dispatch({ type: actions.KEY_DOWN })
+    !keyDown && dispatchInput({ type: inputActions.KEY_DOWN })
   );
 
   return (
     <S.Container
       tabIndex="0"
-      onMouseUp={() => dispatch({ type: actions.MOUSE_UP })}
-      onMouseDown={() => dispatch({ type: actions.MOUSE_DOWN })}
-      onKeyUp={() => dispatch({ type: actions.KEY_UP })}
+      onMouseUp={() => dispatchInput({ type: inputActions.MOUSE_UP })}
+      onMouseDown={() => dispatchInput({ type: inputActions.MOUSE_DOWN })}
+      onKeyUp={() => dispatchInput({ type: inputActions.KEY_UP })}
       onKeyDown={keyDownHandler}
       onMouseMove={setPickPosition}
     >
-      <S.LockpadContainer position={rotateLock}>
+      <S.LockpadContainer position={0}>
         <S.Pick ref={pickRef} position={pickPosition} />
         <S.LockpadBackground>
           <S.Lockpad />
