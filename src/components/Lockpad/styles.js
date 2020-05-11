@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import lockhole from '../assets/lockhole.png';
-import lockpadBackground from '../assets/lockpad_background.png';
-import pick from '../assets/pick_with_space.png';
+import lockhole from '../../assets/lockhole.png';
+import lockpadBackground from '../../assets/lockpad_background.png';
+import pick from '../../assets/pick_with_space.png';
 
 export const Container = styled.div`
   display: flex;
