@@ -19,9 +19,7 @@ export const LockpadContainer = styled.div.attrs((props) => (props.isTurning ? (
   position: relative;
   width: 400px;
   height: 400px;
-  background: grey;
   transition: 1s ease;
-
 `;
 
 export const LockpadBackground = styled.div`
