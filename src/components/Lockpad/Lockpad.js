@@ -38,15 +38,19 @@ const LockPad = () => {
 
   useEffect(() => {
     console.log('distanceFromUnlock effect');
+    const degs = 90 - (distanceFromUnlock * 2);
+
+    if (distanceFromUnlock === null) return;
+
+    if (distanceFromUnlock === 0) {
+      dispatchLockpad({ type: lockpadActions.SET_UNLOCK });
+      dispatchLockpad({ type: lockpadActions.SET_ROTATION, rotation: degs });
+    }
     if (distanceFromUnlock !== 0) {
       dispatchLockpad({ type: lockpadActions.CLEAR_UNLOCK });
-      dispatchLockpad({ type: lockpadActions.CLEAR_ROTATION });
-      return;
+      dispatchLockpad({ type: lockpadActions.SET_ROTATION, rotation: degs });
     }
 
-    const degsToRotate = 90 - (distanceFromUnlock * 2);
-    dispatchLockpad({ type: lockpadActions.SET_ROTATION, rotation: degsToRotate });
-    dispatchLockpad({ type: lockpadActions.SET_UNLOCK });
   }, [distanceFromUnlock]);
 
   useEffect(() => {
