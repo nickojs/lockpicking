@@ -1,4 +1,4 @@
-export const actions = {
+const actions = {
   MOUSE_DOWN: 'MOUSE_DOWN',
   MOUSE_UP: 'MOUSE_UP',
   KEY_DOWN: 'KEY_DOWN',
@@ -6,7 +6,7 @@ export const actions = {
   INPUT_EVENT: 'INPUT_EVENT'
 };
 
-export const initialState = {
+export const initState = {
   mouseDown: false,
   keyDown: false,
   event: null
@@ -22,3 +22,5 @@ export const inputReducer = (state, action) => {
     default: throw new Error('[inputReducer]: provided action.type is unknown');
   }
 };
+
+export default actions;
