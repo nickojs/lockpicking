@@ -44,10 +44,8 @@ const LockPad = () => {
 
   useEffect(() => {
     console.log('keyDOwn effect');
-    if (keyDown) {
-      dispatchLockpad({ type: lockpadActions.SET_TURNING });
-    }
-    return () => { dispatchLockpad({ type: lockpadActions.CLEAR_TURNING }); };
+    if (!keyDown) return dispatchLockpad({ type: lockpadActions.CLEAR_TURNING });
+    dispatchLockpad({ type: lockpadActions.SET_TURNING });
   }, [keyDown]);
 
   const setPickPosition = ({ nativeEvent }) => (
