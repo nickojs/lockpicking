@@ -22,7 +22,7 @@ export default (elementRef, event) => {
       event.pageX - internalAngle[0], -(event.pageY - internalAngle[1])
     ) * (180 / Math.PI);
 
-    if (angle <= -115 || angle >= 115) return null;
+    if (angle <= -115 || angle >= 115) return;
 
     setFinalAngle(Math.ceil(angle));
   }, [event, internalAngle]);
