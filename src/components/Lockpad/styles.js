@@ -11,16 +11,16 @@ export const Container = styled.div`
   user-select: none;
 `;
 
-export const LockpadContainer = styled.div.attrs((props) => ({
+export const LockpadContainer = styled.div.attrs((props) => (props.isTurning ? ({
   style: {
     transform: `rotate(${props.position}deg)`
   }
-}))`
+}) : null))`
   position: relative;
   width: 400px;
   height: 400px;
   background: grey;
-  transition: 2s ease;
+  transition: 1s ease;
 
 `;
 

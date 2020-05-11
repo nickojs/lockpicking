@@ -42,6 +42,14 @@ const LockPad = () => {
     dispatchLockpad({ type: lockpadActions.SET_ROTATION, rotation: degsToRotate });
   }, [distanceFromUnlock]);
 
+  useEffect(() => {
+    console.log('keyDOwn effect');
+    if (keyDown) {
+      dispatchLockpad({ type: lockpadActions.SET_TURNING });
+    }
+    return () => { dispatchLockpad({ type: lockpadActions.CLEAR_TURNING }); };
+  }, [keyDown]);
+
   const setPickPosition = ({ nativeEvent }) => (
     mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
   );
@@ -59,7 +67,7 @@ const LockPad = () => {
       onKeyDown={keyDownHandler}
       onMouseMove={setPickPosition}
     >
-      <S.LockpadContainer position={0}>
+      <S.LockpadContainer position={rotation} isTurning={turning}>
         <S.Pick ref={pickRef} position={pickPosition} />
         <S.LockpadBackground>
           <S.Lockpad />
