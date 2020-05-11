@@ -3,6 +3,7 @@ import useWindowSize from './window-size';
 
 export default (elementRef, event) => {
   const [internalAngle, setInternalAngle] = useState([]);
+  const [finalAngle, setFinalAngle] = useState([]);
   const windowSize = useWindowSize();
 
   useEffect(() => {
@@ -14,7 +15,7 @@ export default (elementRef, event) => {
     setInternalAngle([elementOffsetLeft + elementWidth, elementOffsetTop + elementHeight]);
   }, [elementRef, windowSize]);
 
-  const calculateAngle = () => {
+  useEffect(() => {
     if (!event) return;
 
     const angle = Math.atan2(
@@ -23,8 +24,8 @@ export default (elementRef, event) => {
 
     if (angle <= -115 || angle >= 115) return null;
 
-    return Math.ceil(angle);
-  };
+    setFinalAngle(Math.ceil(angle));
+  }, [event, internalAngle]);
 
-  return calculateAngle();
+  return finalAngle;
 };
