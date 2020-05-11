@@ -15,7 +15,7 @@ export const lockpadReducer = (state, action) => {
     case actions.SET_HOTZONE: return (
       { ...state, pickOnHotzone: action.status, distanceFromUnlock: action.distance }
     );
-    case actions.EXIT_HOTZONE: return { ...state, pickOnHotzone: false };
+    case actions.EXIT_HOTZONE: return { ...state, distanceFromUnlock: null, pickOnHotzone: false };
     case actions.UNLOCK: return { ...state, unlock: action.status };
 
     default: throw new Error('[lockpadReducer]: provided action.type is unknown');
