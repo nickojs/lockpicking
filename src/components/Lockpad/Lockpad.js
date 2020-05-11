@@ -1,7 +1,7 @@
 import React, {
   useState, useEffect, useRef, useReducer
 } from 'react';
-import { actionTypes as actions, inputReducer, initialState } from './reducers/inputReducer';
+import { actions, inputReducer, initialState } from './reducers/inputReducer';
 
 import * as S from './styles';
 import genArray from '../../helpers/array-generator';

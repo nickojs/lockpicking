@@ -1,4 +1,4 @@
-export const actionTypes = {
+export const actions = {
   MOUSE_DOWN: 'MOUSE_DOWN',
   MOUSE_UP: 'MOUSE_UP',
   KEY_DOWN: 'KEY_DOWN',
@@ -14,11 +14,11 @@ export const initialState = {
 
 export const inputReducer = (state, action) => {
   switch (action.type) {
-    case actionTypes.INPUT_EVENT: return { ...state, event: action.event };
-    case actionTypes.MOUSE_DOWN: return { ...state, mouseDown: true };
-    case actionTypes.MOUSE_UP: return { ...state, mouseDown: false };
-    case actionTypes.KEY_DOWN: return { ...state, keyDown: true };
-    case actionTypes.KEY_UP: return { ...state, keyDown: false };
+    case actions.INPUT_EVENT: return { ...state, event: action.event };
+    case actions.MOUSE_DOWN: return { ...state, mouseDown: true };
+    case actions.MOUSE_UP: return { ...state, mouseDown: false };
+    case actions.KEY_DOWN: return { ...state, keyDown: true };
+    case actions.KEY_UP: return { ...state, keyDown: false };
     default: throw new Error('[inputReducer]: provided action.type is unknown');
   }
 };
