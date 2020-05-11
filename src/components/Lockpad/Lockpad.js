@@ -11,8 +11,9 @@ import lockpadActions, {
 } from './reducers/lockpadReducer';
 
 import * as S from './styles';
-import genArray from '../../helpers/array-generator';
 import useAngle from '../../hooks/angle';
+import genArray from '../../helpers/array-generator';
+import distanceMeter from '../../helpers/distance-meter';
 
 const hotzone = genArray([0, 50]);
 const unlockZone = genArray([20, 40]);
@@ -30,21 +31,10 @@ const LockPad = () => {
   useEffect(() => {
     const isPickOnHotzone = hotzone.includes(pickPosition);
     if (!isPickOnHotzone) {
-      return dispatchLockpad({ type: lockpadActions.EXIT_HOTZONE });
+      return;
     }
 
-    let distance;
-    const unlockZoneLimit = unlockZone.length - 1;
-    if (pickPosition < unlockZone[0]) {
-      distance = unlockZone[0] - pickPosition;
-    }
-    if (pickPosition > unlockZone[unlockZoneLimit]) {
-      distance = pickPosition - unlockZone[unlockZoneLimit];
-    }
-    if (pickPosition >= unlockZone[0] && pickPosition <= unlockZone[unlockZoneLimit]) {
-      distance = 0;
-    }
-
+    const distance = distanceMeter(pickPosition, unlockZone);
     dispatchLockpad({
       type: lockpadActions.SET_HOTZONE,
       status: isPickOnHotzone,
