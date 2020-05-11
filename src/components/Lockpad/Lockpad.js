@@ -23,29 +23,24 @@ const LockPad = () => {
   const { mouseDown, keyDown, event } = inputState;
 
   const [lockpadState, dispatchLockpad] = useReducer(lockpadReducer, initLockpad);
-  const { pickOnHotzone, distanceFromUnlock, unlock } = lockpadState;
+  const { turning, distanceFromUnlock, rotation } = lockpadState;
 
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
 
   useEffect(() => {
     const isPickOnHotzone = hotzone.includes(pickPosition);
-    if (!isPickOnHotzone) {
-      dispatchLockpad({ type: lockpadActions.EXIT_HOTZONE });
-      return;
-    }
+    if (!isPickOnHotzone) return dispatchLockpad({ type: lockpadActions.CLEAR_HOTZONE });
 
     const distance = distanceMeter(pickPosition, unlockZone);
-    dispatchLockpad({
-      type: lockpadActions.SET_HOTZONE,
-      status: isPickOnHotzone,
-      distance
-    });
-
-    const isPickOnUnlockzone = unlockZone.includes(pickPosition);
-    dispatchLockpad({ type: lockpadActions.UNLOCK, status: isPickOnUnlockzone });
+    dispatchLockpad({ type: lockpadActions.SET_HOTZONE, status: isPickOnHotzone, distance });
   }, [pickPosition]);
 
+  useEffect(() => {
+    console.log('distanceFromUnlock effect');
+    const degsToRotate = 90 - (distanceFromUnlock * 2);
+    dispatchLockpad({ type: lockpadActions.SET_ROTATION, rotation: degsToRotate });
+  }, [distanceFromUnlock]);
 
   const setPickPosition = ({ nativeEvent }) => (
     mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
