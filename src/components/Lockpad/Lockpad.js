@@ -31,6 +31,7 @@ const LockPad = () => {
   useEffect(() => {
     const isPickOnHotzone = hotzone.includes(pickPosition);
     if (!isPickOnHotzone) {
+      dispatchLockpad({ type: lockpadActions.EXIT_HOTZONE });
       return;
     }
 
@@ -45,13 +46,9 @@ const LockPad = () => {
     dispatchLockpad({ type: lockpadActions.UNLOCK, status: isPickOnUnlockzone });
   }, [pickPosition]);
 
-  useEffect(() => {
-    console.log('hotzone: ', pickOnHotzone);
-    console.log('unlockZone: ', unlock);
-  }, [pickOnHotzone, unlock, keyDown]);
 
-  const setPickPosition = (e) => (
-    mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: e.nativeEvent })
+  const setPickPosition = ({ nativeEvent }) => (
+    mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
   );
 
   const keyDownHandler = () => (
