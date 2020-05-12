@@ -30,7 +30,6 @@ const LockPad = () => {
     if (!isPickOnHotzone) {
       return dispatchLockpad({ type: lockActions.CLEAR_HOTZONE });
     }
-
     const distance = distanceMeter(pick, unlockZone);
     dispatchLockpad({ type: lockActions.SET_HOTZONE, distance });
   };
@@ -41,20 +40,30 @@ const LockPad = () => {
     if (distance === null) return;
 
     if (distance === 0) {
-      dispatchLockpad({ type: lockActions.SET_UNLOCK, unlock: true });
       dispatchLockpad({ type: lockActions.SET_ROTATION, rotation: degs });
     }
     if (distance !== 0) {
-      dispatchLockpad({ type: lockActions.SET_UNLOCK, unlock: false });
       dispatchLockpad({ type: lockActions.SET_ROTATION, rotation: degs });
     }
   };
 
-  const keyHandler = (key) => {
+  const unlockHandler = (key, distance) => {
     if (!key) {
       return dispatchLockpad({ type: lockActions.SET_TURNING, turning: false });
     }
     dispatchLockpad({ type: lockActions.SET_TURNING, turning: true });
+    dispatchLockpad({ type: lockActions.SET_UNLOCK, unlock: false });
+    /*
+      timer should be equal, or at least higher as the transition of
+      LockpadContainer's, to archieve perfection
+    */
+    const timer = setTimeout(() => {
+      if (key && distance === 0) {
+        return dispatchLockpad({ type: lockActions.SET_UNLOCK, unlock: true });
+      }
+    }, 1000);
+
+    return () => { clearTimeout(timer); };
   };
 
   const setPickPosition = ({ nativeEvent }) => (
@@ -67,7 +76,16 @@ const LockPad = () => {
 
   useEffect(() => hotzoneHandler(hotzone, pickPosition), [pickPosition]);
   useEffect(() => dinstanceHandler(distanceFromUnlock), [distanceFromUnlock]);
-  useEffect(() => keyHandler(keyDown), [keyDown]);
+  useEffect(() => unlockHandler(keyDown, distanceFromUnlock), [keyDown, distanceFromUnlock]);
+
+  const lockpad = unlock ? <p>Unlocked!</p> : (
+    <Lockpad
+      rotation={rotation}
+      turning={turning}
+      pickRef={pickRef}
+      pickPosition={pickPosition}
+    />
+  );
 
   return (
     <S.Container
@@ -78,12 +96,8 @@ const LockPad = () => {
       onKeyDown={keyDownHandler}
       onMouseMove={setPickPosition}
     >
-      <Lockpad
-        rotation={rotation}
-        turning={turning}
-        pickRef={pickRef}
-        pickPosition={pickPosition}
-      />
+      {lockpad}
+
     </S.Container>
   );
 };
