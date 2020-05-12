@@ -1,7 +1,8 @@
 const actions = {
-  SET_PICK_LIVES: 'SET_PICK_LIVES',
+  REMOVE_PICK_LIFE: 'REMOVE_PICK_LIFE',
   SET_UNLOCK: 'SET_UNLOCK',
-  SET_GAME_OVER: 'SET_GAME_OVER'
+  SET_GAME_OVER: 'SET_GAME_OVER',
+  CLEAR_GAME: 'CLEAR_GAME'
 };
 
 export const initState = {
@@ -10,9 +11,9 @@ export const initState = {
   gameOver: false
 };
 
-const setPickLives = (state, action) => ({
+const removePickLife = (state, action) => ({
   ...state,
-  pickLives: action.lives
+  pickLives: state.pickLives - 1
 });
 
 const setUnlock = (state, action) => ({
@@ -25,11 +26,17 @@ const setGameOver = (state, action) => ({
   gameOver: action.gameOver
 });
 
+const clearPick = (state, action) => ({
+  ...state,
+  ...initState
+});
+
 export const pickReducer = (state, action) => {
   switch (action.type) {
-    case actions.SET_PICK_LIVES: return setPickLives(state, action);
+    case actions.REMOVE_PICK_LIFE: return removePickLife(state, action);
     case actions.SET_UNLOCK: return setUnlock(state, action);
     case actions.SET_GAME_OVER: return setGameOver(state, action);
+    case actions.CLEAR_GAME: return clearPick(state, action);
     default: throw new Error('[lockpadReducer]: provided action.type is unknown');
   }
 };

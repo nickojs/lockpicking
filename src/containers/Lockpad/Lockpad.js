@@ -21,7 +21,7 @@ const LockPad = () => {
   const { turning, distanceFromUnlock, rotation } = lockpadState;
 
   const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
-  const { pickLives, unlock } = pickState;
+  const { pickLives, unlock, gameOver } = pickState;
 
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
@@ -79,7 +79,7 @@ const LockPad = () => {
     return () => { clearTimeout(timer); };
   };
 
-  const pickMovementHandler = (isTurning, distance, lives) => {
+  const pickLifeHandler = (isTurning, distance, lives) => {
     if (!isTurning) return;
     if (distance === 0) return;
 
@@ -90,13 +90,13 @@ const LockPad = () => {
     */
       if (lives > 0) {
         console.log(lives);
-        return dispatchPick({ type: pickActions.SET_PICK_LIVES, lives: lives - 1 });
+        return dispatchPick({ type: pickActions.REMOVE_PICK_LIFE });
       }
-      if (lives <= 0) {
+      if (lives === 0) {
         console.log('game over, no more picks for you');
         return dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
       }
-    }, 500);
+    }, 2500);
 
     return () => { clearTimeout(timer); };
   };
@@ -114,12 +114,19 @@ const LockPad = () => {
   }, [keyDown, distanceFromUnlock]);
 
   useEffect(() => {
-    pickMovementHandler(turning, distanceFromUnlock, pickLives);
+    pickLifeHandler(turning, distanceFromUnlock, pickLives);
   }, [turning, distanceFromUnlock, pickLives]);
 
   useEffect(() => {
     dispatchLockpad({ type: moveActions.CLEAR_HOTZONE });
   }, [pickLives]);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     dispatchPick({ type: pickActions.CLEAR_GAME });
+  //   }, 2500);
+  //   return () => { clearTimeout(timer); };
+  // }, [gameOver]);
 
 
   const lockpad = unlock ? <p>Unlocked!</p> : (
