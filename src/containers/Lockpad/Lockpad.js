@@ -15,7 +15,9 @@ const unlockZone = genArray([20, 40]);
 
 const LockPad = () => {
   const [inputState, dispatchInput] = useReducer(inputReducer, initInput);
-  const { mouseDown, keyDown, event } = inputState;
+  const {
+    mouseDown, keyDown, event, keyPressMoment
+  } = inputState;
 
   const [lockpadState, dispatchLockpad] = useReducer(moveReducer, initMove);
   const { turning, distanceFromUnlock, rotation } = lockpadState;
@@ -30,9 +32,17 @@ const LockPad = () => {
     mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
   );
 
-  const setKeyDown = () => (
-    !keyDown && dispatchInput({ type: inputActions.KEY_DOWN })
-  );
+  const setKeyUp = () => {
+    dispatchInput({ type: inputActions.KEY_UP });
+    dispatchInput({ type: inputActions.KEY_PRESS_END });
+  };
+
+  const setKeyDown = () => {
+    if (!keyDown) {
+      dispatchInput({ type: inputActions.KEY_PRESS_START });
+      dispatchInput({ type: inputActions.KEY_DOWN });
+    }
+  };
 
   const setHotzone = (zone, pick) => {
     const isPickOnHotzone = zone.includes(pick);
@@ -143,7 +153,7 @@ const LockPad = () => {
       tabIndex="0"
       onMouseUp={() => dispatchInput({ type: inputActions.MOUSE_UP })}
       onMouseDown={() => dispatchInput({ type: inputActions.MOUSE_DOWN })}
-      onKeyUp={() => dispatchInput({ type: inputActions.KEY_UP })}
+      onKeyUp={setKeyUp}
       onKeyDown={setKeyDown}
       onMouseMove={setPickPosition}
     >
