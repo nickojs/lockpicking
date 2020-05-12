@@ -89,27 +89,6 @@ const LockPad = () => {
     return () => { clearTimeout(timer); };
   };
 
-  const pickLifeHandler = (isTurning, distance, lives) => {
-    if (!isTurning) return;
-    if (distance === 0) return;
-
-    const timer = setTimeout(() => {
-    /*
-      checks for the lives quantity to determine if it'll be decreased
-      or if the game is over (no more picks to pick the lock)
-    */
-      if (lives > 0) {
-        console.log(lives);
-        return dispatchPick({ type: pickActions.REMOVE_PICK_LIFE });
-      }
-      if (lives === 0) {
-        console.log('game over, no more picks for you');
-        return dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
-      }
-    }, 2500);
-
-    return () => { clearTimeout(timer); };
-  };
 
   useEffect(() => {
     setHotzone(hotzone, pickPosition);
@@ -124,19 +103,41 @@ const LockPad = () => {
   }, [keyDown, distanceFromUnlock]);
 
   useEffect(() => {
-    pickLifeHandler(turning, distanceFromUnlock, pickLives);
+    const timer = setTimeout(() => {
+      if (keyPressMoment) {
+        console.log('keyPressMoment');
+        dispatchInput({ type: inputActions.KEY_PRESS_INC, inc: keyPressMoment + 500 });
+      }
+    }, 500);
+
+    return () => { clearTimeout(timer); };
+  }, [keyPressMoment]);
+
+  useEffect(() => {
+    if (!turning) return;
+    if (distanceFromUnlock === 0) return;
+
+    const timer = setTimeout(() => {
+    /*
+      checks for the lives quantity to determine if it'll be decreased
+      or if the game is over (no more picks to pick the lock)
+    */
+      if (pickLives > 0) {
+        console.log(pickLives);
+        return dispatchPick({ type: pickActions.REMOVE_PICK_LIFE });
+      }
+      if (pickLives === 0) {
+        console.log('game over, no more picks for you');
+        return dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
+      }
+    }, 2500);
+
+    return () => { clearTimeout(timer); };
   }, [turning, distanceFromUnlock, pickLives]);
 
   useEffect(() => {
     dispatchLockpad({ type: moveActions.CLEAR_HOTZONE });
   }, [pickLives]);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     dispatchPick({ type: pickActions.CLEAR_GAME });
-  //   }, 2500);
-  //   return () => { clearTimeout(timer); };
-  // }, [gameOver]);
 
 
   const lockpad = unlock ? <p>Unlocked!</p> : (

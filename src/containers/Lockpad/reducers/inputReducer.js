@@ -5,13 +5,14 @@ const actions = {
   KEY_UP: 'KEY_UP',
   INPUT_EVENT: 'INPUT_EVENT',
   KEY_PRESS_START: 'KEY_PRESS_START',
+  KEY_PRESS_INC: 'KEY_PRESS_INC',
   KEY_PRESS_END: 'KEY_PRESS_END'
 };
 
 export const initState = {
   mouseDown: false,
   keyDown: false,
-  keyPressMoment: 0,
+  keyPressMoment: null,
   event: null
 };
 
@@ -23,6 +24,7 @@ export const inputReducer = (state, action) => {
     case actions.KEY_DOWN: return { ...state, keyDown: true };
     case actions.KEY_UP: return { ...state, keyDown: false };
     case actions.KEY_PRESS_START: return { ...state, keyPressMoment: Date.now() };
+    case actions.KEY_PRESS_INC: return { ...state, keyPressMoment: action.inc };
     case actions.KEY_PRESS_END: return { ...state, keyPressMoment: null };
     default: throw new Error('[inputReducer]: provided action.type is unknown');
   }
