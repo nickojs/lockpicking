@@ -21,6 +21,7 @@ const LockPad = () => {
   const { turning, distanceFromUnlock, rotation } = lockpadState;
 
   const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
+  const { pickLives, unlock } = pickState;
 
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
@@ -70,22 +71,26 @@ const LockPad = () => {
     return () => { clearTimeout(timer); };
   };
 
-  // const pickMovementHandler = (isTurning, distance, lifes) => {
-  //   if (!isTurning) return;
-  //   if (distance === 0) return;
+  const pickMovementHandler = (isTurning, distance, lives) => {
+    if (!isTurning) return;
+    if (distance === 0) return;
 
-  //   const timer = setTimeout(() => {
-  //     if (lifes > 0) {
-  //       console.log(lifes);
-  //       return dispatchLockpad({ type: lockActions.SET_PICK_LIFE, pickLifes: lifes - 1 });
-  //     }
-  //     if (lifes <= 0) {
-  //       console.log('game over, no more picks for you');
-  //     }
-  //   }, 500);
+    const timer = setTimeout(() => {
+    /*
+      checks for the lives quantity to determine if it'll be decreased
+      or if the game is over (no more picks to pick the lock)
+    */
+      if (lives > 0) {
+        console.log(lives);
+        return dispatchPick({ type: pickActions.SET_PICK_LIVES, lives: lives - 1 });
+      }
+      if (lives <= 0) {
+        console.log('game over, no more picks for you');
+      }
+    }, 500);
 
-  //   return () => { clearTimeout(timer); };
-  // };
+    return () => { clearTimeout(timer); };
+  };
 
   const setPickPosition = ({ nativeEvent }) => (
     mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
@@ -107,13 +112,14 @@ const LockPad = () => {
     unlockHandler(keyDown, distanceFromUnlock);
   }, [keyDown, distanceFromUnlock]);
 
-  // useEffect(() => {
-  //   pickMovementHandler(turning, distanceFromUnlock, pickLifes);
-  // }, [turning, distanceFromUnlock, pickLifes]);
+  useEffect(() => {
+    pickMovementHandler(turning, distanceFromUnlock, pickLives);
+  }, [turning, distanceFromUnlock, pickLives]);
 
-  // useEffect(() => {
-  //   dispatchLockpad({ type: lockActions.CLEAR_HOTZONE });
-  // }, [pickLifes]);
+  useEffect(() => {
+    dispatchLockpad({ type: moveActions.CLEAR_HOTZONE });
+  }, [pickLives]);
+
 
   const lockpad = false ? <p>Unlocked!</p> : (
     <Lockpad
@@ -134,7 +140,6 @@ const LockPad = () => {
       onMouseMove={setPickPosition}
     >
       {lockpad}
-
     </S.Container>
   );
 };
