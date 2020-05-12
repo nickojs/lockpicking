@@ -25,7 +25,7 @@ const LockPad = () => {
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
 
-  const hotzoneHandler = (zone, pick) => {
+  const setHotzone = (zone, pick) => {
     const isPickOnHotzone = zone.includes(pick);
     if (!isPickOnHotzone) {
       return dispatchLockpad({ type: lockActions.CLEAR_HOTZONE });
@@ -34,7 +34,7 @@ const LockPad = () => {
     dispatchLockpad({ type: lockActions.SET_HOTZONE, distance });
   };
 
-  const dinstanceHandler = (distance) => {
+  const setDistance = (distance) => {
     const degs = 90 - (distance * 2);
 
     if (distance === null) return;
@@ -79,12 +79,12 @@ const LockPad = () => {
     mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
   );
 
-  const keyDownHandler = () => (
+  const setKeyDown = () => (
     !keyDown && dispatchInput({ type: inputActions.KEY_DOWN })
   );
 
-  useEffect(() => hotzoneHandler(hotzone, pickPosition), [pickPosition]);
-  useEffect(() => dinstanceHandler(distanceFromUnlock), [distanceFromUnlock]);
+  useEffect(() => setHotzone(hotzone, pickPosition), [pickPosition]);
+  useEffect(() => setDistance(distanceFromUnlock), [distanceFromUnlock]);
   useEffect(() => unlockHandler(keyDown, distanceFromUnlock), [keyDown, distanceFromUnlock]);
   useEffect(() => turnPickHandler(turning, distanceFromUnlock), [turning, distanceFromUnlock]);
 
@@ -103,7 +103,7 @@ const LockPad = () => {
       onMouseUp={() => dispatchInput({ type: inputActions.MOUSE_UP })}
       onMouseDown={() => dispatchInput({ type: inputActions.MOUSE_DOWN })}
       onKeyUp={() => dispatchInput({ type: inputActions.KEY_UP })}
-      onKeyDown={keyDownHandler}
+      onKeyDown={setKeyDown}
       onMouseMove={setPickPosition}
     >
       {lockpad}
