@@ -1,14 +1,7 @@
-import React, {
-  useState, useEffect, useRef, useReducer
-} from 'react';
+import React, { useEffect, useRef, useReducer } from 'react';
 
-import inputActions, {
-  inputReducer, initState as initInput
-} from './reducers/inputReducer';
-
-import lockpadActions, {
-  lockpadReducer, initState as initLockpad
-} from './reducers/lockpadReducer';
+import inputActions, { inputReducer, initState as initInput } from './reducers/inputReducer';
+import lockActions, { lockpadReducer, initState as initLockpad } from './reducers/lockpadReducer';
 
 import * as S from './styles';
 import useAngle from '../../hooks/angle';
@@ -28,36 +21,37 @@ const LockPad = () => {
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
 
-  useEffect(() => {
-    const isPickOnHotzone = hotzone.includes(pickPosition);
-    if (!isPickOnHotzone) return dispatchLockpad({ type: lockpadActions.CLEAR_HOTZONE });
-
-    const distance = distanceMeter(pickPosition, unlockZone);
-    dispatchLockpad({ type: lockpadActions.SET_HOTZONE, distance });
-  }, [pickPosition]);
-
-  useEffect(() => {
-    console.log('distanceFromUnlock effect');
-    const degs = 90 - (distanceFromUnlock * 2);
-
-    if (distanceFromUnlock === null) return;
-
-    if (distanceFromUnlock === 0) {
-      dispatchLockpad({ type: lockpadActions.SET_UNLOCK, unlock: true });
-      dispatchLockpad({ type: lockpadActions.SET_ROTATION, rotation: degs });
-    }
-    if (distanceFromUnlock !== 0) {
-      dispatchLockpad({ type: lockpadActions.SET_UNLOCK, unlock: false });
-      dispatchLockpad({ type: lockpadActions.SET_ROTATION, rotation: degs });
+  const hotzoneHandler = (zone, pick) => {
+    const isPickOnHotzone = zone.includes(pick);
+    if (!isPickOnHotzone) {
+      return dispatchLockpad({ type: lockActions.CLEAR_HOTZONE });
     }
 
-  }, [distanceFromUnlock]);
+    const distance = distanceMeter(pick, unlockZone);
+    dispatchLockpad({ type: lockActions.SET_HOTZONE, distance });
+  };
 
-  useEffect(() => {
-    console.log('keyDOwn effect');
-    if (!keyDown) return dispatchLockpad({ type: lockpadActions.SET_TURNING, turning: false });
-    dispatchLockpad({ type: lockpadActions.SET_TURNING, turning: true });
-  }, [keyDown]);
+  const dinstanceHandler = (distance) => {
+    const degs = 90 - (distance * 2);
+
+    if (distance === null) return;
+
+    if (distance === 0) {
+      dispatchLockpad({ type: lockActions.SET_UNLOCK, unlock: true });
+      dispatchLockpad({ type: lockActions.SET_ROTATION, rotation: degs });
+    }
+    if (distance !== 0) {
+      dispatchLockpad({ type: lockActions.SET_UNLOCK, unlock: false });
+      dispatchLockpad({ type: lockActions.SET_ROTATION, rotation: degs });
+    }
+  };
+
+  const keyHandler = (key) => {
+    if (!key) {
+      return dispatchLockpad({ type: lockActions.SET_TURNING, turning: false });
+    }
+    dispatchLockpad({ type: lockActions.SET_TURNING, turning: true });
+  };
 
   const setPickPosition = ({ nativeEvent }) => (
     mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
@@ -66,6 +60,10 @@ const LockPad = () => {
   const keyDownHandler = () => (
     !keyDown && dispatchInput({ type: inputActions.KEY_DOWN })
   );
+
+  useEffect(() => { hotzoneHandler(hotzone, pickPosition); }, [pickPosition]);
+  useEffect(() => { dinstanceHandler(distanceFromUnlock); }, [distanceFromUnlock]);
+  useEffect(() => { keyHandler(keyDown); }, [keyDown]);
 
   return (
     <S.Container
