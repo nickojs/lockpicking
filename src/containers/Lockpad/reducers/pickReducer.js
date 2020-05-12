@@ -1,5 +1,5 @@
 const actions = {
-  BREAK_PICK: 'BREAK_PICK',
+  SET_PICK_LIVES: 'SET_PICK_LIVES',
   SET_UNLOCK: 'SET_UNLOCK'
 };
 
@@ -8,10 +8,11 @@ export const initState = {
   unlock: false
 };
 
-const breakPick = (state, action) => ({
+const setPickLives = (state, action) => ({
   ...state,
   pickLives: action.lives
 });
+
 const setUnlock = (state, action) => ({
   ...state,
   unlock: action.unlock
@@ -19,7 +20,7 @@ const setUnlock = (state, action) => ({
 
 export const pickReducer = (state, action) => {
   switch (action.type) {
-    case actions.BREAK_PICK: return breakPick(state, action);
+    case actions.SET_PICK_LIVES: return setPickLives(state, action);
     case actions.SET_UNLOCK: return setUnlock(state, action);
     default: throw new Error('[lockpadReducer]: provided action.type is unknown');
   }
