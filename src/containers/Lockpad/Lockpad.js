@@ -26,6 +26,14 @@ const LockPad = () => {
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
 
+  const setPickPosition = ({ nativeEvent }) => (
+    mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
+  );
+
+  const setKeyDown = () => (
+    !keyDown && dispatchInput({ type: inputActions.KEY_DOWN })
+  );
+
   const setHotzone = (zone, pick) => {
     const isPickOnHotzone = zone.includes(pick);
     if (!isPickOnHotzone) {
@@ -91,14 +99,6 @@ const LockPad = () => {
 
     return () => { clearTimeout(timer); };
   };
-
-  const setPickPosition = ({ nativeEvent }) => (
-    mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
-  );
-
-  const setKeyDown = () => (
-    !keyDown && dispatchInput({ type: inputActions.KEY_DOWN })
-  );
 
   useEffect(() => {
     setHotzone(hotzone, pickPosition);
