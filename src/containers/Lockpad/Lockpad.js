@@ -66,6 +66,15 @@ const LockPad = () => {
     return () => { clearTimeout(timer); };
   };
 
+  const turnPickHandler = (isTurning, distance) => {
+    if (!isTurning) return;
+    if (distance === 0) return;
+    const timer = setTimeout(() => {
+      console.log('broke');
+    }, 500);
+    return () => { clearTimeout(timer); };
+  };
+
   const setPickPosition = ({ nativeEvent }) => (
     mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
   );
@@ -77,6 +86,7 @@ const LockPad = () => {
   useEffect(() => hotzoneHandler(hotzone, pickPosition), [pickPosition]);
   useEffect(() => dinstanceHandler(distanceFromUnlock), [distanceFromUnlock]);
   useEffect(() => unlockHandler(keyDown, distanceFromUnlock), [keyDown, distanceFromUnlock]);
+  useEffect(() => turnPickHandler(turning, distanceFromUnlock), [turning, distanceFromUnlock]);
 
   const lockpad = unlock ? <p>Unlocked!</p> : (
     <Lockpad
