@@ -3,14 +3,14 @@ const actions = {
   CLEAR_HOTZONE: 'CLEAR_HOTZONE',
   SET_ROTATION: 'SET_ROTATION',
   SET_TURNING: 'SET_TURNING',
-  SET_UNLOCK: 'SET_UNLOCK',
+  SET_UNLOCK: 'SET_UNLOCK'
 };
 
 export const initState = {
   turning: false,
   distanceFromUnlock: null,
   unlock: false,
-  rotation: 0,
+  rotation: 0
 };
 
 const setHotzone = (state, action) => ({

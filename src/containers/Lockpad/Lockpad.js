@@ -8,6 +8,8 @@ import useAngle from '../../hooks/angle';
 import genArray from '../../helpers/array-generator';
 import distanceMeter from '../../helpers/distance-meter';
 
+import Lockpad from '../../components/Lockpad/lockpad';
+
 const hotzone = genArray([0, 50]);
 const unlockZone = genArray([20, 40]);
 
@@ -16,7 +18,9 @@ const LockPad = () => {
   const { mouseDown, keyDown, event } = inputState;
 
   const [lockpadState, dispatchLockpad] = useReducer(lockpadReducer, initLockpad);
-  const { turning, distanceFromUnlock, rotation } = lockpadState;
+  const {
+    turning, distanceFromUnlock, rotation, unlock
+  } = lockpadState;
 
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
@@ -61,9 +65,9 @@ const LockPad = () => {
     !keyDown && dispatchInput({ type: inputActions.KEY_DOWN })
   );
 
-  useEffect(() => { hotzoneHandler(hotzone, pickPosition); }, [pickPosition]);
-  useEffect(() => { dinstanceHandler(distanceFromUnlock); }, [distanceFromUnlock]);
-  useEffect(() => { keyHandler(keyDown); }, [keyDown]);
+  useEffect(() => hotzoneHandler(hotzone, pickPosition), [pickPosition]);
+  useEffect(() => dinstanceHandler(distanceFromUnlock), [distanceFromUnlock]);
+  useEffect(() => keyHandler(keyDown), [keyDown]);
 
   return (
     <S.Container
@@ -74,12 +78,12 @@ const LockPad = () => {
       onKeyDown={keyDownHandler}
       onMouseMove={setPickPosition}
     >
-      <S.LockpadContainer position={rotation} isTurning={turning}>
-        <S.Pick ref={pickRef} position={pickPosition} />
-        <S.LockpadBackground>
-          <S.Lockpad />
-        </S.LockpadBackground>
-      </S.LockpadContainer>
+      <Lockpad
+        rotation={rotation}
+        turning={turning}
+        pickRef={pickRef}
+        pickPosition={pickPosition}
+      />
     </S.Container>
   );
 };

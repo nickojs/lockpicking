@@ -1,5 +1,5 @@
 import React from 'react';
-import Lockpad from './components/Lockpad/Lockpad';
+import Lockpad from './containers/Lockpad/Lockpad';
 
 const app = () => (
   <div>

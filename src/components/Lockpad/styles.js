@@ -3,14 +3,6 @@ import lockhole from '../../assets/lockhole.png';
 import lockpadBackground from '../../assets/lockpad_background.png';
 import pick from '../../assets/pick_with_space.png';
 
-export const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  user-select: none;
-`;
-
 export const LockpadContainer = styled.div.attrs((props) => (props.isTurning ? ({
   style: {
     transform: `rotate(${props.position}deg)`
