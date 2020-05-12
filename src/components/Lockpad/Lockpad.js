@@ -43,11 +43,11 @@ const LockPad = () => {
     if (distanceFromUnlock === null) return;
 
     if (distanceFromUnlock === 0) {
-      dispatchLockpad({ type: lockpadActions.SET_UNLOCK });
+      dispatchLockpad({ type: lockpadActions.SET_UNLOCK, unlock: true });
       dispatchLockpad({ type: lockpadActions.SET_ROTATION, rotation: degs });
     }
     if (distanceFromUnlock !== 0) {
-      dispatchLockpad({ type: lockpadActions.CLEAR_UNLOCK });
+      dispatchLockpad({ type: lockpadActions.SET_UNLOCK, unlock: false });
       dispatchLockpad({ type: lockpadActions.SET_ROTATION, rotation: degs });
     }
 
@@ -55,8 +55,8 @@ const LockPad = () => {
 
   useEffect(() => {
     console.log('keyDOwn effect');
-    if (!keyDown) return dispatchLockpad({ type: lockpadActions.CLEAR_TURNING });
-    dispatchLockpad({ type: lockpadActions.SET_TURNING });
+    if (!keyDown) return dispatchLockpad({ type: lockpadActions.SET_TURNING, turning: false });
+    dispatchLockpad({ type: lockpadActions.SET_TURNING, turning: true });
   }, [keyDown]);
 
   const setPickPosition = ({ nativeEvent }) => (
