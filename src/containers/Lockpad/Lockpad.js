@@ -18,9 +18,7 @@ const LockPad = () => {
   const { mouseDown, keyDown, event } = inputState;
 
   const [lockpadState, dispatchLockpad] = useReducer(lockpadReducer, initLockpad);
-  const {
-    turning, distanceFromUnlock, rotation, unlock
-  } = lockpadState;
+  const { turning, distanceFromUnlock, rotation } = lockpadState;
 
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
@@ -52,28 +50,36 @@ const LockPad = () => {
       return dispatchLockpad({ type: lockActions.SET_TURNING, turning: false });
     }
     dispatchLockpad({ type: lockActions.SET_TURNING, turning: true });
-    dispatchLockpad({ type: lockActions.SET_UNLOCK, unlock: false });
+    console.log('unlock false');
     /*
-      timer should be equal, or at least higher as the transition of
-      LockpadContainer's, to archieve perfection
+    timer should be equal, or at least higher as the transition of
+    LockpadContainer's, to archieve perfection
     */
     const timer = setTimeout(() => {
       if (key && distance === 0) {
-        return dispatchLockpad({ type: lockActions.SET_UNLOCK, unlock: true });
+        console.log('unlock true');
       }
     }, 1000);
 
     return () => { clearTimeout(timer); };
   };
 
-  const turnPickHandler = (isTurning, distance) => {
-    if (!isTurning) return;
-    if (distance === 0) return;
-    const timer = setTimeout(() => {
-      console.log('broke');
-    }, 500);
-    return () => { clearTimeout(timer); };
-  };
+  // const pickMovementHandler = (isTurning, distance, lifes) => {
+  //   if (!isTurning) return;
+  //   if (distance === 0) return;
+
+  //   const timer = setTimeout(() => {
+  //     if (lifes > 0) {
+  //       console.log(lifes);
+  //       return dispatchLockpad({ type: lockActions.SET_PICK_LIFE, pickLifes: lifes - 1 });
+  //     }
+  //     if (lifes <= 0) {
+  //       console.log('game over, no more picks for you');
+  //     }
+  //   }, 500);
+
+  //   return () => { clearTimeout(timer); };
+  // };
 
   const setPickPosition = ({ nativeEvent }) => (
     mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
@@ -83,12 +89,27 @@ const LockPad = () => {
     !keyDown && dispatchInput({ type: inputActions.KEY_DOWN })
   );
 
-  useEffect(() => setHotzone(hotzone, pickPosition), [pickPosition]);
-  useEffect(() => setDistance(distanceFromUnlock), [distanceFromUnlock]);
-  useEffect(() => unlockHandler(keyDown, distanceFromUnlock), [keyDown, distanceFromUnlock]);
-  useEffect(() => turnPickHandler(turning, distanceFromUnlock), [turning, distanceFromUnlock]);
+  useEffect(() => {
+    setHotzone(hotzone, pickPosition);
+  }, [pickPosition]);
 
-  const lockpad = unlock ? <p>Unlocked!</p> : (
+  useEffect(() => {
+    setDistance(distanceFromUnlock);
+  }, [distanceFromUnlock]);
+
+  useEffect(() => {
+    unlockHandler(keyDown, distanceFromUnlock);
+  }, [keyDown, distanceFromUnlock]);
+
+  // useEffect(() => {
+  //   pickMovementHandler(turning, distanceFromUnlock, pickLifes);
+  // }, [turning, distanceFromUnlock, pickLifes]);
+
+  // useEffect(() => {
+  //   dispatchLockpad({ type: lockActions.CLEAR_HOTZONE });
+  // }, [pickLifes]);
+
+  const lockpad = false ? <p>Unlocked!</p> : (
     <Lockpad
       rotation={rotation}
       turning={turning}
