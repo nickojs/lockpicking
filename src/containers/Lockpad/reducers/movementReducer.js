@@ -31,7 +31,7 @@ const setTurning = (state, action) => ({
   turning: action.turning
 });
 
-export const lockpadReducer = (state, action) => {
+export const moveReducer = (state, action) => {
   switch (action.type) {
     case actions.SET_HOTZONE: return setHotzone(state, action);
     case actions.CLEAR_HOTZONE: return clearHotzone(state, action);
