@@ -94,6 +94,7 @@ const LockPad = () => {
       }
       if (lives <= 0) {
         console.log('game over, no more picks for you');
+        return dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
       }
     }, 500);
 
@@ -121,7 +122,7 @@ const LockPad = () => {
   }, [pickLives]);
 
 
-  const lockpad = false ? <p>Unlocked!</p> : (
+  const lockpad = unlock ? <p>Unlocked!</p> : (
     <Lockpad
       rotation={rotation}
       turning={turning}
