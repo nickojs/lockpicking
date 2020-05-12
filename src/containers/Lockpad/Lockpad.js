@@ -44,62 +44,46 @@ const LockPad = () => {
     }
   };
 
-  const setHotzone = (zone, pick) => {
-    const isPickOnHotzone = zone.includes(pick);
+  useEffect(() => {
+    const isPickOnHotzone = hotzone.includes(pickPosition);
     if (!isPickOnHotzone) {
       return dispatchLockpad({ type: moveActions.CLEAR_HOTZONE });
     }
-    const distance = distanceMeter(pick, unlockZone);
+    const distance = distanceMeter(pickPosition, unlockZone);
     dispatchLockpad({ type: moveActions.SET_HOTZONE, distance });
-  };
+  }, [pickPosition]);
 
-  const setDistance = (distance) => {
-    const degs = 90 - (distance * 2);
+  useEffect(() => {
+    const degs = 90 - (distanceFromUnlock * 2);
 
-    if (distance === null) return;
+    if (distanceFromUnlock === null) return;
 
-    if (distance === 0) {
+    if (distanceFromUnlock === 0) {
       dispatchLockpad({ type: moveActions.SET_ROTATION, rotation: degs });
     }
-    if (distance !== 0) {
+    if (distanceFromUnlock !== 0) {
       dispatchLockpad({ type: moveActions.SET_ROTATION, rotation: degs });
     }
-  };
+  }, [distanceFromUnlock]);
 
-  const unlockHandler = (key, distance) => {
+  useEffect(() => {
     // always set unlock to false
     dispatchPick({ type: pickActions.SET_UNLOCK, unlock: false });
 
     // check key status to toggle turning state
-    if (!key) {
+    if (!keyDown) {
       return dispatchLockpad({ type: moveActions.SET_TURNING, turning: false });
     }
     dispatchLockpad({ type: moveActions.SET_TURNING, turning: true });
-    /*
-    timer should be equal, or at least higher as the transition of
-    LockpadContainer's, to archieve perfection
-    */
+    // timer should be equal, or higher as the LockpadContainers transition
     const timer = setTimeout(() => {
       // set unlock to true in 1s of keydown
-      if (key && distance === 0) {
+      if (keyDown && distanceFromUnlock === 0) {
         return dispatchPick({ type: pickActions.SET_UNLOCK, unlock: true });
       }
     }, 1000);
 
     return () => { clearTimeout(timer); };
-  };
-
-
-  useEffect(() => {
-    setHotzone(hotzone, pickPosition);
-  }, [pickPosition]);
-
-  useEffect(() => {
-    setDistance(distanceFromUnlock);
-  }, [distanceFromUnlock]);
-
-  useEffect(() => {
-    unlockHandler(keyDown, distanceFromUnlock);
   }, [keyDown, distanceFromUnlock]);
 
   useEffect(() => {
