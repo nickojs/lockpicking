@@ -42,10 +42,9 @@ const LockPad = () => {
   };
 
   const setKeyDown = () => {
-    if (!keyDown) {
-      dispatchInput({ type: inputActions.KEY_PRESS_START });
-      dispatchInput({ type: inputActions.KEY_DOWN });
-    }
+    if (keyDown) return;
+    dispatchInput({ type: inputActions.KEY_PRESS_START });
+    dispatchInput({ type: inputActions.KEY_DOWN });
   };
 
   // defines if the pick is on the hotzone
@@ -84,10 +83,9 @@ const LockPad = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (keyPressMoment) {
-        dispatchInput({ type: inputActions.KEY_PRESS_INC, inc: keyPressMoment + 500 });
+        dispatchInput({ type: inputActions.KEY_PRESS_INC, inc: keyPressMoment + 100 });
       }
-    }, 500);
-
+    }, 100);
     return () => { clearTimeout(timer); };
   }, [keyPressMoment]);
 
@@ -100,23 +98,24 @@ const LockPad = () => {
   // defines wherever the pick is broken or not
   useEffect(() => {
     if (!keyPressMoment) return;
-
+    /*
+      this is kind of a global setTimeout, where the timeout is defined by the
+      difference of current date and how long the *key* is being pressed
+    */
     const diffTime = Math.abs(Date.now() - keyPressMoment);
-    // exit if keypress timeout is insignificant (< 10)
-    if (diffTime < 10) return;
-
-    if (isUnlockable) {
-      return dispatchPick({ type: pickActions.SET_UNLOCK, unlock: true });
+    // only enters the timeout if key is being pressed for > .5s
+    if (diffTime > 20) {
+      if (isUnlockable) return dispatchPick({ type: pickActions.SET_UNLOCK, unlock: true });
+      // toggles unlock, brokepick and clears the UI state
+      dispatchMove({ type: moveActions.CLEAR_HOTZONE });
+      dispatchPick({ type: pickActions.SET_UNLOCK, unlock: false });
+      dispatchPick({ type: pickActions.SET_BROKE_PICK, status: true });
     }
-    // toggles unlock, brokepick and clears the UI state
-    dispatchPick({ type: pickActions.SET_UNLOCK, unlock: false });
-    dispatchPick({ type: pickActions.SET_BROKE_PICK, status: true });
-    dispatchMove({ type: moveActions.CLEAR_HOTZONE });
   }, [keyPressMoment, isUnlockable]);
 
   useEffect(() => {
     if (!pickIsBroken) return;
-    // reset pickIsBroken state
+    // reset pickIsBroken state with a delay close to the 'global' keypress
     const timer = setTimeout(() => {
       dispatchPick({ type: pickActions.SET_BROKE_PICK, status: false });
       // reduces pickLives or ends the game (no more picks)
@@ -125,6 +124,10 @@ const LockPad = () => {
     }, 500);
     return () => { clearTimeout(timer); };
   }, [pickIsBroken, pickLives]);
+
+  useEffect(() => {
+
+  });
 
   let lockpad = unlock ? <p>Unlocked!</p> : (
     <S.InnerContainer
