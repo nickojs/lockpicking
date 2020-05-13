@@ -2,10 +2,10 @@ import React from 'react';
 import * as S from './styles';
 
 const lockpad = ({
-  rotation, turning, pickRef, pickPosition, pickBroke
+  rotation, turning, pickRef, pickPosition
 }) => (
   <S.LockpadContainer position={rotation} isTurning={turning}>
-    {pickBroke ? <S.BrokePick /> : <S.Pick ref={pickRef} position={pickPosition} />}
+    <S.Pick ref={pickRef} position={pickPosition} />
 
     <S.LockpadBackground>
       <S.Lockpad />

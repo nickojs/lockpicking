@@ -100,30 +100,36 @@ const LockPad = () => {
   // defines wherever the pick is broken or not
   useEffect(() => {
     if (!keyPressMoment) return;
-    if (isUnlockable) return;
 
-    // exit if difference of time is insignificant (< 25)
+    // exit if keypress timeout is insignificant (< 10)
     const diffTime = Math.abs(Date.now() - keyPressMoment);
-    if (diffTime < 25) return;
+    if (diffTime < 10) return;
 
+    if (isUnlockable) {
+      return dispatchPick({ type: pickActions.SET_UNLOCK, unlock: true });
+    }
+    dispatchPick({ type: pickActions.SET_UNLOCK, unlock: false });
     dispatchPick({ type: pickActions.SET_BROKE_PICK, status: true });
   }, [keyPressMoment, isUnlockable]);
 
   useEffect(() => {
     if (!pickIsBroken) return;
-    dispatchInput({ type: inputActions.CLEAR_INPUT });
-    dispatchPick({ type: pickActions.SET_BROKE_PICK, status: false });
+    const timer = setTimeout(() => {
+      dispatchInput({ type: inputActions.CLEAR_INPUT });
+      dispatchPick({ type: pickActions.SET_BROKE_PICK, status: false });
 
-    if (pickLives > 0) {
-      dispatchPick({ type: pickActions.REMOVE_PICK_LIFE });
-    }
+      if (pickLives > 0) {
+        dispatchPick({ type: pickActions.REMOVE_PICK_LIFE });
+      }
 
-    if (pickLives === 0) {
-      console.log('game over, no more picks for you');
-      dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
-    }
+      if (pickLives === 0) {
+        console.log('game over, no more picks for you');
+        dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
+      }
+    }, 500);
+
+    return () => { clearTimeout(timer); };
   }, [pickIsBroken, pickLives]);
-
 
   let lockpad = unlock ? <p>Unlocked!</p> : (
     <S.InnerContainer
@@ -139,7 +145,6 @@ const LockPad = () => {
         turning={turning}
         pickRef={pickRef}
         pickPosition={pickPosition}
-        pickBroke={pickIsBroken}
       />
     </S.InnerContainer>
   );
