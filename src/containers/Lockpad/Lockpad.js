@@ -91,6 +91,12 @@ const LockPad = () => {
     return () => { clearTimeout(timer); };
   }, [keyPressMoment]);
 
+  // turns the lock based on keyPress (keyDown)
+  useEffect(() => {
+    if (!keyDown) return dispatchMove({ type: moveActions.SET_TURNING, status: false });
+    dispatchMove({ type: moveActions.SET_TURNING, status: true });
+  }, [keyDown]);
+
   // defines wherever the pick is broken or not
   // useEffect(() => {
   //   if (!keyPressMoment) return;
