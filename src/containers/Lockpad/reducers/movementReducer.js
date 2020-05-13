@@ -10,7 +10,7 @@ export const initState = {
   isUnlockable: false,
   distanceFromUnlock: null,
   turning: false,
-  rotation: 0
+  rotation: 8
 };
 
 const setHotzone = (state, action) => ({
@@ -30,7 +30,7 @@ const setRotation = (state, action) => ({
 
 const setTurning = (state, action) => ({
   ...state,
-  turning: action.turning
+  turning: action.status
 });
 
 const setUnlockable = (state, action) => ({

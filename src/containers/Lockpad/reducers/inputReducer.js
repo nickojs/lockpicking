@@ -27,7 +27,7 @@ export const inputReducer = (state, action) => {
     case actions.KEY_PRESS_START: return { ...state, keyPressMoment: Date.now() };
     case actions.KEY_PRESS_INC: return { ...state, keyPressMoment: action.inc };
     case actions.KEY_PRESS_END: return { ...state, keyPressMoment: null };
-    case actions.CLEAR_INPUT: return initState;
+    case actions.CLEAR_INPUT: return { ...state, ...initState };
     default: throw new Error('[inputReducer]: provided action.type is unknown');
   }
 };
