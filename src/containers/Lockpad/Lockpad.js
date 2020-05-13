@@ -106,25 +106,11 @@ const LockPad = () => {
     const diffTime = Math.abs(Date.now() - keyPressMoment);
     if (diffTime < 25) return;
 
-    console.log(diffTime);
     dispatchPick({ type: pickActions.SET_BROKE_PICK, status: true });
-
-    // checks for the lives quantity to determine if it'll be decreased
-    // or if the game is over (no more picks to pick the lock)
-    // if (pickLives > 0) {
-    //   dispatchPick({ type: pickActions.REMOVE_PICK_LIFE });
-    //   dispatchPick({ type: pickActions.SET_BROKE_PICK, status: true });
-    //   return;
-    // }
-    // if (pickLives === 0) {
-    //   console.log('game over, no more picks for you');
-    //   return dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
-    // }
   }, [keyPressMoment, isUnlockable]);
 
   useEffect(() => {
     if (!pickIsBroken) return;
-    console.log('pickIsbroken effect');
     dispatchInput({ type: inputActions.CLEAR_INPUT });
     dispatchPick({ type: pickActions.SET_BROKE_PICK, status: false });
 
@@ -134,9 +120,14 @@ const LockPad = () => {
 
     if (pickLives === 0) {
       console.log('game over, no more picks for you');
-      return dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
+      dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
     }
   }, [pickIsBroken, pickLives]);
+
+  useEffect(() => {
+    if (!gameOver) return;
+    dispatchInput({ type: inputActions.CLEAR_INPUT });
+  }, [gameOver]);
 
 
   let lockpad = unlock ? <p>Unlocked!</p> : (
@@ -162,6 +153,7 @@ const LockPad = () => {
       onMouseMove={setPickPosition}
     >
       {lockpad}
+      {pickIsBroken ? <p> Broked 1 pick </p> : null }
     </S.Container>
   );
 };
