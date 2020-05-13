@@ -101,33 +101,28 @@ const LockPad = () => {
   useEffect(() => {
     if (!keyPressMoment) return;
 
-    // exit if keypress timeout is insignificant (< 10)
     const diffTime = Math.abs(Date.now() - keyPressMoment);
+    // exit if keypress timeout is insignificant (< 10)
     if (diffTime < 10) return;
 
     if (isUnlockable) {
       return dispatchPick({ type: pickActions.SET_UNLOCK, unlock: true });
     }
+    // toggles unlock, brokepick and clears the UI state
     dispatchPick({ type: pickActions.SET_UNLOCK, unlock: false });
     dispatchPick({ type: pickActions.SET_BROKE_PICK, status: true });
+    dispatchMove({ type: moveActions.CLEAR_HOTZONE });
   }, [keyPressMoment, isUnlockable]);
 
   useEffect(() => {
     if (!pickIsBroken) return;
+    // reset pickIsBroken state
     const timer = setTimeout(() => {
-      dispatchInput({ type: inputActions.CLEAR_INPUT });
       dispatchPick({ type: pickActions.SET_BROKE_PICK, status: false });
-
-      if (pickLives > 0) {
-        dispatchPick({ type: pickActions.REMOVE_PICK_LIFE });
-      }
-
-      if (pickLives === 0) {
-        console.log('game over, no more picks for you');
-        dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
-      }
+      // reduces pickLives or ends the game (no more picks)
+      if (pickLives > 0) dispatchPick({ type: pickActions.REMOVE_PICK_LIFE });
+      if (pickLives === 0) dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
     }, 500);
-
     return () => { clearTimeout(timer); };
   }, [pickIsBroken, pickLives]);
 
