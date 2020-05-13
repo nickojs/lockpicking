@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import lockhole from '../../assets/lockhole.png';
 import lockpadBackground from '../../assets/lockpad_background.png';
 import pick from '../../assets/pick_with_space.png';
+import brokenPick from '../../assets/broken_pick.png';
 
 export const LockpadContainer = styled.div.attrs((props) => (props.isTurning ? ({
   style: {
@@ -47,4 +48,23 @@ export const Pick = styled.img.attrs((props) => ({
   transform-origin: 0 100%;
   transform: rotate(0deg) translate(-50%, 0%);
   z-index: 10; 
+`;
+
+const fadeIn = keyframes`
+  from{
+    opacity: 0
+
+  }to{
+    opacity: 1
+  }
+`;
+
+export const BrokePick = styled.img.attrs((props) => ({ src: brokenPick, alt: 'a broken picklock' }))`
+  cursor: none;
+  pointer-events: none;
+  position: absolute;
+  top: -75%; left: 50%;
+  transform: translate(-50%, 0%);
+  z-index: 10; 
+  animation: ${fadeIn} .4s;
 `;
