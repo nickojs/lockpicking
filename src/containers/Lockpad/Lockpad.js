@@ -19,8 +19,10 @@ const LockPad = () => {
     mouseDown, keyDown, event, keyPressMoment
   } = inputState;
 
-  const [lockpadState, dispatchLockpad] = useReducer(moveReducer, initMove);
-  const { turning, distanceFromUnlock, rotation } = lockpadState;
+  const [moveState, dispatchMove] = useReducer(moveReducer, initMove);
+  const {
+    isUnlockable, turning, distanceFromUnlock, rotation
+  } = moveState;
 
   const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
   const {
@@ -50,10 +52,10 @@ const LockPad = () => {
   useEffect(() => {
     const isPickOnHotzone = hotzone.includes(pickPosition);
     if (!isPickOnHotzone) {
-      return dispatchLockpad({ type: moveActions.CLEAR_HOTZONE });
+      return dispatchMove({ type: moveActions.CLEAR_HOTZONE });
     }
     const distance = distanceMeter(pickPosition, unlockZone);
-    dispatchLockpad({ type: moveActions.SET_HOTZONE, distance });
+    dispatchMove({ type: moveActions.SET_HOTZONE, distance });
   }, [pickPosition]);
 
   // calculates the distance between the current pick location and unlockzone
@@ -62,43 +64,26 @@ const LockPad = () => {
     const degs = 90 - (distanceFromUnlock * 2);
 
     if (distanceFromUnlock === null) return;
-
+    /*
+      'unlockable' seems redundant, but it exists because the other effect need
+      to know this in order to trigger the timed 'unlock' functionality.
+      another way is to pass 'distanceFromUnlock' on the next effect
+      as a dependency, but it triggers multiple useless re-renders
+    */
     if (distanceFromUnlock === 0) {
-      dispatchLockpad({ type: moveActions.SET_ROTATION, rotation: degs });
+      dispatchMove({ type: moveActions.SET_ROTATION, rotation: degs });
+      dispatchMove({ type: moveActions.SET_UNLOCKABLE, status: true });
     }
     if (distanceFromUnlock !== 0) {
-      dispatchLockpad({ type: moveActions.SET_ROTATION, rotation: degs });
+      dispatchMove({ type: moveActions.SET_ROTATION, rotation: degs });
+      dispatchMove({ type: moveActions.SET_UNLOCKABLE, status: false });
     }
   }, [distanceFromUnlock]);
-
-  // tries turn the lock, and checks if it is unlockable
-  // then set unlock to true after a 1s delay
-  useEffect(() => {
-    // unlock's default state is always false
-    dispatchPick({ type: pickActions.SET_UNLOCK, unlock: false });
-
-    // check keyDown status to toggle turning state
-    if (!keyDown) {
-      return dispatchLockpad({ type: moveActions.SET_TURNING, turning: false });
-    }
-    dispatchLockpad({ type: moveActions.SET_TURNING, turning: true });
-
-    // timer should be equal or higher as the LockpadContainers transition
-    const timer = setTimeout(() => {
-      // set unlock to true in 1s of keydown
-      if (keyDown && distanceFromUnlock === 0) {
-        return dispatchPick({ type: pickActions.SET_UNLOCK, unlock: true });
-      }
-    }, 1000);
-
-    return () => { clearTimeout(timer); };
-  }, [keyDown, distanceFromUnlock]);
 
   // increments the 'keyPressMoment', to define how long the key is pressed
   useEffect(() => {
     const timer = setTimeout(() => {
       if (keyPressMoment) {
-        console.log('keyPressMoment');
         dispatchInput({ type: inputActions.KEY_PRESS_INC, inc: keyPressMoment + 500 });
       }
     }, 500);
@@ -138,11 +123,11 @@ const LockPad = () => {
 
   // reset the hotzone and input states if the pick is broken
   // useEffect(() => {
-  //   dispatchLockpad({ type: moveActions.CLEAR_HOTZONE });
+  //   dispatchMove({ type: moveActions.CLEAR_HOTZONE });
   // }, [pickLives]);
 
 
-  const lockpad = unlock ? <p>Unlocked!</p> : (
+  let lockpad = unlock ? <p>Unlocked!</p> : (
     <S.Container
       tabIndex="0"
       onMouseUp={() => dispatchInput({ type: inputActions.MOUSE_UP })}
@@ -161,6 +146,9 @@ const LockPad = () => {
     </S.Container>
   );
 
+  if (gameOver) {
+    lockpad = <p>Game over...</p>;
+  }
   return lockpad;
 };
 
