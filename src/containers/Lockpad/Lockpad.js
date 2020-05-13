@@ -44,6 +44,7 @@ const LockPad = () => {
     }
   };
 
+  // defines if the pick is on the hotzone
   useEffect(() => {
     const isPickOnHotzone = hotzone.includes(pickPosition);
     if (!isPickOnHotzone) {
@@ -53,6 +54,8 @@ const LockPad = () => {
     dispatchLockpad({ type: moveActions.SET_HOTZONE, distance });
   }, [pickPosition]);
 
+  // calculates the distance between the current pick location and unlockzone
+  // and generates a rotation angle based on this distance
   useEffect(() => {
     const degs = 90 - (distanceFromUnlock * 2);
 
@@ -66,16 +69,19 @@ const LockPad = () => {
     }
   }, [distanceFromUnlock]);
 
+  // tries turn the lock, and checks if it is unlockable
+  // then set unlock to true after a 1s delay
   useEffect(() => {
-    // always set unlock to false
+    // unlock's default state is always false
     dispatchPick({ type: pickActions.SET_UNLOCK, unlock: false });
 
-    // check key status to toggle turning state
+    // check keyDown status to toggle turning state
     if (!keyDown) {
       return dispatchLockpad({ type: moveActions.SET_TURNING, turning: false });
     }
     dispatchLockpad({ type: moveActions.SET_TURNING, turning: true });
-    // timer should be equal, or higher as the LockpadContainers transition
+
+    // timer should be equal or higher as the LockpadContainers transition
     const timer = setTimeout(() => {
       // set unlock to true in 1s of keydown
       if (keyDown && distanceFromUnlock === 0) {
@@ -86,6 +92,7 @@ const LockPad = () => {
     return () => { clearTimeout(timer); };
   }, [keyDown, distanceFromUnlock]);
 
+  // increments the 'keyPressMoment', to define how long the key is pressed
   useEffect(() => {
     const timer = setTimeout(() => {
       if (keyPressMoment) {
@@ -97,6 +104,7 @@ const LockPad = () => {
     return () => { clearTimeout(timer); };
   }, [keyPressMoment]);
 
+  // defines wherever the pick is broken or not
   useEffect(() => {
     if (!turning) return;
     if (distanceFromUnlock === 0) return;
@@ -119,6 +127,7 @@ const LockPad = () => {
     return () => { clearTimeout(timer); };
   }, [turning, distanceFromUnlock, pickLives]);
 
+  // reset the hotzone and input states if the pick is broken
   useEffect(() => {
     dispatchLockpad({ type: moveActions.CLEAR_HOTZONE });
   }, [pickLives]);
