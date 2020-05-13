@@ -124,27 +124,9 @@ const LockPad = () => {
     }
   }, [pickIsBroken, pickLives]);
 
-  useEffect(() => {
-    if (!gameOver) return;
-    dispatchInput({ type: inputActions.CLEAR_INPUT });
-  }, [gameOver]);
-
 
   let lockpad = unlock ? <p>Unlocked!</p> : (
-    <Lockpad
-      rotation={rotation}
-      turning={turning}
-      pickRef={pickRef}
-      pickPosition={pickPosition}
-      pickBroke={pickIsBroken}
-    />
-  );
-
-  if (gameOver) {
-    lockpad = <p>Game over...</p>;
-  }
-  return (
-    <S.Container
+    <S.InnerContainer
       tabIndex="0"
       onMouseUp={() => dispatchInput({ type: inputActions.MOUSE_UP })}
       onMouseDown={() => dispatchInput({ type: inputActions.MOUSE_DOWN })}
@@ -152,8 +134,23 @@ const LockPad = () => {
       onKeyDown={setKeyDown}
       onMouseMove={setPickPosition}
     >
+      <Lockpad
+        rotation={rotation}
+        turning={turning}
+        pickRef={pickRef}
+        pickPosition={pickPosition}
+        pickBroke={pickIsBroken}
+      />
+    </S.InnerContainer>
+  );
+
+  if (gameOver) {
+    lockpad = <p>Game over...</p>;
+  }
+
+  return (
+    <S.Container>
       {lockpad}
-      {pickIsBroken ? <p> Broked 1 pick </p> : null }
     </S.Container>
   );
 };
