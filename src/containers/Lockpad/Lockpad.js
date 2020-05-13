@@ -26,7 +26,7 @@ const LockPad = () => {
 
   const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
   const {
-    pickLives, pickIsBroken, unlock, gameOver
+    pickLife, pickIsBroken, unlock, gameOver
   } = pickState;
 
   const pickRef = useRef(null);
@@ -106,28 +106,18 @@ const LockPad = () => {
     // only enters the timeout if key is being pressed for > .5s
     if (diffTime > 20) {
       if (isUnlockable) return dispatchPick({ type: pickActions.SET_UNLOCK, unlock: true });
-      // toggles unlock, brokepick and clears the UI state
+      // toggles unlock, reduce pickLife and clears the UI state
       dispatchMove({ type: moveActions.CLEAR_HOTZONE });
       dispatchPick({ type: pickActions.SET_UNLOCK, unlock: false });
-      dispatchPick({ type: pickActions.SET_BROKE_PICK, status: true });
+      dispatchPick({ type: pickActions.REDUCE_PICK_LIFE });
     }
   }, [keyPressMoment, isUnlockable]);
 
+  // ends game if pickLife is reduced to zero
   useEffect(() => {
-    if (!pickIsBroken) return;
-    // reset pickIsBroken state with a delay close to the 'global' keypress
-    const timer = setTimeout(() => {
-      dispatchPick({ type: pickActions.SET_BROKE_PICK, status: false });
-      // reduces pickLives or ends the game (no more picks)
-      if (pickLives > 0) dispatchPick({ type: pickActions.REMOVE_PICK_LIFE });
-      if (pickLives === 0) dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
-    }, 500);
-    return () => { clearTimeout(timer); };
-  }, [pickIsBroken, pickLives]);
-
-  useEffect(() => {
-
-  });
+    if (pickLife !== 0) return;
+    dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
+  }, [pickLife]);
 
   let lockpad = unlock ? <p>Unlocked!</p> : (
     <S.InnerContainer
