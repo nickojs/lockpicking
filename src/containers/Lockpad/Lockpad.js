@@ -23,7 +23,9 @@ const LockPad = () => {
   const { turning, distanceFromUnlock, rotation } = lockpadState;
 
   const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
-  const { pickLives, unlock, gameOver } = pickState;
+  const {
+    pickLives, pickIsBroken, unlock, gameOver
+  } = pickState;
 
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
@@ -105,44 +107,42 @@ const LockPad = () => {
   }, [keyPressMoment]);
 
   // defines wherever the pick is broken or not
-  useEffect(() => {
-    if (!turning) return;
-    if (distanceFromUnlock === 0) return;
+  // useEffect(() => {
+  //   if (!keyPressMoment) return;
+  //   if (distanceFromUnlock === 0) return;
 
-    const timer = setTimeout(() => {
-    /*
-      checks for the lives quantity to determine if it'll be decreased
-      or if the game is over (no more picks to pick the lock)
-    */
-      if (pickLives > 0) {
-        console.log(pickLives);
-        return dispatchPick({ type: pickActions.REMOVE_PICK_LIFE });
-      }
-      if (pickLives === 0) {
-        console.log('game over, no more picks for you');
-        return dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
-      }
-    }, 2500);
+  //   // exit if difference of time is insignificant (< 25)
+  //   const diffTime = Math.abs(Date.now() - keyPressMoment);
+  //   if (diffTime < 25) return;
 
-    return () => { clearTimeout(timer); };
-  }, [turning, distanceFromUnlock, pickLives]);
+  //   // checks for the lives quantity to determine if it'll be decreased
+  //   // or if the game is over (no more picks to pick the lock)
+  //   if (pickLives > 0) {
+  //     dispatchPick({ type: pickActions.REMOVE_PICK_LIFE });
+  //     dispatchPick({ type: pickActions.SET_BROKE_PICK, status: true });
+  //     return;
+  //   }
+  //   if (pickLives === 0) {
+  //     console.log('game over, no more picks for you');
+  //     return dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
+  //   }
+  // }, [keyPressMoment, distanceFromUnlock, pickLives]);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     if (pickIsBroken) dispatchPick({ type: pickActions.SET_BROKE_PICK, status: false });
+  //   }, 1000);
+
+  //   return () => { clearTimeout(timer); };
+  // }, [pickIsBroken]);
 
   // reset the hotzone and input states if the pick is broken
-  useEffect(() => {
-    dispatchLockpad({ type: moveActions.CLEAR_HOTZONE });
-  }, [pickLives]);
+  // useEffect(() => {
+  //   dispatchLockpad({ type: moveActions.CLEAR_HOTZONE });
+  // }, [pickLives]);
 
 
   const lockpad = unlock ? <p>Unlocked!</p> : (
-    <Lockpad
-      rotation={rotation}
-      turning={turning}
-      pickRef={pickRef}
-      pickPosition={pickPosition}
-    />
-  );
-
-  return (
     <S.Container
       tabIndex="0"
       onMouseUp={() => dispatchInput({ type: inputActions.MOUSE_UP })}
@@ -151,9 +151,17 @@ const LockPad = () => {
       onKeyDown={setKeyDown}
       onMouseMove={setPickPosition}
     >
-      {lockpad}
+      <Lockpad
+        rotation={rotation}
+        turning={turning}
+        pickRef={pickRef}
+        pickPosition={pickPosition}
+        pickBroke={pickIsBroken}
+      />
     </S.Container>
   );
+
+  return lockpad;
 };
 
 export default LockPad;
