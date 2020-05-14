@@ -4,7 +4,8 @@ import inputActions, { inputReducer, initState as initInput } from './reducers/i
 import moveActions, { moveReducer, initState as initMove } from './reducers/movementReducer';
 import pickActions, { pickReducer, initState as initPick } from './reducers/pickReducer';
 
-import Lockpad from '../../components/Lockpad/lockpad';
+import Lockpad from '../../components/lockpad/lockpad';
+import HUD from '../../components/hud/hud';
 import * as S from './styles';
 import useAngle from '../../hooks/angle';
 import genArray from '../../helpers/array-generator';
@@ -142,9 +143,12 @@ const LockPad = () => {
   }
 
   return (
-    <S.Container>
-      {lockpad}
-    </S.Container>
+    <>
+      <HUD life={pickLife} />
+      <S.Container>
+        {lockpad}
+      </S.Container>
+    </>
   );
 };
 
