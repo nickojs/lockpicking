@@ -7,12 +7,15 @@ export default (elementRef, event) => {
   const windowSize = useWindowSize();
 
   useEffect(() => {
-    const elementWidth = elementRef.current.offsetWidth;
-    const elementHeight = elementRef.current.offsetHeight;
+    // checks for element before setting data
+    if (elementRef.current) {
+      const elementWidth = elementRef.current.offsetWidth;
+      const elementHeight = elementRef.current.offsetHeight;
 
-    const elementOffsetLeft = elementRef.current.getBoundingClientRect().left;
-    const elementOffsetTop = elementRef.current.getBoundingClientRect().top;
-    setInternalAngle([elementOffsetLeft + elementWidth, elementOffsetTop + elementHeight]);
+      const elementOffsetLeft = elementRef.current.getBoundingClientRect().left;
+      const elementOffsetTop = elementRef.current.getBoundingClientRect().top;
+      setInternalAngle([elementOffsetLeft + elementWidth, elementOffsetTop + elementHeight]);
+    }
   }, [elementRef, windowSize]);
 
   useEffect(() => {
