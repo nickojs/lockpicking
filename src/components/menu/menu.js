@@ -2,14 +2,14 @@ import React from 'react';
 import * as S from './styles';
 
 const menu = (props) => (
-  <navbar>
+  <nav>
     <ul>
       <li>Play</li>
       <li>Stats</li>
       <li>Login</li>
       <li>About</li>
     </ul>
-  </navbar>
+  </nav>
 );
 
 export default menu;
