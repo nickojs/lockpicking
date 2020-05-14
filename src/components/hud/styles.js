@@ -17,10 +17,6 @@ export const HUDContainer = styled.div`
   left: 0;
   right: 0;
   color: white;
-  font-family: Cinzel;
-  font-weight: 400;
-  font-size: 1.3em;
-  letter-spacing: 4px;
 `;
 
 export const ProgressPick = styled.div`
