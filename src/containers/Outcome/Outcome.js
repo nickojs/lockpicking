@@ -3,7 +3,7 @@ import * as S from './styles';
 import Unlocked from './unlocked/unlocked';
 import GameOver from './gameOver/gameOver';
 
-const outcome = (props) => (
+const Outcome = (props) => (
   /*
     will receive following props:
       - how many picks was used
@@ -21,4 +21,4 @@ const outcome = (props) => (
   </S.Container>
 );
 
-export default outcome;
+export default Outcome;
