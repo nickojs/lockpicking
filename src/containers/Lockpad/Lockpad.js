@@ -27,7 +27,7 @@ const LockPad = () => {
 
   const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
   const {
-    pickLife, pickIsBroken, unlock, gameOver
+    pickLife, pickLives, unlock, gameOver
   } = pickState;
 
   const pickRef = useRef(null);
@@ -114,11 +114,19 @@ const LockPad = () => {
     }
   }, [keyPressMoment, isUnlockable]);
 
-  // ends game if pickLife is reduced to zero
+  // remove a pick if pickLife reduces to zero
   useEffect(() => {
-    if (pickLife !== 0) return;
-    dispatchPick({ type: pickActions.SET_GAME_OVER, gameOver: true });
+    if (pickLife === 0) {
+      dispatchPick({ type: pickActions.SET_BROKE_PICK });
+    }
   }, [pickLife]);
+
+  // ends game if pickLives is reduced to zero
+  useEffect(() => {
+    if (pickLives === 0) {
+      dispatchPick({ type: pickActions.SET_GAME_OVER });
+    }
+  }, [pickLives]);
 
   let lockpad = unlock ? <p>Unlocked!</p> : (
     <S.InnerContainer
@@ -144,7 +152,7 @@ const LockPad = () => {
 
   return (
     <>
-      <HUD life={pickLife} />
+      <HUD life={pickLife} picks={pickLives} />
       <S.Container>
         {lockpad}
       </S.Container>

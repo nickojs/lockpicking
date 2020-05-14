@@ -8,6 +8,7 @@ const actions = {
 
 export const initState = {
   pickLife: 100,
+  pickLives: 3,
   unlock: false,
   gameOver: false,
   pickIsBroken: false
@@ -20,7 +21,8 @@ const reducePickLife = (state, action) => ({
 
 const setBrokePick = (state, action) => ({
   ...state,
-  pickIsBroken: action.status
+  pickLives: state.pickLives - 1,
+  pickLife: 100
 });
 
 const setUnlock = (state, action) => ({
@@ -30,7 +32,7 @@ const setUnlock = (state, action) => ({
 
 const setGameOver = (state, action) => ({
   ...state,
-  gameOver: action.gameOver
+  gameOver: true
 });
 
 const clearGame = (state, action) => ({
