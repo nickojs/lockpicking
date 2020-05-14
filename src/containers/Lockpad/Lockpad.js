@@ -37,16 +37,17 @@ const LockPad = () => {
     mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
   );
 
+  const setKeyDown = ({ nativeEvent }) => {
+    if (keyDown) return;
+    dispatchInput({ type: inputActions.KEY_DOWN, key: nativeEvent.keyCode });
+    dispatchInput({ type: inputActions.KEY_PRESS_START });
+  };
+
   const setKeyUp = () => {
     dispatchInput({ type: inputActions.KEY_UP });
     dispatchInput({ type: inputActions.KEY_PRESS_END });
   };
 
-  const setKeyDown = () => {
-    if (keyDown) return;
-    dispatchInput({ type: inputActions.KEY_DOWN });
-    dispatchInput({ type: inputActions.KEY_PRESS_START });
-  };
 
   // defines if the pick is on the hotzone
   useEffect(() => {

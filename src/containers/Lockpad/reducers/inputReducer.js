@@ -12,20 +12,63 @@ const actions = {
 export const initState = {
   mouseDown: false,
   keyDown: false,
+  keyIdentifier: null,
   keyPressMoment: null,
   event: null
 };
 
+const inputEvent = (state, action) => ({
+  ...state,
+  event: action.event
+});
+
+const mouseDown = (state, action) => ({
+  ...state,
+  mouseDown: true
+});
+
+const mouseUp = (state, action) => ({
+  ...state,
+  mouseDown: false
+});
+
+const keyDown = (state, action) => ({
+  ...state,
+  keyDown: true,
+  keyIdentifier: action.key
+});
+
+const keyUp = (state, action) => ({
+  ...state,
+  keyDown: false,
+  keyIdentifier: null
+});
+
+const keyPressStart = (state, action) => ({
+  ...state,
+  keyPressMoment: Date.now()
+});
+
+const keyPressInc = (state, action) => ({
+  ...state,
+  keyPressMoment: action.inc
+});
+
+const keyPressEnd = (state, action) => ({
+  ...state,
+  keyPressMoment: null
+});
+
 export const inputReducer = (state, action) => {
   switch (action.type) {
-    case actions.INPUT_EVENT: return { ...state, event: action.event };
-    case actions.MOUSE_DOWN: return { ...state, mouseDown: true };
-    case actions.MOUSE_UP: return { ...state, mouseDown: false };
-    case actions.KEY_DOWN: return { ...state, keyDown: true };
-    case actions.KEY_UP: return { ...state, keyDown: false };
-    case actions.KEY_PRESS_START: return { ...state, keyPressMoment: Date.now() };
-    case actions.KEY_PRESS_INC: return { ...state, keyPressMoment: action.inc };
-    case actions.KEY_PRESS_END: return { ...state, keyPressMoment: null };
+    case actions.INPUT_EVENT: return inputEvent(state, action);
+    case actions.MOUSE_DOWN: return mouseDown(state, action);
+    case actions.MOUSE_UP: return mouseUp(state, action);
+    case actions.KEY_DOWN: return keyDown(state, action);
+    case actions.KEY_UP: return keyUp(state, action);
+    case actions.KEY_PRESS_START: return keyPressStart(state, action);
+    case actions.KEY_PRESS_INC: return keyPressInc(state, action);
+    case actions.KEY_PRESS_END: return keyPressEnd(state, action);
     default: throw new Error('[inputReducer]: provided action.type is unknown');
   }
 };
