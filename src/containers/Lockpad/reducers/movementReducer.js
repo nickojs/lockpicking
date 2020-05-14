@@ -1,9 +1,11 @@
 const actions = {
+  SET_ROTATION: 'SET_ROTATION',
   SET_HOTZONE: 'SET_HOTZONE',
   CLEAR_HOTZONE: 'CLEAR_HOTZONE',
-  SET_ROTATION: 'SET_ROTATION',
   SET_TURNING: 'SET_TURNING',
-  SET_UNLOCKABLE: 'SET_UNLOCKABLE'
+  CLEAR_TURNING: 'CLEAR_TURNING',
+  SET_UNLOCKABLE: 'SET_UNLOCKABLE',
+  CLEAR_UNLOCKABLE: 'CLEAR_UNLOCKABLE'
 };
 
 export const initState = {
@@ -30,12 +32,22 @@ const setRotation = (state, action) => ({
 
 const setTurning = (state, action) => ({
   ...state,
-  turning: action.status
+  turning: true
+});
+
+const clearTurning = (state, action) => ({
+  ...state,
+  turning: false
 });
 
 const setUnlockable = (state, action) => ({
   ...state,
-  isUnlockable: action.status
+  isUnlockable: true
+});
+
+const clearUnlockable = (state, action) => ({
+  ...state,
+  isUnlockable: false
 });
 
 export const moveReducer = (state, action) => {
@@ -44,8 +56,10 @@ export const moveReducer = (state, action) => {
     case actions.CLEAR_HOTZONE: return clearHotzone(state, action);
     case actions.SET_ROTATION: return setRotation(state, action);
     case actions.SET_TURNING: return setTurning(state, action);
+    case actions.CLEAR_TURNING: return clearTurning(state, action);
     case actions.SET_UNLOCKABLE: return setUnlockable(state, action);
-    default: throw new Error('[lockpadReducer]: provided action.type is unknown');
+    case actions.CLEAR_UNLOCKABLE: return clearUnlockable(state, action);
+    default: throw new Error('[moveReducer]: provided action.type is unknown');
   }
 };
 

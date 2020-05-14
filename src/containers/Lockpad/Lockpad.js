@@ -44,8 +44,8 @@ const LockPad = () => {
 
   const setKeyDown = () => {
     if (keyDown) return;
-    dispatchInput({ type: inputActions.KEY_PRESS_START });
     dispatchInput({ type: inputActions.KEY_DOWN });
+    dispatchInput({ type: inputActions.KEY_PRESS_START });
   };
 
   // defines if the pick is on the hotzone
@@ -65,22 +65,22 @@ const LockPad = () => {
 
     if (distanceFromUnlock === null) return;
     /*
-      'unlockable' seems redundant, but it exists because the other effect need
-      to know this in order to trigger the timed 'unlock' functionality.
+      'unlockable' seems redundant, but it exists because the other effect needs
+      to know this, in order to trigger the timed 'unlock' functionality.
       another way is to pass 'distanceFromUnlock' on the next effect
       as a dependency, but it triggers multiple useless re-renders
     */
     if (distanceFromUnlock === 0) {
+      dispatchMove({ type: moveActions.SET_UNLOCKABLE });
       dispatchMove({ type: moveActions.SET_ROTATION, rotation: degs });
-      dispatchMove({ type: moveActions.SET_UNLOCKABLE, status: true });
     }
     if (distanceFromUnlock !== 0) {
+      dispatchMove({ type: moveActions.CLEAR_UNLOCKABLE });
       dispatchMove({ type: moveActions.SET_ROTATION, rotation: degs });
-      dispatchMove({ type: moveActions.SET_UNLOCKABLE, status: false });
     }
   }, [distanceFromUnlock]);
 
-  // increments the 'keyPressMoment', to define how long the key is pressed
+  // acts like a global timeout, counting for how long the key is being pressed
   useEffect(() => {
     const timer = setTimeout(() => {
       if (keyPressMoment) {
@@ -92,24 +92,30 @@ const LockPad = () => {
 
   // turns the lock based on keyPress (keyDown)
   useEffect(() => {
-    if (!keyDown) return dispatchMove({ type: moveActions.SET_TURNING, status: false });
-    dispatchMove({ type: moveActions.SET_TURNING, status: true });
+    if (!keyDown) {
+      return dispatchMove({ type: moveActions.CLEAR_TURNING });
+    }
+    dispatchMove({ type: moveActions.SET_TURNING });
   }, [keyDown]);
 
   // defines wherever the pick is broken or not
   useEffect(() => {
+    // if the key is not being pressed, exits this effect
     if (!keyPressMoment) return;
     /*
-      this is kind of a global setTimeout, where the timeout is defined by the
-      difference of current date and how long the *key* is being pressed
+      in here I apply the 'global timeout' of keyPressMoment effect and
+      compare with a 'current' Date.now() to get how long the key is pressed
     */
     const diffTime = Math.abs(Date.now() - keyPressMoment);
-    // only enters the timeout if key is being pressed for > .5s
+    // only enters if key is being pressed for > .20s
     if (diffTime > 20) {
-      if (isUnlockable) return dispatchPick({ type: pickActions.SET_UNLOCK, unlock: true });
-      // toggles unlock, reduce pickLife and clears the UI state
-      dispatchMove({ type: moveActions.CLEAR_HOTZONE });
-      dispatchPick({ type: pickActions.SET_UNLOCK, unlock: false });
+      /*
+        this is why 'isUnlockable' is necessary, and have better performance
+        if compared with 'distanceFromUnlock', which triggers everytime
+      */
+      if (isUnlockable) return dispatchPick({ type: pickActions.SET_UNLOCK });
+      // toggles unlock and reduce pickLife - while the key is pressed!
+      dispatchPick({ type: pickActions.CLEAR_UNLOCK });
       dispatchPick({ type: pickActions.REDUCE_PICK_LIFE });
     }
   }, [keyPressMoment, isUnlockable]);
@@ -117,7 +123,7 @@ const LockPad = () => {
   // remove a pick if pickLife reduces to zero
   useEffect(() => {
     if (pickLife === 0) {
-      dispatchPick({ type: pickActions.SET_BROKE_PICK });
+      dispatchPick({ type: pickActions.REDUCE_PICKLIVES });
     }
   }, [pickLife]);
 
