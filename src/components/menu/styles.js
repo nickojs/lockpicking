@@ -76,24 +76,25 @@ export const RowWrapper = styled.div`
   height: 80px;
 `;
 
-const activeMenu = css`
+const activeArrow = css`
   background: black;
+  fill: white;
 `;
 
 // rotates arrows that needs rotation
 export const ArrowUp = styled(StyledSmallArrow)`
   transform: rotate(0deg);
-  ${(props) => (props.active ? activeMenu : null)}
+  ${(props) => (props.active && activeArrow)}
 `;
 export const ArrowDown = styled(StyledSmallArrow)`
   transform: rotate(180deg);
-  ${(props) => (props.active ? activeMenu : null)}
+  ${(props) => (props.active && activeArrow)}
 `;
 export const ArrowRight = styled(StyledLargeArrow)`
   transform: rotate(0deg);
-  ${(props) => (props.active ? activeMenu : null)}
+  ${(props) => (props.active && activeArrow)}
 `;
 export const ArrowLeft = styled(StyledLargeArrow)`
   transform: rotate(180deg);
-  ${(props) => (props.active ? activeMenu : null)}
+  ${(props) => (props.active && activeArrow)}
 `;
