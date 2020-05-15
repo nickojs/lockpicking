@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import * as S from './styles';
 
 const Menu = ({ keyPressed, toggle }) => {
-  const wasdState = {
-    87: 'w', 65: 'a', 68: 'd', 83: 's'
-  };
-  const key = keyPressed && wasdState[keyPressed];
+  const { key } = keyPressed !== null && keyPressed;
 
   const menuContainer = toggle && (
     <S.MenuContainer>

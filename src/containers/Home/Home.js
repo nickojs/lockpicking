@@ -1,21 +1,50 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import Menu from '../../components/menu/menu';
 import * as S from './styles';
 
 const Home = (props) => {
   const [keyIdentifier, setKeyIdentifier] = useState(null);
+  const [triggerRoute, setTriggerRoute] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
+  const keyFilter = {
+    87: {
+      key: 'w',
+      path: '/game'
+    },
+    65: {
+      key: 'a',
+      path: '/'
+    },
+    68: {
+      key: 'd',
+      path: '/'
+    },
+    83: {
+      key: 's',
+      path: '/game'
+    }
+  };
 
+  // this needs refactoring
   const keyDownHandler = ({ nativeEvent }) => {
     const { keyCode } = nativeEvent;
-    setKeyIdentifier(keyCode);
-    if (keyCode === 32 && keyIdentifier === 32) {
-      setKeyIdentifier(null);
-      setMenuToggle(false);
-      return;
-    }
-    if (keyCode === 32) {
-      return setMenuToggle(true);
+    const input = keyFilter[keyCode];
+
+    // special case, toggle menu with any key besides WASD (input)
+    if (keyCode && !input) setMenuToggle(!menuToggle);
+
+    // exit function if no WASD detected
+    if (!input) return;
+
+    // saves WASD current key
+    if (input) setKeyIdentifier(input);
+
+    // compares keyIdentifier w/ current input to check for repetitive input
+    if (keyIdentifier && input.key === keyIdentifier.key) {
+      setTriggerRoute(!triggerRoute);
+    } else {
+      setTriggerRoute(false);
     }
   };
 
@@ -26,8 +55,13 @@ const Home = (props) => {
         <S.Text>lockpick simulator</S.Text>
         <hr />
         <S.TextSmall>Press any key to start</S.TextSmall>
-        <Menu keyPressed={keyIdentifier} toggle={menuToggle} />
+        <Menu
+          toggle={menuToggle}
+          keyPressed={keyIdentifier}
+        />
       </S.InnerContainer>
+      {triggerRoute
+        && <Redirect to={keyIdentifier.path} />}
     </S.Container>
   );
 };
