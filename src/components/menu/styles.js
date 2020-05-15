@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { ReactComponent as SmallArrow } from '../../assets/menu/smallArrow.svg';
 import { ReactComponent as LargeArrow } from '../../assets/menu/largeArrow.svg';
 
@@ -76,9 +76,29 @@ export const RowWrapper = styled.div`
   height: 80px;
 `;
 
+const animArrow = keyframes`
+  from{
+    filter: none;
+  }33%{
+    filter: drop-shadow(1px 1px 5px white);
+  }to{
+    filter: none;
+  }
+`;
+
 const activeArrow = css`
-  background: black;
-  fill: white;
+  filter: none;
+  transition: .3s;
+  animation: ${animArrow} 1s infinite ease-out;
+  
+  path:nth-of-type(1){
+    fill: grey;
+  }
+  
+  path:nth-of-type(2){
+    transition: fill .3s;
+    fill: #FAFAFA;
+  }
 `;
 
 // rotates arrows that needs rotation
