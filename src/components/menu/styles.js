@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { ReactComponent as SmallArrow } from '../../assets/menu/smallArrow.svg';
 import { ReactComponent as LargeArrow } from '../../assets/menu/largeArrow.svg';
 
@@ -76,16 +76,24 @@ export const RowWrapper = styled.div`
   height: 80px;
 `;
 
+const activeMenu = css`
+  background: black;
+`;
+
 // rotates arrows that needs rotation
 export const ArrowUp = styled(StyledSmallArrow)`
   transform: rotate(0deg);
+  ${(props) => (props.active ? activeMenu : null)}
 `;
 export const ArrowDown = styled(StyledSmallArrow)`
   transform: rotate(180deg);
+  ${(props) => (props.active ? activeMenu : null)}
 `;
 export const ArrowRight = styled(StyledLargeArrow)`
   transform: rotate(0deg);
+  ${(props) => (props.active ? activeMenu : null)}
 `;
 export const ArrowLeft = styled(StyledLargeArrow)`
   transform: rotate(180deg);
+  ${(props) => (props.active ? activeMenu : null)}
 `;

@@ -1,39 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './styles';
 
-const menu = (props) => (
-  <S.MenuContainer>
-    <S.MenuLayer>
+const Menu = ({ keyPressed }) => {
+  const wasdState = {
+    87: 'w', 65: 'a', 68: 'd', 83: 's'
+  };
+  const key = wasdState[keyPressed];
 
-      <S.MenuTop>
-        <p>Play</p>
-        <S.ColumnWrapper>
-          <S.ArrowUp />
-        </S.ColumnWrapper>
-      </S.MenuTop>
+  console.log('key? ', key);
 
-      <S.MenuLeft>
-        <p>Stats</p>
-        <S.RowWrapper>
-          <S.ArrowLeft />
-        </S.RowWrapper>
-      </S.MenuLeft>
+  return (
+    <S.MenuContainer>
+      <S.MenuLayer key={key}>
 
-      <S.MenuRight>
-        <S.RowWrapper>
-          <S.ArrowRight />
-        </S.RowWrapper>
-        <p>Login</p>
-      </S.MenuRight>
+        <S.MenuTop>
+          <p>Play</p>
+          <S.ColumnWrapper>
+            <S.ArrowUp active={key === 'w'} />
+          </S.ColumnWrapper>
+        </S.MenuTop>
 
-      <S.MenuBottom>
-        <S.ColumnWrapper>
-          <S.ArrowDown />
-        </S.ColumnWrapper>
-        <p>About</p>
-      </S.MenuBottom>
-    </S.MenuLayer>
-  </S.MenuContainer>
-);
+        <S.MenuLeft>
+          <p>Stats</p>
+          <S.RowWrapper>
+            <S.ArrowLeft active={key === 'a'} />
+          </S.RowWrapper>
+        </S.MenuLeft>
 
-export default menu;
+        <S.MenuRight>
+          <S.RowWrapper>
+            <S.ArrowRight active={key === 'd'} />
+          </S.RowWrapper>
+          <p>Login</p>
+        </S.MenuRight>
+
+        <S.MenuBottom>
+          <S.ColumnWrapper>
+            <S.ArrowDown active={key === 's'} />
+          </S.ColumnWrapper>
+          <p>About</p>
+        </S.MenuBottom>
+      </S.MenuLayer>
+    </S.MenuContainer>
+  );
+};
+
+export default Menu;
