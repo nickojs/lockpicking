@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ReactComponent as SmallArrow } from '../../assets/menu/smallArrow.svg';
 
 export const MenuContainer = styled.div`
   position: absolute;
@@ -6,48 +7,64 @@ export const MenuContainer = styled.div`
   transform: translate(-50%, -50%);
   height: 100vh;
   width: 100vw;
-  transition: 1s filter blur;
   background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(0.8);
 `;
 
 export const MenuLayer = styled.div`
-  transition: 1s filter blur;  position: absolute;
+  position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  display: grid;
-  grid-template-areas: ". . menu-top . ." "menu-left menu-left center menu-right menu-right" ". . menu-bottom . .";
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: 1px 1px;
-  height: 80vh;
-  width: 80vw;
+  width: 80%;
+  height: 600px;
+  width: 600px;
+  max-height: 600px;
+  max-width: 600px;
 `;
 
-const ColumnMenu = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background: grey;
+export const MenuTop = styled.div`
+  position: absolute;
+  left: calc(50% - 4px); top: 18%;
+  transform: translate(-50%, -18%);`;
+
+export const MenuBottom = styled.div`
+  position: absolute;
+  left: 50%; bottom: 18%;
+  transform: translate(-50%, -18%);`;
+
+export const MenuRight = styled.div`
+  position: absolute;
+  right: 0; top: 50%;
+  transform: translate(0%, -50%);`;
+
+export const MenuLeft = styled.div`
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translate(0%, -50%);`;
+
+const StyledSmallArrow = styled(SmallArrow)`
+  max-width:100%;
+  max-height:100%;
 `;
 
-const RowMenu = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  background: grey;
+export const ColumnWrapper = styled.div`
+  width: 80px;
+  height: 160px;
 `;
 
-export const MenuTop = styled(ColumnMenu)`grid-area: menu-top;`;
-export const MenuRight = styled(RowMenu)` grid-area: menu-right; `;
-
-export const MenuLeft = styled(RowMenu)` 
-  grid-area: menu-left; 
-  justify-content: flex-start;
+export const RowWrapper = styled.div`
+  width: 160px;
+  height: 80px;
 `;
-export const MenuBottom = styled(ColumnMenu)` 
-grid-area: menu-bottom; 
-justify-content: flex-end;
+
+export const ArrowUp = styled(StyledSmallArrow)`
+  transform: rotate(0deg);
+`;
+export const ArrowDown = styled(StyledSmallArrow)`
+  transform: rotate(180deg);
+`;
+export const ArrowLeft = styled(StyledSmallArrow)`
+  transform: rotate(-90deg);
+`;
+export const ArrowRight = styled(StyledSmallArrow)`
+  transform: rotate(90deg);
 `;
