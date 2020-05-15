@@ -1,8 +1,8 @@
 import styled, { keyframes } from 'styled-components';
-import lockhole from '../../assets/lockhole.png';
-import lockpadBackground from '../../assets/lockpad_background.png';
-import pick from '../../assets/pick_with_space.png';
-import brokenPick from '../../assets/broken_pick.png';
+import lockhole from '../../assets/lockpad/lockhole.png';
+import lockpadBackground from '../../assets/lockpad/lockpad_background.png';
+import pick from '../../assets/lockpad/pick_with_space.png';
+import brokenPick from '../../assets/lockpad/broken_pick.png';
 
 export const LockpadContainer = styled.div.attrs((props) => (props.isTurning ? ({
   style: {

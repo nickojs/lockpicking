@@ -1,5 +1,5 @@
 import React from 'react';
-import unlockedChest from '../../../assets/unlocked_chest.png';
+import unlockedChest from '../../../assets/image/unlocked_chest.png';
 import * as S from '../styles';
 
 const unlocked = (props) => (

@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import homeBackground from '../../assets/background.jpg';
+import homeBackground from '../../assets/image/background.jpg';
 
 export const Container = styled.div`
   height: 100vh;
   width: 100vw;
-  background: url(${homeBackground});
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

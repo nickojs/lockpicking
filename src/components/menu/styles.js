@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import smallArrow from '../../assets/small_arrow.svg';
-import largeArrow from '../../assets/large_arrow.svg';
 
 export const MenuContainer = styled.div`
   position: absolute;
