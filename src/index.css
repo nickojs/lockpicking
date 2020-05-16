@@ -50,6 +50,7 @@ table {
 html{
 	font-family: Cinzel;
   font-weight: 400;
-  font-size: 1.3em;
+	font-size: 1.3em;
+	line-height: 1.3em;
   letter-spacing: 4px;
 }
