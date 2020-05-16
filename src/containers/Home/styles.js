@@ -1,14 +1,22 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import homeBackground from '../../assets/image/background.jpg';
+
+const blur = css`
+  filter: blur(10px);
+`;
 
 export const Container = styled.div`
   height: 100vh;
   width: 100vw;
+
+  text-align: center;
+  transition: filter .5s ease-out;
+  ${(props) => (props.isMenuOpen ? blur : null)}
+  
   background-image: url(${homeBackground});
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  text-align: center;
 `;
 
 export const InnerContainer = styled.div`

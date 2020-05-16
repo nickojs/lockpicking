@@ -2,13 +2,32 @@ import styled, { css, keyframes } from 'styled-components';
 import { ReactComponent as SmallArrow } from '../../assets/menu/smallArrow.svg';
 import { ReactComponent as LargeArrow } from '../../assets/menu/largeArrow.svg';
 
+const fadeOut = keyframes`
+  from{
+    opacity: 0;
+  }to{
+    opacity: 1;
+  }
+`;
+
+const fadeIn = keyframes`
+  from{
+    opacity: 1;
+  }to{
+    opacity: 0;
+  }
+`;
+
 export const MenuContainer = styled.div`
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   height: 100vh;
   width: 100vw;
+  text-align: center;
+  color: white;
   background: rgba(0, 0, 0, 0.7);
+  animation: ${(props) => (props.toggle ? fadeIn : fadeOut)} .5s;
 `;
 
 export const MenuLayer = styled.div`

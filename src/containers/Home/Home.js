@@ -53,20 +53,22 @@ const Home = (props) => {
   };
 
   return (
-    <S.Container tabIndex="0" onKeyDown={keyDownHandler}>
-      <S.InnerContainer>
-        <S.Title>Skyrim</S.Title>
-        <S.Text>lockpick simulator</S.Text>
-        <hr />
-        <S.TextSmall>Press space to start</S.TextSmall>
-        <Menu
-          toggle={menuToggle}
-          keyPressed={keyIdentifier}
-        />
-      </S.InnerContainer>
-      {triggerRoute
-        && <Redirect to={keyIdentifier.path} />}
-    </S.Container>
+    <div>
+      <S.Container tabIndex="0" onKeyDown={keyDownHandler} isMenuOpen={menuToggle}>
+        <S.InnerContainer>
+          <S.Title>Skyrim</S.Title>
+          <S.Text>lockpick simulator</S.Text>
+          <hr />
+          <S.TextSmall>Press space to start</S.TextSmall>
+        </S.InnerContainer>
+        {triggerRoute
+          && <Redirect to={keyIdentifier.path} />}
+      </S.Container>
+      <Menu
+        toggle={menuToggle}
+        keyPressed={keyIdentifier}
+      />
+    </div>
   );
 };
 
