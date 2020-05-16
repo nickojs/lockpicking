@@ -22,6 +22,10 @@ export const MenuLayer = styled.div`
   max-width: 600px;
 `;
 
+export const HintText = styled.p`
+  margin: 12px;
+`;
+
 export const MenuTop = styled.div`
   position: absolute;
   left: calc(50% - 4px); top: 18%;

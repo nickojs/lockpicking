@@ -32,19 +32,23 @@ const Home = (props) => {
     const input = keyFilter[keyCode];
 
     // special case, toggle menu with any key besides WASD (input)
-    if (keyCode && !input) setMenuToggle(!menuToggle);
+    if (keyCode === 32 && !input) setMenuToggle(!menuToggle);
 
     // exit function if no WASD detected
     if (!input) return;
 
-    // saves WASD current key
-    if (input) setKeyIdentifier(input);
+    // keys will be saved only if menu is up
+    if (menuToggle) {
+      // saves WASD current key
+      if (input) setKeyIdentifier(input);
 
-    // compares keyIdentifier w/ current input to check for repetitive input
-    if (keyIdentifier && input.key === keyIdentifier.key) {
-      setTriggerRoute(!triggerRoute);
-    } else {
-      setTriggerRoute(false);
+      // compares keyIdentifier w/ current input to check for repetitive input
+      if (keyIdentifier
+          && input.key === keyIdentifier.key) {
+        setTriggerRoute(!triggerRoute);
+      } else {
+        setTriggerRoute(false);
+      }
     }
   };
 
@@ -54,7 +58,7 @@ const Home = (props) => {
         <S.Title>Skyrim</S.Title>
         <S.Text>lockpick simulator</S.Text>
         <hr />
-        <S.TextSmall>Press any key to start</S.TextSmall>
+        <S.TextSmall>Press space to start</S.TextSmall>
         <Menu
           toggle={menuToggle}
           keyPressed={keyIdentifier}

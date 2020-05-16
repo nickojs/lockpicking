@@ -6,6 +6,8 @@ const Menu = ({ keyPressed, toggle }) => {
 
   const menuContainer = toggle && (
     <S.MenuContainer>
+      <S.HintText>Use the wasd keys to control the menu</S.HintText>
+      <S.HintText>Select an option and press the same key again to enter</S.HintText>
       <S.MenuLayer>
 
         <S.MenuTop>
