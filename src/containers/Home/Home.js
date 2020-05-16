@@ -39,7 +39,8 @@ const Home = (props) => {
     if (keyCode === 32) setMenuToggle(!menuToggle);
 
     // exit function if no WASD detected
-    if (!input) return;
+    // now also checks for key 27 ('esc'), because it was freezing the menu
+    if (!input || keyCode === 27) return;
 
     // keys will be saved only if menu is up
     if (menuToggle) {
