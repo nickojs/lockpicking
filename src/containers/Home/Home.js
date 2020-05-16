@@ -10,7 +10,7 @@ const Home = (props) => {
   const keyFilter = {
     87: {
       key: 'w',
-      path: '/game'
+      path: '/game-options'
     },
     65: {
       key: 'a',
