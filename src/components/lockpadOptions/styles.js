@@ -49,10 +49,6 @@ export const DifficultyContainer = styled.div`
   margin: 12px;
 `;
 
-export const DifficultySelector = styled.input`
-
-`;
-
 export const Button = styled(Link)`
   color: white;
   text-decoration: none;
