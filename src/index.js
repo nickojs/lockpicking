@@ -7,7 +7,7 @@ import App from './App';
 
 WebFont.load({
   google: {
-    families: ['Cinzel:400,700', 'serif']
+    families: ['Cinzel:400,700', 'Cormorant Garamond:400', 'serif']
   }
 });
 
