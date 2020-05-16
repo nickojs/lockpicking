@@ -6,6 +6,8 @@ import LockpadOptions from '../components/lockpadOptions/lockpadOptions';
 import Lockpad from '../containers/Lockpad/Lockpad';
 import Outcome from '../containers/Outcome/Outcome';
 
+import withAnimation from '../hoc/withAnimation';
+
 const routesArray = [
   { path: '/', name: 'Home', Component: Home },
   { path: '/game-options', name: 'Options', Component: LockpadOptions },
@@ -17,7 +19,7 @@ const routes = (
   <Switch>
     {routesArray.map(
       ({ path, Component }) => (
-        <Route key={path} exact path={path} component={Component} />
+        <Route key={path} exact path={path} component={withAnimation(Component)} />
       )
     )}
   </Switch>
