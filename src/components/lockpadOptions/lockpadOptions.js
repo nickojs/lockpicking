@@ -3,10 +3,10 @@ import * as S from './styles';
 
 const lockpadOptions = (props) => (
   <S.OptionsContainer>
+    <S.MainTitle>
+      <h1>Lockpad Menu</h1>
+    </S.MainTitle>
     <S.OptionsMenu>
-      <S.MainTitle>
-        <h1>Lockpad Menu</h1>
-      </S.MainTitle>
       <S.SecondaryTitle>How to play</S.SecondaryTitle>
       <S.HowToList>
         <li>Click and hold the pick to move it</li>
