@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useReducer } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import inputActions, { inputReducer, initState as initInput } from './reducers/inputReducer';
 import moveActions, { moveReducer, initState as initMove } from './reducers/movementReducer';
@@ -135,34 +136,43 @@ const LockPad = () => {
     }
   }, [pickLives]);
 
-  let lockpad = unlock ? <p>Unlocked!</p> : (
-    <S.InnerContainer
-      tabIndex="0"
-      onMouseUp={() => dispatchInput({ type: inputActions.MOUSE_UP })}
-      onMouseDown={() => dispatchInput({ type: inputActions.MOUSE_DOWN })}
-      onKeyUp={setKeyUp}
-      onKeyDown={setKeyDown}
-      onMouseMove={setPickPosition}
-    >
-      <Lockpad
-        rotation={rotation}
-        turning={turning}
-        pickRef={pickRef}
-        pickPosition={pickPosition}
-      />
-    </S.InnerContainer>
-  );
+  // creates the redirect component
+  let endgameRedirect = null;
 
-  if (gameOver) {
-    lockpad = <p>Game over...</p>;
+  if (unlock || gameOver) {
+    endgameRedirect = (
+      <Redirect to={{
+        pathname: '/endgame',
+        state: {
+          gameOver,
+          unlock
+        }
+      }}
+      />
+    );
   }
 
   return (
     <>
       <HUD life={pickLife} picks={pickLives} />
       <S.Container>
-        {lockpad}
+        <S.InnerContainer
+          tabIndex="0"
+          onMouseUp={() => dispatchInput({ type: inputActions.MOUSE_UP })}
+          onMouseDown={() => dispatchInput({ type: inputActions.MOUSE_DOWN })}
+          onKeyUp={setKeyUp}
+          onKeyDown={setKeyDown}
+          onMouseMove={setPickPosition}
+        >
+          <Lockpad
+            rotation={rotation}
+            turning={turning}
+            pickRef={pickRef}
+            pickPosition={pickPosition}
+          />
+        </S.InnerContainer>
       </S.Container>
+      {endgameRedirect}
     </>
   );
 };

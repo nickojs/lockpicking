@@ -3,7 +3,7 @@ import * as S from './styles';
 import Unlocked from './unlocked/unlocked';
 import GameOver from './gameOver/gameOver';
 
-const Outcome = (props) => (
+const Outcome = ({ location }) => {
   /*
     will receive following props:
       - how many picks was used
@@ -12,13 +12,20 @@ const Outcome = (props) => (
     if 'unlocked', will render Unlocked component
     if 'gameOver', will render GameOver component
   */
-  <S.Container>
-    <GameOver />
-    <S.OptionsContainer>
-      <p>Return</p>
-      <p>Share</p>
-    </S.OptionsContainer>
-  </S.Container>
-);
+  const redirectState = location.state;
+  const gameOver = redirectState.gameOver ? <GameOver /> : null;
+  const unlocked = redirectState.unlock ? <Unlocked /> : null;
+
+  return (
+    <S.Container>
+      {unlocked}
+      {gameOver}
+      <S.OptionsContainer>
+        <p>Return</p>
+        <p>Share</p>
+      </S.OptionsContainer>
+    </S.Container>
+  );
+};
 
 export default Outcome;
