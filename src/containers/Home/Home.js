@@ -31,8 +31,12 @@ const Home = (props) => {
     const { keyCode } = nativeEvent;
     const input = keyFilter[keyCode];
 
-    // special case, toggle menu with any key besides WASD (input)
-    if (keyCode === 32 && !input) setMenuToggle(!menuToggle);
+    // always reset the input, avoid keeping the state if menu closes
+    // also resets the input if other keys are pressed inside the menu
+    setKeyIdentifier(null);
+
+    // special case, toggle menu with space key
+    if (keyCode === 32) setMenuToggle(!menuToggle);
 
     // exit function if no WASD detected
     if (!input) return;
@@ -41,7 +45,6 @@ const Home = (props) => {
     if (menuToggle) {
       // saves WASD current key
       if (input) setKeyIdentifier(input);
-
       // compares keyIdentifier w/ current input to check for repetitive input
       if (keyIdentifier
           && input.key === keyIdentifier.key) {
