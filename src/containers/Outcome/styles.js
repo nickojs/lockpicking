@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   position: absolute;
@@ -24,4 +25,13 @@ export const OptionsContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin-top: 25px;
+`;
+
+export const Button = styled(Link)`
+  color: black;
+  text-decoration: none;
+  text-align: center;
+
+  &:hover{ text-shadow: 1px 1px 10px grey; }
+  &:visited{ color: grey; }
 `;

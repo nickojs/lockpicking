@@ -1,7 +1,8 @@
 import React from 'react';
-import * as S from './styles';
+
 import Unlocked from './unlocked/unlocked';
 import GameOver from './gameOver/gameOver';
+import * as S from './styles';
 
 const Outcome = ({ location }) => {
   /*
@@ -21,7 +22,7 @@ const Outcome = ({ location }) => {
       {unlocked}
       {gameOver}
       <S.OptionsContainer>
-        <p>Return</p>
+        <S.Button to="/">Return</S.Button>
         <p>Share</p>
       </S.OptionsContainer>
     </S.Container>
