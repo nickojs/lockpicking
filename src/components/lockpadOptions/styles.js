@@ -9,20 +9,20 @@ export const OptionsContainer = styled.div`
 
 export const OptionsMenu = styled.div`
   width: 100%;
-  padding: 50px 12px;
+  padding: 30px 12px;
   color: white;
   background: rgba(0, 0, 0, 0.8);
 `;
 
 export const MainTitle = styled.div`
   position: absolute;
-  left: 50%; top: -10%;
-  transform: translate(-50%, -10%);
+  left:50%; top: -10%;
 
   padding: 12px;
   width: 250px;
   margin: 0 auto;
   margin-bottom: 20px;
+  margin-left: -125px;
 
   border: 2px solid white;
   border-radius: 20px;
@@ -53,7 +53,8 @@ export const Button = styled(Link)`
   color: white;
   text-decoration: none;
   text-align: center;
+  margin-top: 24px;
 
-  &:hover{ text-decoration: underline; }
+  &:hover{ text-shadow: 1px 1px 10px white; }
   &:visited{ color: white; }
 `;
