@@ -15,7 +15,7 @@ import distanceMeter from '../../helpers/distance-meter';
 const hotzone = genArray([0, 50]);
 const unlockZone = genArray([20, 40]);
 
-const LockPad = () => {
+const LockPad = ({ location }) => {
   const [inputState, dispatchInput] = useReducer(inputReducer, initInput);
   const {
     mouseDown, keyDown, event, keyPressMoment
@@ -49,6 +49,11 @@ const LockPad = () => {
     dispatchInput({ type: inputActions.KEY_PRESS_END });
   };
 
+
+  useEffect(() => {
+    // generate the hotzone/unlockzone dynamically on mount
+    // ...
+  }, []);
 
   // defines if the pick is on the hotzone
   useEffect(() => {
@@ -140,13 +145,23 @@ const LockPad = () => {
   let endgameRedirect = null;
 
   if (unlock || gameOver) {
+    const picks = initPick.pickLives === pickLives
+      ? initPick.pickLives
+      : initPick.pickLives - pickLives;
+
+    const totalTime = (Date.now() - location.state.startingTime) / 1000;
+
+    const endgameData = {
+      gameOver,
+      unlock,
+      picks,
+      totalTime
+    };
+
     endgameRedirect = (
       <Redirect to={{
         pathname: '/endgame',
-        state: {
-          gameOver,
-          unlock
-        }
+        state: endgameData
       }}
       />
     );
