@@ -4,26 +4,23 @@ import * as S from './styles';
 const ProgressBar = (props) => {
   const [difficulty, setDifficulty] = useState(0);
 
-  const changeDifficultyHandler = (event) => {
-    console.log(event.nativeEvent.target.value);
-    setDifficulty(event.nativeEvent.target.value);
+  const changeDifficultyHandler = ({ nativeEvent }) => {
+    setDifficulty(nativeEvent.target.value);
   };
 
-  const roundedDifficulty = Math.ceil(difficulty);
+  const roundedDifficulty = Math.floor(difficulty);
 
   return (
     <S.ProgressContainer>
-      <div>
-        <S.ProgressBar
-          type="range"
-          min="0"
-          max="10"
-          step="0.5"
-          onChange={changeDifficultyHandler}
-          value={difficulty}
-        />
-        <p>{roundedDifficulty}</p>
-      </div>
+      <S.DifficultyMeter>{roundedDifficulty}</S.DifficultyMeter>
+      <S.ProgressBar
+        type="range"
+        min="0"
+        max="10"
+        step="0.5"
+        onChange={changeDifficultyHandler}
+        value={difficulty}
+      />
     </S.ProgressContainer>
   );
 };

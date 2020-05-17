@@ -4,13 +4,20 @@ import progressBar from '../../../assets/menu/lockpadMenu/progress_bar.png';
 
 export const ProgressContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-flow: column wrap; 
   justify-content: space-around;
+  align-items: center;
+    * { margin: 6px; }
+`;
+
+export const DifficultyMeter = styled.p`
+  width: 1.3em;
+  text-align: center;
 `;
 
 export const ProgressBar = styled.input`
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-  width: 100%; /* Specific width is required for Firefox. */
+  width: 80%; /* Specific width is required for Firefox. */
   background: transparent; /* Otherwise white in Chrome */
 
   &::-webkit-slider-thumb { -webkit-appearance: none; }
@@ -31,7 +38,7 @@ export const ProgressBar = styled.input`
   &::-webkit-slider-runnable-track {
     width: 100%;
     height: 8.4px;
-    padding: 0 24px;
+    padding: 0 32px;
     cursor: pointer;
     background: url(${progressBar});
     background-size: 100%;
@@ -42,7 +49,7 @@ export const ProgressBar = styled.input`
   /* IE/EDGE CONFIG */
   &::-ms-track {
     width: 100%;
-    padding: 0 24px;
+    padding: 0 32px;
     cursor: pointer;
     background: url(${progressBar});
     background-size: 100%;
@@ -75,7 +82,7 @@ export const ProgressBar = styled.input`
   &::-moz-range-track {
     width: 100%;
     height: 30px;
-    padding: 0 24px;
+    padding: 0 32px;
     cursor: pointer;
     background: url(${progressBar});
     background-size: 100%;
