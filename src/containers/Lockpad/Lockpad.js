@@ -34,9 +34,12 @@ const LockPad = ({ location }) => {
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
 
-  const setPickPosition = ({ nativeEvent }) => (
-    mouseDown && dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent })
-  );
+  const setPickPosition = ({ nativeEvent }) => {
+    // needs to check the keyDown to prevent 'move and unlock' bug
+    if (mouseDown && !keyDown) {
+      return dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent });
+    }
+  };
 
   const setKeyDown = ({ nativeEvent }) => {
     if (keyDown) return;
@@ -110,20 +113,20 @@ const LockPad = ({ location }) => {
     // if the key is not being pressed, exits this effect
     if (!keyPressMoment) return;
     /*
-      in here I apply the 'global timeout' of keyPressMoment effect and
+      here I apply the 'global timeout' of keyPressMoment effect and
       compare with a 'current' Date.now() to get how long the key is pressed
     */
     const diffTime = Math.abs(Date.now() - keyPressMoment);
-    // only enters if key is being pressed for > .20s
+    // starts to "hurt" the pick || unlock at .2s of hold time
     if (diffTime > 20) {
+      // toggles unlock and reduce pickLife - while the key is pressed!
+      dispatchPick({ type: pickActions.CLEAR_UNLOCK });
+      dispatchPick({ type: pickActions.REDUCE_PICK_LIFE });
       /*
         this is why 'isUnlockable' is necessary, and have better performance
         if compared with 'distanceFromUnlock', which triggers everytime
       */
       if (isUnlockable) return dispatchPick({ type: pickActions.SET_UNLOCK });
-      // toggles unlock and reduce pickLife - while the key is pressed!
-      dispatchPick({ type: pickActions.CLEAR_UNLOCK });
-      dispatchPick({ type: pickActions.REDUCE_PICK_LIFE });
     }
   }, [keyPressMoment, isUnlockable]);
 
