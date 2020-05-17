@@ -6,17 +6,15 @@ export const OptionsContainer = styled.div`
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   color: white;
+  padding:20px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 12px;
 `;
 
 export const OptionsMenu = styled.div`
   width: 100%;
   padding: 30px 12px;
   box-sizing: border-box;
-  padding-top: 50px;
-
-  clip-path: polygon(10% 0, 90% 0, 100% 20%, 100% 100%, 0 100%, 0 20%);
-    border: 2px solid grey;
-  background: rgba(0, 0, 0, .8);
 `;
 
 export const MainTitle = styled.div`

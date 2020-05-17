@@ -1,11 +1,8 @@
 import React from 'react';
 import * as S from './styles';
 
-const lockpadOptions = (props) => (
+const LockpadMenu = () => (
   <S.OptionsContainer>
-    <S.MainTitle>
-      <h1>Lockpad Menu</h1>
-    </S.MainTitle>
     <S.OptionsMenu>
       <S.SecondaryTitle>How to play</S.SecondaryTitle>
       <S.HowToList>
@@ -24,4 +21,4 @@ const lockpadOptions = (props) => (
   </S.OptionsContainer>
 );
 
-export default lockpadOptions;
+export default LockpadMenu;
