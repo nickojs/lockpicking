@@ -11,6 +11,11 @@ const LockpadMenu = () => {
 
   const roundedDifficulty = Math.floor(difficulty);
 
+  const gameState = {
+    difficulty,
+    startingTime: Date.now()
+  };
+
   return (
     <S.Container>
       <S.OptionsContainer>
@@ -30,10 +35,7 @@ const LockpadMenu = () => {
             />
             <S.Button to={{
               pathname: '/game',
-              state: {
-                difficulty,
-                startingTime: Date.now()
-              }
+              state: gameState
             }}
             >Play
             </S.Button>
