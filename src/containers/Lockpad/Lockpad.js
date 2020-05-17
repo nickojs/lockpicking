@@ -149,7 +149,7 @@ const LockPad = ({ location }) => {
 
   if (unlock || gameOver) {
     const picks = initPick.pickLives === pickLives
-      ? initPick.pickLives
+      ? 0
       : initPick.pickLives - pickLives;
 
     const totalTime = (Date.now() - location.state.startingTime) / 1000;
@@ -157,8 +157,10 @@ const LockPad = ({ location }) => {
     const endgameData = {
       gameOver,
       unlock,
-      picks,
-      totalTime
+      stats: {
+        picks,
+        totalTime
+      }
     };
 
     endgameRedirect = (

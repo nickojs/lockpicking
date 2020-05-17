@@ -13,14 +13,14 @@ const Outcome = ({ location }) => {
     if 'unlocked', will render Unlocked component
     if 'gameOver', will render GameOver component
   */
-  const redirectState = location.state;
-  const gameOver = redirectState.gameOver ? <GameOver /> : null;
-  const unlocked = redirectState.unlock ? <Unlocked /> : null;
+  const { gameOver, unlock, stats } = location.state;
+  const gameover = gameOver ? <GameOver /> : null;
+  const unlocked = unlock ? <Unlocked stats={stats} /> : null;
 
   return (
     <S.Container>
       {unlocked}
-      {gameOver}
+      {gameover}
       <S.OptionsContainer>
         <S.Button to="/">Return</S.Button>
         <p>Share</p>
