@@ -1,5 +1,6 @@
 import React from 'react';
 import * as S from './styles';
+import ProgressBar from './progressBar/progressBar';
 
 const LockpadMenu = () => (
   <S.OptionsContainer>
@@ -13,7 +14,7 @@ const LockpadMenu = () => (
 
       <S.SecondaryTitle>Set difficulty</S.SecondaryTitle>
       <S.DifficultyContainer>
-        <input type="range" min="0" max="10" />
+        <ProgressBar />
         <S.Button to="/game">Play</S.Button>
       </S.DifficultyContainer>
 
