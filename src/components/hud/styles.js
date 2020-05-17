@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import bar from '../../assets/bar.png';
+import bar from '../../assets/lockpad/bar.png';
 
 export const HUDLayout = styled.div`
   position: relative;
