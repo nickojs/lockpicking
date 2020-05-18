@@ -19,6 +19,7 @@ export const ProgressBar = styled.input`
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   width: 80%; /* Specific width is required for Firefox. */
   background: transparent; /* Otherwise white in Chrome */
+  cursor: url('http://www.rw-designer.com/cursor-extern.php?id=30686') 4 12, pointer;  
 
   &::-webkit-slider-thumb { -webkit-appearance: none; }
 
@@ -29,7 +30,6 @@ export const ProgressBar = styled.input`
     height: 28px;
     width: 8px;
     border-radius: 4px;
-    cursor: pointer;
     background: url(${slider});
     background-size: 100%;
     background-position: center;
@@ -39,7 +39,6 @@ export const ProgressBar = styled.input`
     width: 100%;
     height: 8.4px;
     padding: 0 32px;
-    cursor: pointer;
     background: url(${progressBar});
     background-size: 100%;
     background-position: center;
@@ -50,7 +49,6 @@ export const ProgressBar = styled.input`
   &::-ms-track {
     width: 100%;
     padding: 0 32px;
-    cursor: pointer;
     background: url(${progressBar});
     background-size: 100%;
     background-position: center;
@@ -60,7 +58,6 @@ export const ProgressBar = styled.input`
     height: 28px;
     width: 8px;
     border-radius: 4px;
-    cursor: pointer;
     background: url(${slider});
     background-size: 100%;
     background-position: center;
@@ -72,7 +69,6 @@ export const ProgressBar = styled.input`
     height: 46px;
     width: 28px;
     border-radius: 4px;
-    cursor: pointer;
     border: 1px solid transparent;
     background: url(${slider});
     background-size: 100%;
@@ -83,7 +79,6 @@ export const ProgressBar = styled.input`
     width: 100%;
     height: 30px;
     padding: 0 32px;
-    cursor: pointer;
     background: url(${progressBar});
     background-size: 100%;
     background-position: center;

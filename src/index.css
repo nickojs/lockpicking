@@ -54,3 +54,8 @@ html{
 	line-height: 1.3em;
   letter-spacing: 4px;
 }
+
+/* http://www.rw-designer.com/cursor-detail/30682 */
+html, body {
+	cursor: url(http://www.rw-designer.com/cursor-extern.php?id=30682), default;
+}
