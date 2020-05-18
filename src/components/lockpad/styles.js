@@ -1,8 +1,7 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import lockhole from '../../assets/lockpad/lockhole.png';
 import lockpadBackground from '../../assets/lockpad/lockpad_background.png';
 import pick from '../../assets/lockpad/pick_with_space.png';
-import brokenPick from '../../assets/lockpad/broken_pick.png';
 
 export const LockpadContainer = styled.div.attrs((props) => (props.isTurning ? ({
   style: {
@@ -25,14 +24,16 @@ export const LockpadBackground = styled.div`
 
   background: url(${lockpadBackground});
   background-position: center;
-  background-size: 100%;
+  background-size: 80%;
   background-repeat: no-repeat;
 `;
 
 export const Lockpad = styled.img.attrs({
   src: lockhole,
   alt: 'an ugly but functional lockpad'
-})``;
+})`
+  width: 90px;
+`;
 
 export const Pick = styled.img.attrs((props) => ({
   src: pick,
@@ -44,27 +45,8 @@ export const Pick = styled.img.attrs((props) => ({
   cursor: none;
   pointer-events: none;
   position: absolute;
-  top: -75%; left: 50%;
+  top: -73%; left: 50%;
   transform-origin: 0 100%;
   transform: rotate(0deg) translate(-50%, 0%);
   z-index: 10; 
-`;
-
-const fadeIn = keyframes`
-  from{
-    opacity: 0
-
-  }to{
-    opacity: 1
-  }
-`;
-
-export const BrokePick = styled.img.attrs((props) => ({ src: brokenPick, alt: 'a broken picklock' }))`
-  cursor: none;
-  pointer-events: none;
-  position: absolute;
-  top: -75%; left: 50%;
-  transform: translate(-50%, 0%);
-  z-index: 10; 
-  animation: ${fadeIn} .4s;
 `;
