@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import bg from '../../assets/texture.png';
 
 export const Container = styled.div`
   display: flex;
@@ -7,6 +8,8 @@ export const Container = styled.div`
   height: 100vh;
   width: 100vw;
   user-select: none;
+
+  background: url(${bg});
 `;
 
 export const InnerContainer = styled.div`
