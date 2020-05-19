@@ -25,7 +25,6 @@ export const LockpadContainer = styled.div.attrs((props) => (props.isTurning ? (
   top: 23%; left: 39%;
   transform: rotate(0deg);
 
-  z-index: -1;
   height: 250px;
   width: 250px;
 
