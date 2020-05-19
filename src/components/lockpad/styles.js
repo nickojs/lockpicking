@@ -10,6 +10,9 @@ export const LockBackground = styled.div`
   height: 474px;
   width: 569px;
 
+  cursor: none;
+  pointer-events: none;
+
   background: url(${lockBackground});
   background-size: 100%;
   background-position: center;
@@ -22,11 +25,13 @@ export const LockpadContainer = styled.div.attrs((props) => (props.isTurning ? (
   }
 }) : null))`
   position: absolute;
-  top: 20%;
-  left: 35%;
+  top: 23%; left: 39%;
   transform: rotate(0deg);
-  width: 300px;
-  height: 300px;
+
+  z-index: -1;
+  height: 250px;
+  width: 250px;
+
   transition: .5s;
 `;
 
@@ -46,7 +51,7 @@ export const LockpadBackground = styled.div`
 export const Lockpad = styled.img.attrs({
   src: lockhole,
   alt: 'an ugly but functional lockpad'
-})` width: 90px; `;
+})` width: 70px; `;
 
 export const Pick = styled.img.attrs((props) => ({
   src: pick,
@@ -55,11 +60,11 @@ export const Pick = styled.img.attrs((props) => ({
     transform: `rotate(${props.position}deg) translate(-50%, 0%)`
   }
 }))`
-  cursor: none;
-  pointer-events: none;
   position: absolute;
-  top: calc(36% - 448px); left: 50%;
-  transform-origin: 0 100%;
+  top: calc(76% - 448px); left: 50%;
   transform: rotate(0deg) translate(-50%, 0%);
-  z-index: 10; 
+  
+  transform-origin: 0 100%;
+  z-index: 100; 
+  height: 350px;
 `;
