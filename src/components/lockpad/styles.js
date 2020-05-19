@@ -2,9 +2,6 @@ import styled from 'styled-components';
 import lockpadBackground from '../../assets/lockpad/lockpad_background.png';
 import lockBackground from '../../assets/lockpad/lockbackground.png';
 
-import lockhole from '../../assets/lockpad/lockhole.png';
-import pick from '../../assets/lockpad/pick_with_space.png';
-
 export const LockBackground = styled.div`
   position: relative;
   height: 474px;
@@ -48,14 +45,11 @@ export const LockpadBackground = styled.div`
   background-repeat: no-repeat;
 `;
 
-export const Lockpad = styled.img.attrs({
-  src: lockhole,
-  alt: 'an ugly but functional lockpad'
-})` width: 70px; `;
+export const Lockpad = styled.img`
+  width: 70px; 
+`;
 
 export const Pick = styled.img.attrs((props) => ({
-  src: pick,
-  alt: 'a picklock that looks like a twig',
   style: {
     transform: `rotate(${props.position}deg) translate(-50%, 0%)`
   }
