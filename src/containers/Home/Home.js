@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import Menu from '../../components/menu/menu';
 import * as S from './styles';
 
-const Home = (props) => {
+const Home = () => {
   const [keyIdentifier, setKeyIdentifier] = useState(null);
   const [triggerRoute, setTriggerRoute] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
@@ -22,7 +22,7 @@ const Home = (props) => {
     },
     83: {
       key: 's',
-      path: '/game'
+      path: '/about'
     }
   };
 
