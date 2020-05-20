@@ -11,7 +11,9 @@ export const OptionsContainer = styled.div`
 
   color: white;
   background: rgba(0, 0, 0, 0.9);
-
+  
+  user-select: none;
+  
   border-image-source: url(${border});
   border-image-slice: 80 75 70 75;
   border-image-width: 40px;
