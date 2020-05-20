@@ -4,14 +4,16 @@ const actions = {
   SET_UNLOCK: 'SET_UNLOCK',
   CLEAR_UNLOCK: 'CLEAR_UNLOCK',
   SET_GAME_OVER: 'SET_GAME_OVER',
-  CLEAR_GAME: 'CLEAR_GAME'
+  CLEAR_GAME: 'CLEAR_GAME',
+  TOGGLE_NOTIFICATION: 'TOGGLE_NOTIFICATION'
 };
 
 export const initState = {
   pickLife: 100,
   pickLives: 3,
   unlock: false,
-  gameOver: false
+  gameOver: false,
+  notification: false
 };
 
 const reducePickLife = (state, action) => ({
@@ -45,6 +47,12 @@ const clearGame = (state, action) => ({
   ...initState
 });
 
+const toggleNotification = (state, action) => ({
+  ...state,
+  notification: action.status
+});
+
+
 export const pickReducer = (state, action) => {
   switch (action.type) {
     case actions.REDUCE_PICK_LIFE: return reducePickLife(state, action);
@@ -53,6 +61,7 @@ export const pickReducer = (state, action) => {
     case actions.SET_GAME_OVER: return setGameOver(state, action);
     case actions.CLEAR_GAME: return clearGame(state, action);
     case actions.REDUCE_PICKLIVES: return reducePickLives(state, action);
+    case actions.TOGGLE_NOTIFICATION: return toggleNotification(state, action);
     default: throw new Error('[pickReducer]: provided action.type is unknown');
   }
 };

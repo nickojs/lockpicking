@@ -5,9 +5,11 @@ import inputActions, { inputReducer, initState as initInput } from './reducers/i
 import moveActions, { moveReducer, initState as initMove } from './reducers/movementReducer';
 import pickActions, { pickReducer, initState as initPick } from './reducers/pickReducer';
 
+import * as S from './styles';
 import Lockpad from '../../components/lockpad/lockpad';
 import HUD from '../../components/hud/hud';
-import * as S from './styles';
+import Notification from '../../components/notification/notification';
+
 import useAngle from '../../hooks/angle';
 import genArray from '../../helpers/array-generator';
 import distanceMeter from '../../helpers/distance-meter';
@@ -28,7 +30,7 @@ const LockPad = ({ location }) => {
 
   const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
   const {
-    pickLife, pickLives, unlock, gameOver
+    pickLife, pickLives, unlock, gameOver, notification
   } = pickState;
 
   const pickRef = useRef(null);
@@ -130,11 +132,18 @@ const LockPad = ({ location }) => {
     }
   }, [keyPressMoment, isUnlockable]);
 
-  // remove a pick if pickLife reduces to zero
+  // remove a pick if pickLife reduces to zero, also toggles notification
   useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatchPick({ type: pickActions.TOGGLE_NOTIFICATION, status: false });
+    }, 1500);
+
     if (pickLife === 0) {
+      dispatchPick({ type: pickActions.TOGGLE_NOTIFICATION, status: true });
       dispatchPick({ type: pickActions.REDUCE_PICKLIVES });
     }
+
+    return () => { clearTimeout(timer); };
   }, [pickLife]);
 
   // ends game if pickLives is reduced to zero
@@ -172,6 +181,11 @@ const LockPad = ({ location }) => {
     );
   }
 
+  let notificationComponent = null;
+  if (notification) {
+    notificationComponent = <Notification>Oops, you just broke a pick</Notification>;
+  }
+
   return (
     <>
       <HUD life={pickLife} picks={pickLives} />
@@ -193,6 +207,7 @@ const LockPad = ({ location }) => {
         </S.InnerContainer>
       </S.Container>
       {endgameRedirect}
+      {notificationComponent}
     </>
   );
 };
