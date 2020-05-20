@@ -1,29 +1,29 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import background from '../../assets/texture.png';
 
 export const Container = styled.div`
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 80%;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+
+  height: 100vh;
+  width: 100vw;
+
+  background: url(${background});
 `;
 
-export const OutcomeImage = styled.img`
-  width: 50%;
-  margin: 20px;
-  align-self: center;
-`;
-
-export const OptionsContainer = styled.div`
-  display: inherit;
-  width: 250px;
+export const Navigation = styled.div`
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 12px;
   margin-top: 25px;
 `;
 

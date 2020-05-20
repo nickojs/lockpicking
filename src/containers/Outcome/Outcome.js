@@ -1,8 +1,9 @@
 import React from 'react';
+import * as S from './styles';
 
 import Unlocked from './unlocked/unlocked';
 import GameOver from './gameOver/gameOver';
-import * as S from './styles';
+import Dialog from '../../components/dialog/dialog';
 
 const Outcome = ({ location }) => {
   /*
@@ -19,12 +20,14 @@ const Outcome = ({ location }) => {
 
   return (
     <S.Container>
-      {unlocked}
-      {gameover}
-      <S.OptionsContainer>
-        <S.Button to="/">Return</S.Button>
-        <p>Share</p>
-      </S.OptionsContainer>
+      <Dialog>
+        {unlocked}
+        {gameover}
+        <S.Navigation>
+          <S.Button to="/">Return</S.Button>
+          <p>Share</p>
+        </S.Navigation>
+      </Dialog>
     </S.Container>
   );
 };
