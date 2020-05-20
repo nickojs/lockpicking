@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import background from '../../assets/image/background2.jpg';
+import background from '../../assets/image/lockpadMenu.jpg';
 
 export const Container = styled.div`
   position: relative;

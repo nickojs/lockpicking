@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import homeBackground from '../../assets/image/background.jpg';
+import backgrund from '../../assets/image/home.jpg';
 
 const blur = css`
   filter: blur(10px);
@@ -13,7 +13,7 @@ export const Container = styled.div`
   transition: filter .5s ease-out;
   ${(props) => (props.isMenuOpen ? blur : null)}
   
-  background-image: url(${homeBackground});
+  background-image: url(${backgrund});
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
