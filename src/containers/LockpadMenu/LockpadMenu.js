@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as S from './styles';
 import ProgressBar from './progressBar/progressBar';
+import Dialog from '../../components/dialog/dialog';
 
 const LockpadMenu = () => {
   const [difficulty, setDifficulty] = useState(0);
@@ -18,32 +19,28 @@ const LockpadMenu = () => {
 
   return (
     <S.Container>
-      <S.OptionsContainer>
-        <S.OptionsMenu>
-          <S.Title>How to play</S.Title>
-          <S.HowToList>
-            <li>Click and hold the pick to move it</li>
-            <li>Press and hold any key unlock</li>
-            <li>Don&apos;t hush it! Otherwise you&apos;ll jam the lock.</li>
-          </S.HowToList>
+      <Dialog>
+        <S.Title>How to play</S.Title>
+        <S.HowToList>
+          <li>Click and hold the pick to move it</li>
+          <li>Press and hold any key unlock</li>
+          <li>Don&apos;t hush it! Otherwise you&apos;ll jam the lock.</li>
+        </S.HowToList>
 
-          <S.Title>Set difficulty</S.Title>
-          <S.DifficultyContainer>
-            <ProgressBar
-              difficulty={roundedDifficulty}
-              difficultyHandler={changeDifficultyHandler}
-            />
-            <S.Button to={{
-              pathname: '/game',
-              state: gameState
-            }}
-            >Play
-            </S.Button>
-          </S.DifficultyContainer>
-
-        </S.OptionsMenu>
-      </S.OptionsContainer>
-
+        <S.Title>Set difficulty</S.Title>
+        <S.DifficultyContainer>
+          <ProgressBar
+            difficulty={roundedDifficulty}
+            difficultyHandler={changeDifficultyHandler}
+          />
+          <S.Button to={{
+            pathname: '/game',
+            state: gameState
+          }}
+          >Play
+          </S.Button>
+        </S.DifficultyContainer>
+      </Dialog>
     </S.Container>
   );
 };

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import border from '../../assets/menu/lockpadMenu/border.png';
 import background from '../../assets/image/background2.jpg';
 
 export const Container = styled.div`
@@ -13,27 +12,6 @@ export const Container = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-`;
-
-export const OptionsContainer = styled.div`
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  
-  color: white;
-  background: rgba(0, 0, 0, 0.9);
-
-  border-image-source: url(${border});
-  border-image-slice: 80 75 70 75;
-  border-image-width: 40px;
-  border-image-outset: 8px;
-  border-image-repeat: stretch stretch; 
-`;
-
-export const OptionsMenu = styled.div`
-  width: 100%;
-  box-sizing: border-box;
 `;
 
 export const Title = styled.h2`
