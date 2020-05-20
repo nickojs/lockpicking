@@ -19,12 +19,16 @@ export const Container = styled.div`
   background: url(${background});
 `;
 
+export const Text = styled.p`
+  line-height: 1.3em;
+  padding: 12px;
+`;
+
 export const Navigation = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   padding: 12px;
-  margin-top: 25px;
 `;
 
 export const Button = styled(Link)`

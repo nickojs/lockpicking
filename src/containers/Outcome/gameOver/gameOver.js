@@ -1,5 +1,6 @@
 import React from 'react';
 import answers from '../text.json';
+import * as S from '../styles';
 
 const gameOver = (props) => {
   // this will be replaced when backend is implemented
@@ -14,9 +15,9 @@ const gameOver = (props) => {
 
   return (
     <>
-      <h1>
+      <S.Text>
         {randomPhrase}
-      </h1>
+      </S.Text>
     </>
   );
 };
