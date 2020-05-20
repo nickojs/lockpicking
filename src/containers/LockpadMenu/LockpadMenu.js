@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import * as S from './styles';
 import ProgressBar from './progressBar/progressBar';
 import Dialog from '../../components/dialog/dialog';
+import zoneGenerator from '../../helpers/zone-generator';
 
 const LockpadMenu = () => {
   const [difficulty, setDifficulty] = useState(0);
@@ -11,9 +12,10 @@ const LockpadMenu = () => {
   };
 
   const roundedDifficulty = Math.floor(difficulty);
+  const data = zoneGenerator(roundedDifficulty);
 
   const gameState = {
-    difficulty,
+    ...data,
     startingTime: Date.now()
   };
 

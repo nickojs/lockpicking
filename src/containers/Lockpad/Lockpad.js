@@ -9,13 +9,10 @@ import * as S from './styles';
 import Lockpad from '../../components/lockpad/lockpad';
 import HUD from '../../components/hud/hud';
 import Notification from '../../components/notification/notification';
-
 import useAngle from '../../hooks/angle';
-import genArray from '../../helpers/array-generator';
+
 import distanceMeter from '../../helpers/distance-meter';
 
-const hotzone = genArray([0, 50]);
-const unlockZone = genArray([20, 40]);
 
 const LockPad = ({ location }) => {
   const [inputState, dispatchInput] = useReducer(inputReducer, initInput);
@@ -33,8 +30,13 @@ const LockPad = ({ location }) => {
     pickLife, pickLives, unlock, gameOver, notification
   } = pickState;
 
+  // location with game settings data
+  const {
+    hotzone, unlockzone, lifeSpeed, info
+  } = location.state;
+
   const pickRef = useRef(null);
-  const pickPosition = useAngle(pickRef, event, hotzone);
+  const pickPosition = useAngle(pickRef, event, location.hotzone);
 
   const setPickPosition = ({ nativeEvent }) => {
     // needs to check the keyDown to prevent 'move and unlock' bug
@@ -54,21 +56,15 @@ const LockPad = ({ location }) => {
     dispatchInput({ type: inputActions.KEY_PRESS_END });
   };
 
-
-  useEffect(() => {
-    // generate the hotzone/unlockzone dynamically on mount
-    // ...
-  }, []);
-
   // defines if the pick is on the hotzone
   useEffect(() => {
     const isPickOnHotzone = hotzone.includes(pickPosition);
     if (!isPickOnHotzone) {
       return dispatchMove({ type: moveActions.CLEAR_HOTZONE });
     }
-    const distance = distanceMeter(pickPosition, unlockZone);
+    const distance = distanceMeter(pickPosition, unlockzone);
     dispatchMove({ type: moveActions.SET_HOTZONE, distance });
-  }, [pickPosition]);
+  }, [pickPosition, hotzone, unlockzone]);
 
   // calculates the distance between the current pick location and unlockzone
   // and generates a rotation angle based on this distance
@@ -96,11 +92,11 @@ const LockPad = ({ location }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (keyPressMoment) {
-        dispatchInput({ type: inputActions.KEY_PRESS_INC, inc: keyPressMoment + 100 });
+        dispatchInput({ type: inputActions.KEY_PRESS_INC, inc: keyPressMoment + lifeSpeed });
       }
-    }, 100);
+    }, lifeSpeed);
     return () => { clearTimeout(timer); };
-  }, [keyPressMoment]);
+  }, [keyPressMoment, lifeSpeed]);
 
   // turns the lock based on keyPress (keyDown)
   useEffect(() => {
@@ -188,7 +184,7 @@ const LockPad = ({ location }) => {
 
   return (
     <>
-      <HUD life={pickLife} picks={pickLives} />
+      <HUD life={pickLife} picks={pickLives} info={info} />
       <S.Container>
         <S.InnerContainer
           tabIndex="0"

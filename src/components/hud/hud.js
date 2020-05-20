@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './styles';
 
-const HUD = ({ life, picks }) => (
+const HUD = ({ life, picks, info }) => (
   <S.HUDContainer>
     <S.HUDLayout>
       <S.InfoContainer>
@@ -12,7 +12,7 @@ const HUD = ({ life, picks }) => (
       </S.InfoContainer>
       <S.InfoContainer>
         <p>Lockpick Level:</p>
-        <p>regular</p>
+        <p>{info}</p>
       </S.InfoContainer>
       <S.InfoContainer>
         <p>Lockpicks left:</p>
