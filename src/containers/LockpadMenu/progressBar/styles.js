@@ -19,7 +19,6 @@ export const ProgressBar = styled.input`
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   width: 80%; /* Specific width is required for Firefox. */
   background: transparent; /* Otherwise white in Chrome */
-  cursor: url('http://www.rw-designer.com/cursor-extern.php?id=30686') 4 12, pointer;  
 
   &::-webkit-slider-thumb { -webkit-appearance: none; }
 
