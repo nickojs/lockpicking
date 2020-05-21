@@ -8,6 +8,7 @@ import pick from '../../../assets/lockpad/pick_with_space.png';
 
 import moveActions, { moveReducer, initState as initMove } from '../reducers/movementReducer';
 import pickActions, { pickReducer, initState as initPick } from '../reducers/pickReducer';
+import gameActions, { gameReducer, initState as initGame } from '../reducers/gameReducer';
 
 import useAngle from '../../../hooks/angle';
 import distanceMeter from '../../../helpers/distance-meter';
@@ -19,16 +20,18 @@ const Lockpad = ({ location, input }) => {
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
 
+  const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
+  const { pickLife, pickLives } = pickState;
+
+  const [gameState, dispatchGame] = useReducer(gameReducer, initGame);
+  const {
+    gameOver, unlock, notification, redirect
+  } = gameState;
+
   const [moveState, dispatchMove] = useReducer(moveReducer, initMove);
   const {
     isUnlockable, turning, distanceFromUnlock, rotation
   } = moveState;
-
-  const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
-  const {
-    pickLife, pickLives, unlock, gameOver, notification
-  } = pickState;
-
 
   // defines if the pick is on the hotzone
   useEffect(() => {
@@ -77,21 +80,21 @@ const Lockpad = ({ location, input }) => {
     const diffTime = Math.abs(Date.now() - keyPressMoment);
     // starts to "hurt" the pick
     if (diffTime > 20) {
-      dispatchPick({ type: pickActions.CLEAR_UNLOCK });
+      dispatchGame({ type: gameActions.TOGGLE_UNLOCK, status: false });
       dispatchPick({ type: pickActions.REDUCE_PICK_LIFE });
 
-      if (isUnlockable) return dispatchPick({ type: pickActions.SET_UNLOCK });
+      if (isUnlockable) return dispatchGame({ type: gameActions.TOGGLE_UNLOCK, status: true });
     }
   }, [keyPressMoment, isUnlockable]);
 
   // remove a pick if pickLife reduces to zero, also toggles notification
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatchPick({ type: pickActions.TOGGLE_NOTIFICATION, status: false });
+      dispatchGame({ type: gameActions.TOGGLE_NOTIFICATION, status: false });
     }, 1500);
 
     if (pickLife === 0) {
-      dispatchPick({ type: pickActions.TOGGLE_NOTIFICATION, status: true });
+      dispatchGame({ type: gameActions.TOGGLE_NOTIFICATION, status: true });
       dispatchPick({ type: pickActions.REDUCE_PICKLIVES });
     }
 
@@ -101,53 +104,54 @@ const Lockpad = ({ location, input }) => {
   // ends game if pickLives is reduced to zero
   useEffect(() => {
     if (pickLives === 0) {
-      dispatchPick({ type: pickActions.SET_GAME_OVER });
+      dispatchGame({ type: gameActions.TOGGLE_GAME_OVER, status: true });
     }
   }, [pickLives]);
 
   // creates the redirect component
-  let endgameRedirect = null;
+  useEffect(() => {
+    if (unlock || gameOver) {
+      const picks = pickLives;
+      const totalTime = (Date.now() - startingTime) / 1000;
+      const gameData = {
+        gameOver,
+        unlock,
+        stats: { picks, totalTime }
+      };
 
-  if (unlock || gameOver) {
-    const picks = pickLives;
-    const totalTime = (Date.now() - startingTime) / 1000;
-
-    endgameRedirect = (
-      <Redirect to={{
-        pathname: '/endgame',
-        state: {
-          gameOver,
-          unlock,
-          stats: {
-            picks,
-            totalTime
-          }
+      dispatchGame({
+        type: gameActions.SET_REDIRECT,
+        redirect: {
+          pathname: '/endgame',
+          state: gameData
         }
-      }}
-      />
-    );
-  }
+      });
+    }
+  }, [unlock, gameOver, pickLives, startingTime]);
 
   return (
-    <S.LockBackground>
-      <S.LockpadContainer position={rotation} isTurning={turning}>
-        <S.Pick
-          src={pick}
-          alt="a picklock that looks like a twig"
-          ref={pickRef}
-          position={pickPosition}
-        />
-        {endgameRedirect}
-        {notification
-          && <Notification>Oops, you just broke a pick</Notification>}
-        <S.LockpadBackground>
-          <S.Lockpad
-            src={lockhole}
-            alt="an ugly but functional lockpad"
+    <>
+      <S.LockBackground>
+        <S.LockpadContainer position={rotation} isTurning={turning}>
+          <S.Pick
+            src={pick}
+            alt="a picklock that looks like a twig"
+            ref={pickRef}
+            position={pickPosition}
           />
-        </S.LockpadBackground>
-      </S.LockpadContainer>
-    </S.LockBackground>
+          <S.LockpadBackground>
+            <S.Lockpad
+              src={lockhole}
+              alt="an ugly but functional lockpad"
+            />
+          </S.LockpadBackground>
+        </S.LockpadContainer>
+      </S.LockBackground>
+      {redirect
+        && <Redirect to={redirect} />}
+      {notification
+        && <Notification>Oops, you just broke a pick</Notification>}
+    </>
   );
 };
 
