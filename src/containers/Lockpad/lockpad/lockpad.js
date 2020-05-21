@@ -20,18 +20,14 @@ const Lockpad = ({ location, input }) => {
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
 
+  const [moveState, dispatchMove] = useReducer(moveReducer, initMove);
+  const { turning, rotation, distanceFromUnlock, isUnlockable } = moveState;
+
   const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
   const { pickLife, pickLives } = pickState;
 
   const [gameState, dispatchGame] = useReducer(gameReducer, initGame);
-  const {
-    gameOver, unlock, notification, redirect
-  } = gameState;
-
-  const [moveState, dispatchMove] = useReducer(moveReducer, initMove);
-  const {
-    isUnlockable, turning, distanceFromUnlock, rotation
-  } = moveState;
+  const { gameOver, unlock, notification, redirect } = gameState;
 
   // defines if the pick is on the hotzone
   useEffect(() => {
@@ -78,7 +74,7 @@ const Lockpad = ({ location, input }) => {
     if (!keyPressMoment) return;
 
     const diffTime = Math.abs(Date.now() - keyPressMoment);
-    // starts to "hurt" the pick
+    // starts to "hurt" the pick after sometime
     if (diffTime > 20) {
       dispatchGame({ type: gameActions.TOGGLE_UNLOCK, status: false });
       dispatchPick({ type: pickActions.REDUCE_PICK_LIFE });
@@ -132,7 +128,10 @@ const Lockpad = ({ location, input }) => {
   return (
     <>
       <S.LockBackground>
-        <S.LockpadContainer position={rotation} isTurning={turning}>
+        <S.LockpadContainer
+          position={rotation}
+          isTurning={turning}
+        >
           <S.Pick
             src={pick}
             alt="a picklock that looks like a twig"

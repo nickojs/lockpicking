@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer } from 'react';
 
 import inputActions, { inputReducer, initState as initInput } from './reducers/inputReducer';
+
 import * as S from './styles';
 import Lockpad from './lockpad/lockpad';
 import HUD from '../../components/hud/hud';
