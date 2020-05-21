@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { createStore, combineReducers, compose } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import WebFont from 'webfontloader';
 
 import './index.css';
 import App from './App';
 import inputReducer from './store/reducers/input';
+import movementReducer from './store/reducers/movement';
 
 WebFont.load({
   google: {
@@ -15,8 +16,13 @@ WebFont.load({
   }
 });
 
+const rootReducer = combineReducers({
+  input: inputReducer,
+  movement: movementReducer
+});
+
 const store = createStore(
-  inputReducer,
+  rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 

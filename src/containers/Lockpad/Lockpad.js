@@ -8,7 +8,7 @@ import HUD from '../../components/hud/hud';
 
 const LockPad = ({ location }) => {
   const dispatch = useDispatch();
-  const inputState = useSelector((state) => state);
+  const inputState = useSelector((state) => state.input);
 
   const { mouseDown, keyDown, keyPressMoment } = inputState;
   const { info, lifeSpeed } = location.state; // game settings data
