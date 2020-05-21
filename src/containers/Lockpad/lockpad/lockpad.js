@@ -36,13 +36,15 @@ const Lockpad = ({ location, input }) => {
   // defines if the pick is on the hotzone
   useEffect(() => {
     const isPickOnHotzone = hotzone.includes(pickPosition);
-    if (!isPickOnHotzone) {
-      dispatch(moveActions.clearHotzone());
-      return;
-    }
+    // limits the dispatches, without gameplay sacrifice
+    const timer = setTimeout(() => {
+      if (!isPickOnHotzone) dispatch(moveActions.clearHotzone());
+    }, 250);
 
     const distance = distanceMeter(pickPosition, unlockzone);
     dispatch(moveActions.setHotzone(distance));
+
+    return () => { clearTimeout(timer); };
   }, [pickPosition, hotzone, unlockzone, dispatch]);
 
   // calculates the distance between the current pick location and unlockzone

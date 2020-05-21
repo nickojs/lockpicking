@@ -21,9 +21,10 @@ const LockPad = ({ location }) => {
   };
 
   const setKeyDown = () => {
-    if (keyDown) return;
-    dispatch(actions.keyDown());
-    dispatch(actions.keyPressStart());
+    if (!keyDown) {
+      dispatch(actions.keyDown());
+      dispatch(actions.keyPressStart());
+    }
   };
 
   const setKeyUp = () => {
