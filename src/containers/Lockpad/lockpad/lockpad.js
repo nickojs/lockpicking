@@ -1,12 +1,14 @@
 import React, { useEffect, useReducer, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import * as moveActions from '../../../store/actions/movement';
+
 import Notification from '../../../components/notification/notification';
 
 import * as S from './styles';
 import lockhole from '../../../assets/lockpad/lockhole.png';
 import pick from '../../../assets/lockpad/pick_with_space.png';
 
-import moveActions, { moveReducer, initState as initMove } from '../reducers/movementReducer';
 import pickActions, { pickReducer, initState as initPick } from '../reducers/pickReducer';
 import gameActions, { gameReducer, initState as initGame } from '../reducers/gameReducer';
 
@@ -20,7 +22,9 @@ const Lockpad = ({ location, input }) => {
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
 
-  const [moveState, dispatchMove] = useReducer(moveReducer, initMove);
+  const dispatch = useDispatch();
+
+  const moveState = useSelector((state) => state.movement);
   const { turning, rotation, distanceFromUnlock, isUnlockable } = moveState;
 
   const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
@@ -33,40 +37,38 @@ const Lockpad = ({ location, input }) => {
   useEffect(() => {
     const isPickOnHotzone = hotzone.includes(pickPosition);
     if (!isPickOnHotzone) {
-      return dispatchMove({ type: moveActions.CLEAR_HOTZONE });
+      dispatch(moveActions.clearHotzone());
+      return;
     }
+
     const distance = distanceMeter(pickPosition, unlockzone);
-    dispatchMove({ type: moveActions.SET_HOTZONE, distance });
-  }, [pickPosition, hotzone, unlockzone]);
+    dispatch(moveActions.setHotzone(distance));
+  }, [pickPosition, hotzone, unlockzone, dispatch]);
 
   // calculates the distance between the current pick location and unlockzone
   useEffect(() => {
     const degs = 90 - (distanceFromUnlock * 2);
 
     if (distanceFromUnlock === null) return;
-    /*
-      'unlockable' seems redundant, but it exists because the other effect needs
-      to know this, in order to trigger the timed 'unlock' functionality.
-      another way is to pass 'distanceFromUnlock' on the next effect
-      as a dependency, but it triggers multiple useless re-renders
-    */
+
+    dispatch(moveActions.setRotation(degs));
+
     if (distanceFromUnlock === 0) {
-      dispatchMove({ type: moveActions.SET_UNLOCKABLE });
-      dispatchMove({ type: moveActions.SET_ROTATION, rotation: degs });
+      dispatch(moveActions.setUnlockable());
     }
     if (distanceFromUnlock !== 0) {
-      dispatchMove({ type: moveActions.CLEAR_UNLOCKABLE });
-      dispatchMove({ type: moveActions.SET_ROTATION, rotation: degs });
+      dispatch(moveActions.clearUnlockable());
     }
-  }, [distanceFromUnlock]);
+  }, [distanceFromUnlock, dispatch]);
 
   // turns the lock based on keyPress (keyDown)
   useEffect(() => {
     if (!keyDown) {
-      return dispatchMove({ type: moveActions.CLEAR_TURNING });
+      dispatch(moveActions.clearTurning());
+      return;
     }
-    dispatchMove({ type: moveActions.SET_TURNING });
-  }, [keyDown]);
+    dispatch(moveActions.setTurning());
+  }, [keyDown, dispatch]);
 
   // defines wherever the pick is broken or not
   useEffect(() => {
