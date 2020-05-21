@@ -1,11 +1,11 @@
 import React from 'react';
 import * as S from './styles';
 
-const Menu = ({ keyPressed, toggle }) => {
+const Menu = ({ keyPressed, toggle, clicked }) => {
   const { key } = keyPressed !== null && keyPressed;
 
   const menuContainer = toggle && (
-    <S.MenuContainer>
+    <S.MenuContainer onClick={clicked}>
       <S.HintText>Use the wasd keys to control the menu</S.HintText>
       <S.HintText>Select an option and press the same key again to enter</S.HintText>
       <S.MenuLayer>

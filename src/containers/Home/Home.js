@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 import Menu from '../../components/menu/menu';
 import * as S from './styles';
@@ -7,6 +7,8 @@ const Home = () => {
   const [keyIdentifier, setKeyIdentifier] = useState(null);
   const [triggerRoute, setTriggerRoute] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
+  const container = useRef(null);
+
   const keyFilter = {
     87: {
       key: 'w',
@@ -56,22 +58,28 @@ const Home = () => {
     }
   };
 
+  const mouseDownHandler = (e) => {
+    e.preventDefault();
+    container.current.focus();
+  };
+
   return (
     <div>
-      <S.Container tabIndex="0" onKeyDown={keyDownHandler} isMenuOpen={menuToggle}>
+      <S.Container ref={container} tabIndex="0" onKeyDown={keyDownHandler} isMenuOpen={menuToggle}>
         <S.InnerContainer>
           <S.Title>Skyrim</S.Title>
           <S.Text>lockpick simulator</S.Text>
           <hr />
           <S.TextSmall>Press space to start</S.TextSmall>
         </S.InnerContainer>
-        {triggerRoute
-          && <Redirect to={keyIdentifier.path} />}
       </S.Container>
       <Menu
         toggle={menuToggle}
         keyPressed={keyIdentifier}
+        clicked={mouseDownHandler}
       />
+      {triggerRoute
+        && <Redirect to={keyIdentifier.path} />}
     </div>
   );
 };
