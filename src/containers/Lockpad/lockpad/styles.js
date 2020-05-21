@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import lockpadBackground from '../../assets/lockpad/lockpad_background.png';
-import lockBackground from '../../assets/lockpad/lockbackground.png';
+import lockpadBackground from '../../../assets/lockpad/lockpad_background.png';
+import lockBackground from '../../../assets/lockpad/lockbackground.png';
 
 export const LockBackground = styled.div`
   position: relative;
