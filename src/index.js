@@ -9,6 +9,7 @@ import './index.css';
 import App from './App';
 import inputReducer from './store/reducers/input';
 import movementReducer from './store/reducers/movement';
+import pickReducer from './store/reducers/pick';
 
 WebFont.load({
   google: {
@@ -18,7 +19,8 @@ WebFont.load({
 
 const rootReducer = combineReducers({
   input: inputReducer,
-  movement: movementReducer
+  movement: movementReducer,
+  pick: pickReducer
 });
 
 const store = createStore(
