@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Home from '../containers/Home/Home';
 import LockpadMenu from '../containers/LockpadMenu/LockpadMenu';
@@ -24,6 +24,7 @@ const routes = (
         <Route key={path} exact path={path} component={withAnimation(Component)} />
       )
     )}
+    <Redirect to="/" />
   </Switch>
 
 );
