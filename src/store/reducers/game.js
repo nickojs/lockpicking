@@ -3,7 +3,7 @@ import { gameActions } from '../actions/actionTypes';
 const initState = {
   gameOver: false,
   unlock: false,
-  notification: false,
+  notification: null,
   redirect: null
 };
 

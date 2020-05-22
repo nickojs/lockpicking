@@ -2,17 +2,17 @@ import { gameActions } from './actionTypes';
 
 export const toggleUnlock = (unlock) => ({
   type: gameActions.TOGGLE_UNLOCK,
-  unlock
+  status: unlock
 });
 
 export const toggleGameOver = (gameOver) => ({
   type: gameActions.TOGGLE_GAME_OVER,
-  gameOver
+  status: gameOver
 });
 
 export const toggleNotification = (notification) => ({
   type: gameActions.TOGGLE_NOTIFICATION,
-  notification
+  status: notification
 });
 
 export const setRedirect = (redirect) => ({

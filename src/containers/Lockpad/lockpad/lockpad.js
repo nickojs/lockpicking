@@ -1,16 +1,15 @@
-import React, { useEffect, useReducer, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import * as moveActions from '../../../store/actions/movement';
 import * as pickActions from '../../../store/actions/pick';
-
-import Notification from '../../../components/notification/notification';
+import * as gameActions from '../../../store/actions/game';
 
 import * as S from './styles';
+import Notification from '../../../components/notification/notification';
 import lockhole from '../../../assets/lockpad/lockhole.png';
 import pickImg from '../../../assets/lockpad/pick_with_space.png';
-
-import gameActions, { gameReducer, initState as initGame } from '../reducers/gameReducer';
 
 import useAngle from '../../../hooks/angle';
 import distanceMeter from '../../../helpers/distance-meter';
@@ -18,17 +17,15 @@ import distanceMeter from '../../../helpers/distance-meter';
 
 const Lockpad = ({ location }) => {
   const dispatch = useDispatch();
-  const { input, movement, pick } = useSelector((state) => state);
+  const { input, movement, pick, game } = useSelector((state) => state);
   const { keyDown, event, keyPressMoment } = input;
   const { turning, rotation, distanceFromUnlock, isUnlockable } = movement;
   const { pickLife, pickLives } = pick;
+  const { gameOver, unlock, notification, redirect } = game;
 
   const { hotzone, unlockzone, startingTime } = location.state;
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
-
-  const [gameState, dispatchGame] = useReducer(gameReducer, initGame);
-  const { gameOver, unlock, notification, redirect } = gameState;
 
   // defines if the pick is on the hotzone
   useEffect(() => {
@@ -76,21 +73,23 @@ const Lockpad = ({ location }) => {
     const diffTime = Math.abs(Date.now() - keyPressMoment);
     // starts to "hurt" the pick after sometime
     if (diffTime > 20) {
-      dispatchGame({ type: gameActions.TOGGLE_UNLOCK, status: false });
+      dispatch(gameActions.toggleUnlock(false));
       dispatch(pickActions.reducePickLife());
 
-      if (isUnlockable) return dispatchGame({ type: gameActions.TOGGLE_UNLOCK, status: true });
+      if (isUnlockable) {
+        dispatch(gameActions.toggleUnlock(true));
+      }
     }
   }, [keyPressMoment, isUnlockable, dispatch]);
 
   // remove a pick if pickLife reduces to zero, also toggles notification
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatchGame({ type: gameActions.TOGGLE_NOTIFICATION, status: false });
+      dispatch(gameActions.toggleNotification(null));
     }, 1500);
 
     if (pickLife === 0) {
-      dispatchGame({ type: gameActions.TOGGLE_NOTIFICATION, status: true });
+      dispatch(gameActions.toggleNotification('Oops! You just broke a pick'));
       dispatch(pickActions.reducePickLives());
     }
 
@@ -99,10 +98,8 @@ const Lockpad = ({ location }) => {
 
   // ends game if pickLives is reduced to zero
   useEffect(() => {
-    if (pickLives === 0) {
-      dispatchGame({ type: gameActions.TOGGLE_GAME_OVER, status: true });
-    }
-  }, [pickLives]);
+    if (pickLives === 0) dispatch(gameActions.toggleGameOver(true));
+  }, [pickLives, dispatch]);
 
   // creates the redirect component
   useEffect(() => {
@@ -114,16 +111,12 @@ const Lockpad = ({ location }) => {
         unlock,
         stats: { picks, totalTime }
       };
-
-      dispatchGame({
-        type: gameActions.SET_REDIRECT,
-        redirect: {
-          pathname: '/endgame',
-          state: gameData
-        }
-      });
+      dispatch(gameActions.setRedirect({
+        pathname: '/endgame',
+        state: gameData
+      }));
     }
-  }, [unlock, gameOver, pickLives, startingTime]);
+  }, [unlock, gameOver, pickLives, startingTime, dispatch]);
 
   return (
     <>
