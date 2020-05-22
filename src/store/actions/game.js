@@ -19,3 +19,8 @@ export const setRedirect = (redirect) => ({
   type: gameActions.SET_REDIRECT,
   redirect
 });
+
+export const settings = (data) => ({
+  type: gameActions.SETTINGS,
+  settings: data
+});

@@ -27,6 +27,11 @@ const setRedirect = (state, action) => ({
   redirect: action.redirect
 });
 
+const settings = (state, action) => ({
+  ...state,
+  settings: action.settings
+});
+
 
 const gameReducer = (state = initState, action) => {
   switch (action.type) {
@@ -34,6 +39,7 @@ const gameReducer = (state = initState, action) => {
     case gameActions.TOGGLE_GAME_OVER: return toggleGameOver(state, action);
     case gameActions.TOGGLE_NOTIFICATION: return toggleNotification(state, action);
     case gameActions.SET_REDIRECT: return setRedirect(state, action);
+    case gameActions.SETTINGS: return settings(state, action);
     default: return state;
   }
 };
