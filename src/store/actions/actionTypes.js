@@ -36,3 +36,9 @@ export const gameActions = {
   SET_REDIRECT: 'SET_REDIRECT',
   SETTINGS: 'SETTINGS'
 };
+
+// user
+export const userActions = {
+  SET_AUTH: 'SET_AUTH',
+  SET_NAVIGATION: 'SET_NAVIGATION'
+};
