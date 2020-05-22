@@ -26,7 +26,7 @@ export const keyPressStart = () => ({
 });
 
 export const keyPressInc = (inc) => ({
-  type: inputActions.KEY_PRESS_START,
+  type: inputActions.KEY_PRESS_INC,
   inc
 });
 
