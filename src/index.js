@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -18,12 +20,20 @@ WebFont.load({
   }
 });
 
-const rootReducer = combineReducers({
+const dataReducer = combineReducers({
   input: inputReducer,
   movement: movementReducer,
   pick: pickReducer,
   game: gameReducer
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'RESET_STATE') {
+    state = undefined;
+  }
+
+  return dataReducer(state, action);
+};
 
 const store = createStore(
   rootReducer,
