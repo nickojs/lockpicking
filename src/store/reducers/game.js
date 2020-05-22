@@ -4,7 +4,8 @@ const initState = {
   gameOver: false,
   unlock: false,
   notification: null,
-  redirect: null
+  redirect: null,
+  settings: null
 };
 
 const toggleUnlock = (state, action) => ({
