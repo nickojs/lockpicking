@@ -10,6 +10,7 @@ import App from './App';
 import inputReducer from './store/reducers/input';
 import movementReducer from './store/reducers/movement';
 import pickReducer from './store/reducers/pick';
+import gameReducer from './store/reducers/game';
 
 WebFont.load({
   google: {
@@ -20,7 +21,8 @@ WebFont.load({
 const rootReducer = combineReducers({
   input: inputReducer,
   movement: movementReducer,
-  pick: pickReducer
+  pick: pickReducer,
+  game: gameReducer
 });
 
 const store = createStore(
