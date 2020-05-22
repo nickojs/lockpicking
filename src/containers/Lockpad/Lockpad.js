@@ -1,58 +1,63 @@
-import React, { useEffect, useReducer } from 'react';
-
-import inputActions, { inputReducer, initState as initInput } from './reducers/inputReducer';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actions from '../../store/actions/input';
 
 import * as S from './styles';
 import Lockpad from './lockpad/lockpad';
 import HUD from '../../components/hud/hud';
 
-const LockPad = ({ location }) => {
-  const [inputState, dispatchInput] = useReducer(inputReducer, initInput);
-  const { mouseDown, keyDown, keyPressMoment } = inputState;
-  const { info, lifeSpeed } = location.state; // game settings data
+const LockPad = () => {
+  const dispatch = useDispatch();
+
+  const { input, game, pick } = useSelector((state) => state);
+  const { mouseDown, keyDown, keyPressMoment } = input;
+  const { pickLife, pickLives } = pick;
+  const { settings } = game;
+  const { info, lifeSpeed } = settings;
 
   const setPickPosition = ({ nativeEvent }) => {
     // needs to check the keyDown to prevent 'move and unlock' bug
     if (mouseDown && !keyDown) {
-      return dispatchInput({ type: inputActions.INPUT_EVENT, event: nativeEvent });
+      return dispatch(actions.inputEvent(nativeEvent));
     }
   };
 
-  const setKeyDown = ({ nativeEvent }) => {
-    if (keyDown) return;
-    dispatchInput({ type: inputActions.KEY_DOWN, key: nativeEvent.keyCode });
-    dispatchInput({ type: inputActions.KEY_PRESS_START });
+  const setKeyDown = () => {
+    if (!keyDown) {
+      dispatch(actions.keyDown());
+      dispatch(actions.keyPressStart());
+    }
   };
 
   const setKeyUp = () => {
-    dispatchInput({ type: inputActions.KEY_UP });
-    dispatchInput({ type: inputActions.KEY_PRESS_END });
+    dispatch(actions.keyUp());
+    dispatch(actions.keyPressEnd());
   };
 
   // acts like a global timeout, counting for how long the key is being pressed
   useEffect(() => {
     const timer = setTimeout(() => {
       if (keyPressMoment) {
-        dispatchInput({ type: inputActions.KEY_PRESS_INC, inc: keyPressMoment + lifeSpeed });
+        dispatch(actions.keyPressInc(keyPressMoment + lifeSpeed));
       }
     }, lifeSpeed);
     return () => { clearTimeout(timer); };
-  }, [keyPressMoment, lifeSpeed]);
+  }, [keyPressMoment, lifeSpeed, dispatch]);
 
 
   return (
     <>
-      <HUD life={22} picks={1} info={info} />
+      <HUD life={pickLife} picks={pickLives} info={info} />
       <S.Container>
         <S.InnerContainer
           tabIndex="0"
-          onMouseUp={() => dispatchInput({ type: inputActions.MOUSE_UP })}
-          onMouseDown={() => dispatchInput({ type: inputActions.MOUSE_DOWN })}
+          onMouseUp={() => dispatch(actions.mouseUp())}
+          onMouseDown={() => dispatch(actions.mouseDown())}
           onKeyUp={setKeyUp}
           onKeyDown={setKeyDown}
           onMouseMove={setPickPosition}
         >
-          <Lockpad input={inputState} location={location} />
+          <Lockpad />
         </S.InnerContainer>
       </S.Container>
     </>

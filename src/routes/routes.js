@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Home from '../containers/Home/Home';
 import LockpadMenu from '../containers/LockpadMenu/LockpadMenu';
@@ -8,9 +8,9 @@ import Outcome from '../containers/Outcome/Outcome';
 import About from '../containers/About/About';
 
 import withAnimation from '../hoc/withAnimation';
+import withNavigation from '../hoc/withNavigation';
 
 const routesArray = [
-  { path: '/', name: 'Home', Component: Home },
   { path: '/game-options', name: 'Options', Component: LockpadMenu },
   { path: '/game', name: 'Game', Component: Lockpad },
   { path: '/endgame', name: 'Endgame', Component: Outcome },
@@ -19,11 +19,13 @@ const routesArray = [
 
 const routes = (
   <Switch>
+    <Route exact path="/" component={withAnimation(Home)} />
     {routesArray.map(
       ({ path, Component }) => (
-        <Route key={path} exact path={path} component={withAnimation(Component)} />
+        <Route key={path} path={path} component={withAnimation(withNavigation(Component))} />
       )
     )}
+    <Redirect to="/" />
   </Switch>
 
 );

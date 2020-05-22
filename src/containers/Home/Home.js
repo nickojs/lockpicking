@@ -1,13 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
-import Menu from '../../components/menu/menu';
+import { useDispatch } from 'react-redux';
+import { setNavigation } from '../../store/actions/user';
+
 import * as S from './styles';
+import Menu from '../../components/menu/menu';
 
 const Home = () => {
   const [keyIdentifier, setKeyIdentifier] = useState(null);
   const [triggerRoute, setTriggerRoute] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
   const container = useRef(null);
+  const dispatch = useDispatch();
 
   const keyFilter = {
     87: {
@@ -62,6 +66,10 @@ const Home = () => {
     e.preventDefault();
     container.current.focus();
   };
+
+  useEffect(() => {
+    if (triggerRoute) dispatch(setNavigation(true));
+  }, [dispatch, triggerRoute]);
 
   return (
     <div>
