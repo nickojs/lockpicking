@@ -19,7 +19,7 @@ const routesArray = [
 
 const routes = (
   <Switch>
-    <Route exact path="/" component={Home} />
+    <Route exact path="/" component={withAnimation(Home)} />
     {routesArray.map(
       ({ path, Component }) => (
         <Route key={path} path={path} component={withAnimation(withNavigation(Component))} />
