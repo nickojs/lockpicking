@@ -39,7 +39,7 @@ const Lockpad = ({ location, input }) => {
     // limits the dispatches, without gameplay sacrifice
     const timer = setTimeout(() => {
       if (!isPickOnHotzone) dispatch(moveActions.clearHotzone());
-    }, 250);
+    }, 100);
 
     const distance = distanceMeter(pickPosition, unlockzone);
     dispatch(moveActions.setHotzone(distance));
