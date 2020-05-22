@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 import background from '../../assets/image/lockpadMenu.jpg';
 
@@ -32,7 +31,7 @@ export const DifficultyContainer = styled.div`
   margin: 12px;
 `;
 
-export const Button = styled(Link)`
+export const Button = styled.a`
   display: block;
   margin: 0 auto;
   padding-top: 5%;

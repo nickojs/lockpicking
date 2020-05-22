@@ -15,15 +15,15 @@ import useAngle from '../../../hooks/angle';
 import distanceMeter from '../../../helpers/distance-meter';
 
 
-const Lockpad = ({ location }) => {
-  const dispatch = useDispatch();
+const Lockpad = () => {
   const { input, movement, pick, game } = useSelector((state) => state);
   const { keyDown, event, keyPressMoment } = input;
   const { turning, rotation, distanceFromUnlock, isUnlockable } = movement;
   const { pickLife, pickLives } = pick;
-  const { gameOver, unlock, notification, redirect } = game;
+  const { gameOver, unlock, notification, redirect, settings } = game;
+  const { hotzone, unlockzone, startingTime } = settings;
 
-  const { hotzone, unlockzone, startingTime } = location.state;
+  const dispatch = useDispatch();
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
 

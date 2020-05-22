@@ -1,22 +1,31 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { settings } from '../../store/actions/game';
+
 import * as S from './styles';
 import ProgressBar from './progressBar/progressBar';
 import Dialog from '../../components/dialog/dialog';
 import zoneGenerator from '../../helpers/zone-generator';
 
-const LockpadMenu = () => {
+const LockpadMenu = ({ history }) => {
+  const dispatch = useDispatch();
   const [difficulty, setDifficulty] = useState(0);
 
   const changeDifficultyHandler = ({ nativeEvent }) => {
-    setDifficulty(nativeEvent.target.value);
+    setDifficulty(Math.floor(nativeEvent.target.value));
   };
 
-  const roundedDifficulty = Math.floor(difficulty);
-  const data = zoneGenerator(roundedDifficulty);
+  const dispatchGameSettings = () => {
+    const roundedDifficulty = Math.floor(difficulty);
+    const data = zoneGenerator(roundedDifficulty);
 
-  const gameState = {
-    ...data,
-    startingTime: Date.now()
+    const gameSettings = {
+      ...data,
+      startingTime: Date.now()
+    };
+
+    dispatch(settings(gameSettings));
+    history.push('/game');
   };
 
   return (
@@ -32,14 +41,13 @@ const LockpadMenu = () => {
         <S.Title>Set difficulty</S.Title>
         <S.DifficultyContainer>
           <ProgressBar
-            difficulty={roundedDifficulty}
+            difficulty={difficulty}
             difficultyHandler={changeDifficultyHandler}
           />
-          <S.Button to={{
-            pathname: '/game',
-            state: gameState
-          }}
-          >Play
+          <S.Button
+            onClick={dispatchGameSettings}
+          >
+            Play
           </S.Button>
         </S.DifficultyContainer>
       </Dialog>

@@ -6,12 +6,14 @@ import * as S from './styles';
 import Lockpad from './lockpad/lockpad';
 import HUD from '../../components/hud/hud';
 
-const LockPad = ({ location }) => {
+const LockPad = () => {
   const dispatch = useDispatch();
-  const inputState = useSelector((state) => state.input);
 
-  const { mouseDown, keyDown, keyPressMoment } = inputState;
-  const { info, lifeSpeed } = location.state; // game settings data
+  const { input, game, pick } = useSelector((state) => state);
+  const { mouseDown, keyDown, keyPressMoment } = input;
+  const { pickLife, pickLives } = pick;
+  const { settings } = game;
+  const { info, lifeSpeed } = settings;
 
   const setPickPosition = ({ nativeEvent }) => {
     // needs to check the keyDown to prevent 'move and unlock' bug
@@ -45,7 +47,7 @@ const LockPad = ({ location }) => {
 
   return (
     <>
-      <HUD life={22} picks={1} info={info} />
+      <HUD life={pickLife} picks={pickLives} info={info} />
       <S.Container>
         <S.InnerContainer
           tabIndex="0"
@@ -55,7 +57,7 @@ const LockPad = ({ location }) => {
           onKeyDown={setKeyDown}
           onMouseMove={setPickPosition}
         >
-          <Lockpad input={inputState} location={location} />
+          <Lockpad />
         </S.InnerContainer>
       </S.Container>
     </>
