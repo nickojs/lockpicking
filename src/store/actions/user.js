@@ -6,6 +6,6 @@ export const setAuth = (auth) => ({
 });
 
 export const setNavigation = (navigation) => ({
-  type: userActions.SET_AUTH,
+  type: userActions.SET_NAVIGATION,
   navigation
 });
