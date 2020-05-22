@@ -2,33 +2,30 @@ import React, { useEffect, useReducer, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as moveActions from '../../../store/actions/movement';
+import * as pickActions from '../../../store/actions/pick';
 
 import Notification from '../../../components/notification/notification';
 
 import * as S from './styles';
 import lockhole from '../../../assets/lockpad/lockhole.png';
-import pick from '../../../assets/lockpad/pick_with_space.png';
+import pickImg from '../../../assets/lockpad/pick_with_space.png';
 
-import pickActions, { pickReducer, initState as initPick } from '../reducers/pickReducer';
 import gameActions, { gameReducer, initState as initGame } from '../reducers/gameReducer';
 
 import useAngle from '../../../hooks/angle';
 import distanceMeter from '../../../helpers/distance-meter';
 
 
-const Lockpad = ({ location, input }) => {
+const Lockpad = ({ location }) => {
+  const dispatch = useDispatch();
+  const { input, movement, pick } = useSelector((state) => state);
   const { keyDown, event, keyPressMoment } = input;
+  const { turning, rotation, distanceFromUnlock, isUnlockable } = movement;
+  const { pickLife, pickLives } = pick;
+
   const { hotzone, unlockzone, startingTime } = location.state;
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
-
-  const dispatch = useDispatch();
-
-  const moveState = useSelector((state) => state.movement);
-  const { turning, rotation, distanceFromUnlock, isUnlockable } = moveState;
-
-  const [pickState, dispatchPick] = useReducer(pickReducer, initPick);
-  const { pickLife, pickLives } = pickState;
 
   const [gameState, dispatchGame] = useReducer(gameReducer, initGame);
   const { gameOver, unlock, notification, redirect } = gameState;
@@ -57,8 +54,7 @@ const Lockpad = ({ location, input }) => {
 
     if (distanceFromUnlock === 0) {
       dispatch(moveActions.setUnlockable());
-    }
-    if (distanceFromUnlock !== 0) {
+    } else {
       dispatch(moveActions.clearUnlockable());
     }
   }, [distanceFromUnlock, dispatch]);
@@ -81,11 +77,11 @@ const Lockpad = ({ location, input }) => {
     // starts to "hurt" the pick after sometime
     if (diffTime > 20) {
       dispatchGame({ type: gameActions.TOGGLE_UNLOCK, status: false });
-      dispatchPick({ type: pickActions.REDUCE_PICK_LIFE });
+      dispatch(pickActions.reducePickLife());
 
       if (isUnlockable) return dispatchGame({ type: gameActions.TOGGLE_UNLOCK, status: true });
     }
-  }, [keyPressMoment, isUnlockable]);
+  }, [keyPressMoment, isUnlockable, dispatch]);
 
   // remove a pick if pickLife reduces to zero, also toggles notification
   useEffect(() => {
@@ -95,11 +91,11 @@ const Lockpad = ({ location, input }) => {
 
     if (pickLife === 0) {
       dispatchGame({ type: gameActions.TOGGLE_NOTIFICATION, status: true });
-      dispatchPick({ type: pickActions.REDUCE_PICKLIVES });
+      dispatch(pickActions.reducePickLives());
     }
 
     return () => { clearTimeout(timer); };
-  }, [pickLife]);
+  }, [pickLife, dispatch]);
 
   // ends game if pickLives is reduced to zero
   useEffect(() => {
@@ -137,7 +133,7 @@ const Lockpad = ({ location, input }) => {
           isTurning={turning}
         >
           <S.Pick
-            src={pick}
+            src={pickImg}
             alt="a picklock that looks like a twig"
             ref={pickRef}
             position={pickPosition}
