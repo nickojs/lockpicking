@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import background from '../../assets/texture.png';
 
 export const Container = styled.div`
@@ -31,8 +30,8 @@ export const Navigation = styled.div`
   padding: 12px;
 `;
 
-export const Button = styled(Link)`
-  color: black;
+export const Button = styled.a`
+  color: white;
   text-decoration: none;
   text-align: center;
 

@@ -2,7 +2,7 @@ import React from 'react';
 import answers from '../text.json';
 import * as S from '../styles';
 
-const gameOver = (props) => {
+const gameOver = () => {
   // this will be replaced when backend is implemented
   const generateRandomNumber = (min, max) => Math.ceil(Math.random() * (max - min) + min);
 
