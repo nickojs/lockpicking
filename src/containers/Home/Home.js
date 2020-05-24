@@ -24,7 +24,7 @@ const Home = () => {
     },
     68: {
       key: 'd',
-      path: '/'
+      path: '/login'
     },
     83: {
       key: 's',
