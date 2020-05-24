@@ -1,17 +1,13 @@
 import styled from 'styled-components';
-
+import { Container as C } from '../../generalStyles';
 import background from '../../assets/image/lockpadMenu.jpg';
 
-export const Container = styled.div`
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-
+export const Container = styled(C)`
   background: url(${background});
-  background-size: cover;
+  /* IDK why but without this it won't work, but it should */
   background-position: center;
-  background-repeat: no-repeat;
-`;
+  background-size: cover;
+}`;
 
 export const Title = styled.h2`
   text-align: center;

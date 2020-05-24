@@ -1,23 +1,16 @@
 import styled from 'styled-components';
+import { Container as C, Link as L } from '../../generalStyles';
 
 import background from '../../assets/image/about.jpg';
 
-export const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  
+export const Container = styled(C)`
   text-align: center;
-  
-  color: white;
   background-image: url(${background});
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
 `;
 
 export const InnerContainer = styled.div`
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background: rgba(0, 0, 0, 0.7);
   `;
 
@@ -27,22 +20,7 @@ export const LimitContainer = styled.div`
   padding-top: 3em;
 `;
 
-export const Title = styled.h1`
-  font-size: 4em;
-  font-weight: 700;
-  text-shadow: 1px 1px black;
-  padding-bottom: .5em;
-`;
-
-export const Line = styled.p`
-  margin: 24px 0;
-  line-height: 1.3em;
-`;
-
-export const Link = styled.a`
-  text-decoration: none;
-  text-align: center;
-  
+export const Link = styled(L)`
   color: gold;
   &:hover{ text-shadow: 1px 1px 10px white; }
   &:visited{ color: gold; }

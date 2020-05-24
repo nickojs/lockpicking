@@ -1,14 +1,11 @@
 import styled from 'styled-components';
+import { Container as C } from '../../generalStyles';
 import bg from '../../assets/texture.png';
 
-export const Container = styled.div`
-  display: flex;
+export const Container = styled(C)`
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100vw;
-  user-select: none;
-
+  
   background: url(${bg});
 `;
 

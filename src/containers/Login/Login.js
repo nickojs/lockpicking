@@ -15,8 +15,8 @@ const Login = () => {
       <Dialog>
         <form onSubmit={handleSubmit(onSubmit)}>
           <S.Input type="text" placeholder="username" name="username" ref={register({ required: true, minLength: 4, maxLength: 18 })} />
-          <S.Input type="text" placeholder="password" name="password" ref={register({ required: true, minLength: 8, maxLength: 20 })} />
           <S.Input type="email" placeholder="email" name="email" ref={register({ required: true })} />
+          <S.Input type="text" placeholder="password" name="password" ref={register({ required: true, minLength: 8, maxLength: 20 })} />
 
           <input type="submit" />
         </form>
