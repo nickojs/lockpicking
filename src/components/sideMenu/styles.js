@@ -1,5 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 import { Container as C } from '../../generalStyles';
+import arrow from '../../assets/sideMenuArrow.png';
 
 const animItem = keyframes`
   from{
@@ -12,9 +13,25 @@ const animItem = keyframes`
 `;
 
 const activeItem = css`
+  position: relative;
+
   filter: none;
   transition: .3s;
   animation: ${animItem} 1s infinite ease-out;
+  :after{
+    content: 'arrow';
+    color: transparent;
+    position: absolute;
+    right: -30%; top: -32%;
+
+    background: url(${arrow});
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    width: 36px;
+    height: 36px;
+  }
 `;
 
 export const Container = styled(C)`
@@ -31,8 +48,7 @@ export const SideMenu = styled.div`
   align-items: flex-start;
   justify-content: center;
 
-  width: 30%;
-  max-width: 350px;
+  width: 300px;
 
   background: rgba(0, 0, 0, 0.8);
   border-right: 2px solid grey; 
@@ -44,6 +60,7 @@ export const SideItems = styled.ul`
 `;
 
 export const Item = styled.li`
+  width: 100%;
   margin: 24px 0; 
   font-weight: 700;
   ${(props) => props.active && activeItem}
