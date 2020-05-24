@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import * as S from './styles';
+import SideMenu from '../../components/sideMenu/sideMenu';
 import Dialog from '../../components/dialog/dialog';
 
 const Login = () => {
@@ -12,7 +13,8 @@ const Login = () => {
   return (
     <S.Container>
       <S.Title>Login</S.Title>
-      <Dialog>
+      <SideMenu />
+      {/* <Dialog>
         <S.SmallTitle>Wait... I know you</S.SmallTitle>
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <S.FormInputs>
@@ -24,7 +26,7 @@ const Login = () => {
             <S.ConfirmButton type="submit" value="Login" />
           </S.FormSubmit>
         </S.Form>
-      </Dialog>
+      </Dialog> */}
     </S.Container>
   );
 };
