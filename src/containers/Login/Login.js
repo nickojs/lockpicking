@@ -11,15 +11,19 @@ const Login = () => {
 
   return (
     <S.Container>
-      <S.Title>Wait.. I know you</S.Title>
+      <S.Title>Login</S.Title>
       <Dialog>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <S.Input type="text" placeholder="username" name="username" ref={register({ required: true, minLength: 4, maxLength: 18 })} />
-          <S.Input type="email" placeholder="email" name="email" ref={register({ required: true })} />
-          <S.Input type="text" placeholder="password" name="password" ref={register({ required: true, minLength: 8, maxLength: 20 })} />
-
-          <input type="submit" />
-        </form>
+        <S.SmallTitle>Wait... I know you</S.SmallTitle>
+        <S.Form onSubmit={handleSubmit(onSubmit)}>
+          <S.FormInputs>
+            <S.Input type="text" placeholder="username" name="username" ref={register({ required: true, minLength: 4, maxLength: 18 })} />
+            <S.Input type="email" placeholder="email" name="email" ref={register({ required: true })} />
+            <S.Input type="text" placeholder="password" name="password" ref={register({ required: true, minLength: 8, maxLength: 20 })} />
+          </S.FormInputs>
+          <S.FormSubmit>
+            <S.ConfirmButton type="submit" value="Login" />
+          </S.FormSubmit>
+        </S.Form>
       </Dialog>
     </S.Container>
   );
