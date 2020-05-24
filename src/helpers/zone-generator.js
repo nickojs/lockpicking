@@ -77,6 +77,11 @@ const zoneGenerator = (difficulty) => {
   const hotzone = genArr([hotzoneStart, hotzoneEnd]);
   const hotzoneLength = hotzone.length;
 
+  if (difficulty === 0) {
+    const unlockzone = hotzone;
+    return { hotzone, unlockzone, info, lifeSpeed };
+  }
+
   // unlockzone start at 35% of hotzone, ends at 75%
   const unStart = Math.ceil((35 / 100) * hotzoneLength);
   const unEnd = Math.ceil((75 / 100) * hotzoneLength);
