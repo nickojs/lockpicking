@@ -49,6 +49,7 @@ const Login = () => {
     container.current.focus();
   };
 
+  const changeFormType = (i) => setIndex(i);
 
   return (
     <>
@@ -61,7 +62,7 @@ const Login = () => {
         <Title>Login</Title>
         <TextSmall>Press space to open menu</TextSmall>
         {triggerForm
-          && <Forms index={index} />}
+          && <Forms index={index} changeForm={changeFormType} />}
       </S.Container>
       <SideMenu
         toggle={toggleMenu}

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 
 export const SmallTitle = styled.h1`
@@ -49,19 +49,28 @@ export const FormSubmit = styled.div`
   align-self: center;
 `;
 
+const disabledBtn = css`
+  text-decoration: line-through;
+  color: grey;
+`;
+
+const enabledBtn = css`
+  color: white;
+  &:hover{ text-shadow: 1px 1px 10px white; }
+  &:visited{ color: white; }
+  &:disabled{ color: red; }
+`;
+
 export const ConfirmButton = styled.input`
   box-sizing: border-box;
   font-family: inherit;
   font-size: inherit;
   
-  height: 100px;
-  width: 100px;
   padding: 20px;
+  height: 100px; width: auto;
 
-  color: white;
-  background: transparent;
   border: 0;
-
-  &:hover{ text-shadow: 1px 1px 10px white; }
-  &:visited{ color: white; }
+  background: transparent;
+  transition: .5s ease;
+  ${(props) => (props.isDisabled ? disabledBtn : enabledBtn)}
 `;
