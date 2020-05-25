@@ -19,8 +19,10 @@
   },
   "plugins": [
     "react",
-    "react-hooks"
+    "react-hooks",
+    "babel"
   ],
+  "parser": "babel-eslint",
   "rules": {
     "consistent-return": 0,
     "no-plusplus": [
