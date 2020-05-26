@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import * as S from './styles';
 import Dialog from '../dialog/dialog';
 
 const Forms = ({ index, changeForm }) => {
+  const [togglePassword, setTogglePassword] = useState(true);
+
   const {
     register: registerSignup,
     handleSubmit: handleSubmitSignup,
@@ -57,12 +59,18 @@ const Forms = ({ index, changeForm }) => {
                 && <S.ErrorMsg>email required</S.ErrorMsg>}
               {errorsSignup?.email?.types?.pattern
                 && <S.ErrorMsg>invalid email</S.ErrorMsg>}
-              <S.Input
-                type="text"
-                placeholder="password"
-                name="password"
-                ref={registerSignup({ required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ })}
-              />
+              <S.InputDiv>
+                <S.Input
+                  type={togglePassword ? 'password' : 'text'}
+                  placeholder="password"
+                  name="password"
+                  ref={registerSignup({ required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ })}
+                />
+                <S.PasswordIndicator
+                  onClick={() => setTogglePassword(!togglePassword)}
+                  indicator={togglePassword}
+                />
+              </S.InputDiv>
               {errorsSignup?.password?.types?.required
                 && <S.ErrorMsg>password required</S.ErrorMsg>}
               {errorsSignup?.password?.types?.pattern
@@ -95,22 +103,24 @@ const Forms = ({ index, changeForm }) => {
                 type="text"
                 placeholder="username"
                 name="username"
-                ref={registerLogin({ required: true, minLength: 4, maxLength: 18 })}
+                ref={registerLogin({ required: true })}
               />
               {errorsLogin?.username?.types?.required
                 && <S.ErrorMsg>username is required</S.ErrorMsg>}
-              {(errorsLogin?.username?.types?.minLength || errorsLogin?.username?.types?.maxLength)
-                && <S.ErrorMsg>username length outside legal limits</S.ErrorMsg>}
-              <S.Input
-                type="text"
-                placeholder="password"
-                name="password"
-                ref={registerLogin({ required: true, minLength: 8, maxLength: 20 })}
-              />
-              {errorsLogin?.username?.types?.required
+              <S.InputDiv>
+                <S.Input
+                  type={togglePassword ? 'password' : 'text'}
+                  placeholder="password"
+                  name="password"
+                  ref={registerLogin({ required: true })}
+                />
+                <S.PasswordIndicator
+                  onClick={() => setTogglePassword(!togglePassword)}
+                  indicator={togglePassword}
+                />
+              </S.InputDiv>
+              {errorsLogin?.password?.types?.required
                 && <S.ErrorMsg>password is required</S.ErrorMsg>}
-              {(errorsLogin?.password?.types?.minLength || errorsLogin?.password?.types?.maxLength)
-                && <S.ErrorMsg>password length outside legal limits</S.ErrorMsg>}
             </S.FormInputs>
             <S.FormSubmit>
               <S.ConfirmButton

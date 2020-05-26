@@ -1,4 +1,6 @@
 import styled, { css } from 'styled-components';
+import openEye from '../../assets/openEye.png';
+import closedEye from '../../assets/closedEye.png';
 
 
 export const SmallTitle = styled.h1`
@@ -26,7 +28,6 @@ export const Form = styled.form`
 
   div { 
     box-sizing: border-box;
-    padding: 12px;
   }
 `;
 
@@ -42,7 +43,42 @@ export const Input = styled.input`
   background: transparent;
 `;
 
-export const FormInputs = styled.div` grid-area: form-inputs; `;
+export const InputDiv = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0;
+  max-width: 302px;
+`;
+
+const openEyeIndicator = css`
+  background: url(${openEye});
+`;
+
+const closedEyeIndicator = css`
+  background: url(${closedEye});
+`;
+
+export const PasswordIndicator = styled.span`
+  position: absolute;
+  top: calc(25% - 4px); right: 0;
+
+  display: block;
+  width: 36px; height: 36px;
+  
+  border: 0;
+  ${({ indicator }) => (indicator ? closedEyeIndicator : openEyeIndicator)}
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+`;
+
+export const FormInputs = styled.div`
+  grid-area: form-inputs; 
+  padding: 12px;  
+`;
 
 export const FormSubmit = styled.div` 
   grid-area: form-submit; 
