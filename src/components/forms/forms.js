@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setAuth } from '../../store/actions/user';
 
 import * as S from './styles';
 import Dialog from '../dialog/dialog';
@@ -11,14 +14,23 @@ const Forms = ({ index, changeForm }) => {
   const [requestData, clear] = useRequest(options);
   const { loading, error, data } = requestData;
 
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    if (data) {
+    if (index === 0 && data) {
       setTimeout(() => {
         clear();
         changeForm(1);
       }, 500);
     }
-  }, [data, changeForm, index, clear]);
+    if (index === 1 && data) {
+      setTimeout(() => {
+        history.push('/');
+        return dispatch(setAuth({ isAuth: true, token: 'blablabla' }));
+      }, 1500);
+    }
+  }, [index, data, changeForm, clear, history, dispatch]);
 
   const onSubmitSignup = (payload) => setOptions({
     method: 'POST',
