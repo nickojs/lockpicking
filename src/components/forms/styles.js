@@ -110,3 +110,13 @@ export const ConfirmButton = styled.input`
   transition: .5s ease;
   ${(props) => (props.isDisabled ? disabledBtn : enabledBtn)}
 `;
+
+export const MsgContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p{ 
+    margin: 24px auto;
+  }
+`;
