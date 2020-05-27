@@ -9,27 +9,28 @@ import LoginForm from './loginForm/loginForm';
 const Forms = ({ index, changeForm }) => {
   const [options, setOptions] = useState({});
   const [requestData, clear] = useRequest(options);
+  const { loading, error, data } = requestData;
 
   useEffect(() => {
-    console.log('data...:', requestData);
-    if (requestData.data) {
+    console.log('data...:', data);
+    if (data) {
       setTimeout(() => {
         clear();
         changeForm(1);
       }, 500);
     }
-  }, [requestData, changeForm, index, clear]);
+  }, [data, changeForm, index, clear]);
 
-  const onSubmitSignup = (data) => setOptions({
+  const onSubmitSignup = (payload) => setOptions({
     method: 'POST',
     url: 'http://localhost:5000/users',
-    data
+    data: payload
   });
 
-  const onSubmitLogin = (data) => setOptions({
+  const onSubmitLogin = (payload) => setOptions({
     method: 'POST',
     url: 'http://localhost:5000/login',
-    data
+    data: payload
   });
 
   let form = null;
@@ -48,9 +49,18 @@ const Forms = ({ index, changeForm }) => {
   return (
     <Dialog>
       <S.MsgContainer>
-        {requestData.error
-          && <S.ErrorMsg>Something went wrong!</S.ErrorMsg>}
-        {requestData.loading
+        {error
+           && (
+           <div>
+             <S.ErrorMsg>
+               Something went wrong:
+               <br />
+               <br />
+               {error}
+             </S.ErrorMsg>
+           </div>
+           )}
+        {loading
           && <p>Loading...</p>}
       </S.MsgContainer>
       {form}
