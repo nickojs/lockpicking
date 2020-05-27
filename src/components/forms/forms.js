@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import * as S from './styles';
 import Dialog from '../dialog/dialog';
+import useRequest from '../../hooks/request';
 
 const Forms = ({ index, changeForm }) => {
   const [togglePassword, setTogglePassword] = useState(true);
+  const [options, setOptions] = useState({});
+  const requestData = useRequest(options);
 
   const {
     register: registerSignup,
@@ -16,14 +19,24 @@ const Forms = ({ index, changeForm }) => {
     handleSubmit: handleSubmitLogin,
     errors: errorsLogin } = useForm({ mode: 'onBlur', validateCriteriaMode: 'all' });
 
-  const onSubmitSignup = (data) => {
-    console.log('onSubmitSignup: ', data);
-    changeForm(1);
-  };
+  useEffect(() => {
+    console.log('data...:', requestData);
+    if (requestData.data) {
+      setTimeout(() => changeForm(1), 500);
+    }
+  }, [requestData, changeForm]);
 
-  const onSubmitLogin = (data) => {
-    console.log('onSubmitLogin: ', data);
-  };
+  const onSubmitSignup = (data) => setOptions({
+    method: 'POST',
+    url: 'http://localhost:5000/users',
+    data
+  });
+
+  const onSubmitLogin = (data) => setOptions({
+    method: 'POST',
+    url: 'http://localhost:5000/login',
+    data
+  });
 
   console.log('signupErrors: ', errorsSignup);
   console.log('loginErrors: ', errorsLogin);
@@ -140,6 +153,14 @@ const Forms = ({ index, changeForm }) => {
 
   return (
     <Dialog>
+      <div>
+        {requestData.error
+          && <S.ErrorMsg>Something went wrong!</S.ErrorMsg>}
+        {requestData.loading
+          && <p>Loading...</p>}
+        {requestData.data
+          && <p>Redirecting...</p>}
+      </div>
       {form}
     </Dialog>
   );

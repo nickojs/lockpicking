@@ -30,6 +30,10 @@ const requestReducer = (state, action) => {
         error: null,
         data: action.data
       };
+    case 'CLEAR':
+      return {
+        initialState
+      };
     default:
       throw new Error('[useRequest reducer] unknown action: ', action.type);
   }
@@ -76,6 +80,7 @@ export default (options) => {
     }
   }, [options]);
 
+  const clearState = () => dispatch({ type: 'CLEAR' });
 
   useEffect(() => {
     console.log('useRequest effect');
@@ -89,5 +94,5 @@ export default (options) => {
     }
   }, [options, getRequest, postRequest]);
 
-  return requestState;
+  return [requestState, clearState];
 };
