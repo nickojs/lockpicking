@@ -32,7 +32,7 @@ const requestReducer = (state, action) => {
       };
     case 'CLEAR':
       return {
-        initialState
+        ...initialState
       };
     default:
       throw new Error('[useRequest reducer] unknown action: ', action.type);
