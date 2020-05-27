@@ -12,7 +12,6 @@ const Forms = ({ index, changeForm }) => {
   const { loading, error, data } = requestData;
 
   useEffect(() => {
-    console.log('data...:', data);
     if (data) {
       setTimeout(() => {
         clear();
@@ -62,6 +61,7 @@ const Forms = ({ index, changeForm }) => {
            )}
         {loading
           && <p>Loading...</p>}
+        {data && <p>Redirecting...</p>}
       </S.MsgContainer>
       {form}
     </Dialog>

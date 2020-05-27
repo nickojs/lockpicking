@@ -52,7 +52,7 @@ export default (options) => {
       dispatch({ type: 'DATA', data: request.data });
     } catch (err) {
       if (err.response) {
-        dispatch({ type: 'ERROR', error: err.response });
+        dispatch({ type: 'ERROR', error: err.response.data.message });
       } else if (err.request) {
         dispatch({ type: 'ERROR', error: 'Couldn\'t reach server.' });
       } else {
@@ -71,7 +71,7 @@ export default (options) => {
       dispatch({ type: 'DATA', data: request.data });
     } catch (err) {
       if (err.response) {
-        dispatch({ type: 'ERROR', error: err.response.data });
+        dispatch({ type: 'ERROR', error: err.response.data.message });
       } else if (err.request) {
         dispatch({ type: 'ERROR', error: 'Couldn\'t reach server.' });
       } else {
