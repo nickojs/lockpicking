@@ -22,6 +22,7 @@ export const MenuContainer = styled.div`
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 30;
   height: 100vh;
   width: 100vw;
   text-align: center;
