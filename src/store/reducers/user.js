@@ -1,13 +1,17 @@
 import { userActions } from '../actions/actionTypes';
 
 const initState = {
+  navigation: false,
   isAuth: false,
-  navigation: false
+  token: null,
+  username: null
 };
 
 export const setAuth = (state, action) => ({
   ...state,
-  isAuth: action.auth
+  isAuth: action.auth,
+  token: action.token,
+  username: action.username
 });
 
 export const setNavigation = (state, action) => ({

@@ -27,7 +27,12 @@ const Forms = ({ index, changeForm }) => {
     if (index === 1 && data) {
       setTimeout(() => {
         history.push('/');
-        return dispatch(setAuth({ isAuth: true, token: 'blablabla' }));
+        const payload = {
+          auth: true,
+          token: 'blablabla',
+          username: data.username
+        };
+        return dispatch(setAuth(payload));
       }, 1500);
     }
   }, [index, data, changeForm, clear, history, dispatch]);
