@@ -38,13 +38,14 @@ export const ArrowContainer = styled.div`
 
 const anim = keyframes`
   from{ 
-    transform: translateY(0px);
+    transform: rotate(90deg) translateX(0px);
   }to{ 
-    transform: translateY(5px);
+    transform: rotate(90deg) translateX(5px);
   }
 `;
 export const Arrow = styled.img`
   width: 100%;
+  transform: rotate(90deg);
 
   &:hover{ 
     animation: ${anim} .5s infinite;
