@@ -1,5 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import * as S from './styles';
 import Unlocked from './unlocked/unlocked';
@@ -7,7 +8,7 @@ import GameOver from './gameOver/gameOver';
 import Dialog from '../../components/dialog/dialog';
 
 const Outcome = () => {
-  const dispatch = useDispatch();
+  const history = useHistory();
   const { gameOver, unlock, settings } = useSelector((state) => state.game);
   const { pickLives } = useSelector((state) => state.pick);
   const stats = {
@@ -24,7 +25,7 @@ const Outcome = () => {
         {gameover}
         <S.Navigation>
           <S.Button
-            onClick={() => dispatch({ type: 'RESET_STATE' })}
+            onClick={() => history.push('/')}
           >
             Return
           </S.Button>
