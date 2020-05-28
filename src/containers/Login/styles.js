@@ -20,7 +20,3 @@ export const Container = styled(C)`
   transition: filter .3s;
   ${(props) => props.toggle && filter}
 `;
-
-export const Title = styled(T)`
-  padding-top: .5em;
-`;

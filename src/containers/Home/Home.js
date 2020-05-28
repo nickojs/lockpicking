@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setNavigation } from '../../store/actions/user';
 
 import * as S from './styles';
-import { Title, Text, TextSmall } from '../../generalStyles';
+import { Title, Text, TextSmall, InnerContainer } from '../../generalStyles';
 
 import Menu from '../../components/menu/menu';
 
@@ -76,12 +76,12 @@ const Home = () => {
   return (
     <div>
       <S.Container ref={container} tabIndex="0" onKeyDown={keyDownHandler} isMenuOpen={menuToggle}>
-        <S.InnerContainer>
+        <InnerContainer>
           <Title>Skyrim</Title>
           <Text>lockpick simulator</Text>
           <hr />
           <TextSmall>Press space to start</TextSmall>
-        </S.InnerContainer>
+        </InnerContainer>
       </S.Container>
       <Menu
         toggle={menuToggle}

@@ -8,7 +8,7 @@ export const Container = styled(C)`
   background-image: url(${background});
 `;
 
-export const InnerContainer = styled.div`
+export const LayerContainer = styled.div`
   height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.7);
@@ -17,7 +17,6 @@ export const InnerContainer = styled.div`
 export const LimitContainer = styled.div`
   width: 60%;
   margin: 0 auto;
-  padding-top: 3em;
 `;
 
 export const Link = styled(L)`

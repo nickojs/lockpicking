@@ -17,11 +17,3 @@ export const Container = styled(C)`
   color: white;
   background-image: url(${backgrund});
 `;
-
-export const InnerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-top: 5em;
-`;

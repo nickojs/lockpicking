@@ -1,12 +1,14 @@
 import React from 'react';
 import * as S from './styles';
-import { Title, Line } from '../../generalStyles';
+import { Title, Line, InnerContainer } from '../../generalStyles';
 
 const About = () => (
   <S.Container>
-    <S.InnerContainer>
+    <S.LayerContainer>
       <S.LimitContainer>
-        <Title>About</Title>
+        <InnerContainer>
+          <Title>About</Title>
+        </InnerContainer>
         <Line>Coded by: <S.Link href="https://github.com/nickojs">This dude</S.Link></Line>
         <Line>Developed with ReactJs, using <S.Link href="https://www.npmjcom/package/cra-template-nickojs">my clean template</S.Link>, check it out!</Line>
         <Line>Backgrounds are mostly Skyrim screenshots found on the web</Line>
@@ -22,7 +24,7 @@ const About = () => (
           <S.Link href="http://www.rw-designer.com/cursor-detail/30682">here</S.Link>
         </Line>
       </S.LimitContainer>
-    </S.InnerContainer>
+    </S.LayerContainer>
   </S.Container>
 );
 

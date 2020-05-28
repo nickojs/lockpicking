@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 
 import * as S from './styles';
-import { Title, TextSmall } from '../../generalStyles';
+import { Title, TextSmall, InnerContainer } from '../../generalStyles';
 import Forms from '../../components/forms/forms';
 
 import SideMenu from '../../components/sideMenu/sideMenu';
@@ -59,8 +59,10 @@ const Login = () => {
         toggle={toggleMenu}
         onKeyDown={keyDownHandler}
       >
-        <Title>Login</Title>
-        <TextSmall>Press space to open menu</TextSmall>
+        <InnerContainer>
+          <Title>Login</Title>
+          <TextSmall>Press space to open menu</TextSmall>
+        </InnerContainer>
         {triggerForm
           && <Forms index={index} changeForm={changeFormType} />}
       </S.Container>

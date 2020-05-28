@@ -14,6 +14,14 @@ export const Container = styled.div`
   background-size: cover;
 `;
 
+export const InnerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 5em;
+`;
+
 export const Title = styled.h1`
   font-size: 4em;
   font-weight: 700;
