@@ -37,7 +37,7 @@ export const MenuLayer = styled.div`
   transform: translate(-50%, -50%);
   width: 80%;
   height: 600px;
-  width: 600px;
+  width: 700px;
   max-height: 600px;
   max-width: 600px;
 `;

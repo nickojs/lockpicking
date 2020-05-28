@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setNavigation } from '../../store/actions/user';
 
 import * as S from './styles';
@@ -14,6 +14,7 @@ const Home = () => {
   const [menuToggle, setMenuToggle] = useState(false);
   const container = useRef(null);
   const dispatch = useDispatch();
+  const { isAuth } = useSelector((state) => state.user);
 
   const keyFilter = {
     87: {
@@ -26,7 +27,7 @@ const Home = () => {
     },
     68: {
       key: 'd',
-      path: '/login'
+      path: isAuth ? '/logout' : '/login'
     },
     83: {
       key: 's',

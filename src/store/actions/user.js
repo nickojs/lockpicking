@@ -11,3 +11,7 @@ export const setNavigation = (navigation) => ({
   type: userActions.SET_NAVIGATION,
   navigation
 });
+
+export const logout = () => ({
+  type: userActions.LOGOUT
+});

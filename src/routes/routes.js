@@ -7,6 +7,7 @@ import Lockpad from '../containers/Lockpad/Lockpad';
 import Outcome from '../containers/Outcome/Outcome';
 import About from '../containers/About/About';
 import Login from '../containers/Login/Login';
+import Logout from '../containers/Logout/Logout';
 
 import withAnimation from '../hoc/withAnimation';
 import withNavigation from '../hoc/withNavigation';
@@ -16,7 +17,8 @@ const routesArray = [
   { path: '/game', name: 'Game', Component: Lockpad },
   { path: '/endgame', name: 'Endgame', Component: Outcome },
   { path: '/about', name: 'About', Component: About },
-  { path: '/login', name: 'Login', Component: Login }
+  { path: '/login', name: 'Login', Component: Login },
+  { path: '/logout', name: 'Logout', Component: Logout }
 ];
 
 const routes = (

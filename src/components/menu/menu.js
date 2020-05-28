@@ -1,8 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import * as S from './styles';
 
 const Menu = ({ keyPressed, toggle, clicked }) => {
   const { key } = keyPressed !== null && keyPressed;
+  const { isAuth } = useSelector((state) => state.user);
 
   const menuContainer = toggle && (
     <S.MenuContainer onClick={clicked}>
@@ -28,7 +30,7 @@ const Menu = ({ keyPressed, toggle, clicked }) => {
           <S.RowWrapper>
             <S.ArrowRight active={key === 'd' ? 1 : 0} />
           </S.RowWrapper>
-          <p>Login</p>
+          <p>{isAuth ? 'Logout' : 'Login'}</p>
         </S.MenuRight>
 
         <S.MenuBottom>
