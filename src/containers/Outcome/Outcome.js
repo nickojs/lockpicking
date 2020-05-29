@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import * as S from './styles';
@@ -9,6 +9,7 @@ import Dialog from '../../components/dialog/dialog';
 
 const Outcome = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const { gameOver, unlock, settings } = useSelector((state) => state.game);
   const { pickLives } = useSelector((state) => state.pick);
   const { username } = useSelector((state) => state.user);
@@ -16,8 +17,14 @@ const Outcome = () => {
     totalTime: (Date.now() - settings.startingTime) / 1000,
     picks: pickLives
   };
+
   const gameover = gameOver && <GameOver />;
   const unlocked = unlock && <Unlocked stats={stats} name={username} />;
+
+  const returnButtonHandler = () => {
+    dispatch({ type: 'RESET_GAME' });
+    history.push('/');
+  };
 
   return (
     <S.Container>
@@ -25,9 +32,7 @@ const Outcome = () => {
         {unlocked}
         {gameover}
         <S.Navigation>
-          <S.Button
-            onClick={() => history.push('/')}
-          >
+          <S.Button onClick={returnButtonHandler}>
             Return
           </S.Button>
           {/* <p>Share</p> */}

@@ -30,8 +30,10 @@ const dataReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  if (action.type === 'RESET_STATE') {
-    state = undefined;
+  // resets the game, keeping login data
+  if (action.type === 'RESET_GAME') {
+    const { user } = state;
+    state = { user };
   }
 
   return dataReducer(state, action);
