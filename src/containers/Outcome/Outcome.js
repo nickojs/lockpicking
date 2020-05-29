@@ -11,12 +11,13 @@ const Outcome = () => {
   const history = useHistory();
   const { gameOver, unlock, settings } = useSelector((state) => state.game);
   const { pickLives } = useSelector((state) => state.pick);
+  const { username } = useSelector((state) => state.user);
   const stats = {
     totalTime: (Date.now() - settings.startingTime) / 1000,
     picks: pickLives
   };
   const gameover = gameOver && <GameOver />;
-  const unlocked = unlock && <Unlocked stats={stats} />;
+  const unlocked = unlock && <Unlocked stats={stats} name={username} />;
 
   return (
     <S.Container>

@@ -1,8 +1,8 @@
 import React from 'react';
 
-const unlocked = ({ stats }) => (
+const unlocked = ({ stats, name }) => (
   <>
-    <h1>Congratulations! <br />
+    <h1>Congratulations, {name}! <br />
       You unlocked the chest
     </h1>
     <hr />
