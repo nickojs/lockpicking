@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Container as C } from '../../generalStyles';
-import bg from '../../assets/texture.png';
+import bg from '../../assets/image/texture.png';
 
 export const Container = styled(C)`
   justify-content: center;

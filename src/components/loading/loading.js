@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './styles';
 
-const Loading = (props) => (
+const Loading = () => (
   <S.LoadingScreen />
 );
 

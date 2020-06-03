@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
-import openEye from '../../assets/openEye.png';
-import closedEye from '../../assets/closedEye.png';
+import openEye from '../../assets/forms/openEye.png';
+import closedEye from '../../assets/forms/closedEye.png';
 
 
 export const SmallTitle = styled.h1`

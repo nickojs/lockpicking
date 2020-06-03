@@ -8,8 +8,6 @@ const LoginForm = ({ submit }) => {
     mode: 'onBlur', validateCriteriaMode: 'all'
   });
 
-  console.log('LoginErrors: ', errors);
-
   return (
     <>
       <S.SmallTitle>Wait... I know you</S.SmallTitle>

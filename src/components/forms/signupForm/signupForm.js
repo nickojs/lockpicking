@@ -8,8 +8,6 @@ const SignupForm = ({ submit }) => {
     mode: 'onBlur', validateCriteriaMode: 'all'
   });
 
-  console.log('signupErrors: ', errors);
-
   return (
     <>
       <S.SmallTitle>Hey you, you&apos;re finally awake</S.SmallTitle>

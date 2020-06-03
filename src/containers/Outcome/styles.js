@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import background from '../../assets/texture.png';
+import background from '../../assets/image/texture.png';
 
 export const Container = styled.div`
   position: absolute;

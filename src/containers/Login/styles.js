@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Container as C, Title as T } from '../../generalStyles';
+import { Container as C } from '../../generalStyles';
 import bg from '../../assets/image/login.jpg';
 
 const filter = css`

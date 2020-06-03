@@ -7,7 +7,7 @@ export const Container = styled(C)`
   /* IDK why but without this it won't work, but it should */
   background-position: center;
   background-size: cover;
-}`;
+`;
 
 export const Title = styled.h2`
   text-align: center;

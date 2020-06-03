@@ -83,8 +83,6 @@ export default (options) => {
   const clearState = () => dispatch({ type: 'CLEAR' });
 
   useEffect(() => {
-    console.log('useRequest effect');
-
     if (options.method === 'POST'
       && options.data) {
       postRequest();

@@ -19,7 +19,7 @@ export const setNavigation = (state, action) => ({
   navigation: action.navigation
 });
 
-export const logout = (state, action) => ({
+export const logout = () => ({
   ...initState
 });
 
