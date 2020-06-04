@@ -23,7 +23,6 @@ To reproduce this system, I implemented input and configuration layers (as seen 
 ### zones
 To give the player a nice feedback, like if he is close to unlock, custom lockpad rotation, and so on, I've implemented an array system (or something like that), where two arrays are randomly generated, based on difficulty. 
   1. Hotzone
-<<<<<<< HEAD
   ⋅⋅⋅This zone shows the user that he is getting closer to unlock, changes the lockpad rotation.
   2. Unlockzone
   ⋅⋅⋅As the name suggests, this zone determines the opening of the lock.
@@ -52,36 +51,6 @@ To give the player a nice feedback, like if he is close to unlock, custom lockpa
 
 3. Game 
   ⋅⋅⋅General configuration, like notifications, or wheter the game is over or the player wins.
-=======
-  ...This zone shows the user that he is getting closer to unlock, changes the lockpad rotation.
-  2. Unlockzone
-  ...As the name suggests, this zone determines the opening of the lock.
-
-### reducers ]
-0. Input
-  ...This reducer just records user inupt, like keyDown/Up, mouseDown/Up, mousemove event, and also for how long a key is being pressed. 
-  
-1. Movement:
-  ...This reducer is responsable for _transcribing_ the user input into actual usable data. It determines unlockability, distance from unlockzone, how much will the lockpad rotate, if it is turning, etc.
-  ..* **isUnlockable**
-    ...Based on the distanceFromUnlock, determines if the lock is able to be unlocked (player wins). Note: this check could be done using distanceFromUnlock alone, but it would trigger lots of unnecessary renders on two effects.
-  ..* **distanceFromUnlock**
-    ...Sets the distance from unlockzone, to determine how much the lock will rotate, based on how close/far the player is from the unlockzone.
-  ..* **turning**
-    ...Determine if the player is trying to unlock, turning the lockpad
-  ..* **rotation**
-    ...Lock's rotation, in degs
-
-2. Pick
-  ...Determines pick life, to be able to _break_ it on failure attempts. Also sets how many picks are available to the user.
-  ..* **pickLife**
-    ...From 0 to 100, it is decreased if the player is pressing a key (trying to unlock) and also its not on the unlockzone
-  ..* **pickLives**
-    ...Total picks quantity. Hardcoded to 3.
-
-3. Game 
-  ...General configuration, like notifications, or wheter the game is over or the player wins.
->>>>>>> 2dbf7f6042963f3f2847d385ff62eed0918ceaf1
 
 
 It is also important to understand the *useAngle* custom hook. This hook receives an input event, which is the mousemove event, and then sets the pick's position accordingly. It will also determine angle limits, which currently are *-115deg* and *115deg* - this is important both to the UI and to the engine. To the UI makes sense that the pick only slides 'til a certain point, and for the engine, 
