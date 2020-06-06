@@ -9,12 +9,17 @@ import { Title, Text, TextSmall, InnerContainer } from '../../generalStyles';
 import Menu from '../../components/menu/menu';
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const { isAuth } = useSelector((state) => state.user);
   const [keyIdentifier, setKeyIdentifier] = useState(null);
   const [triggerRoute, setTriggerRoute] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
   const container = useRef(null);
-  const dispatch = useDispatch();
-  const { isAuth } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    // focus the window to enable input
+    container.current.focus();
+  }, []);
 
   const keyFilter = {
     87: {

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import * as S from './styles';
 import { Title, TextSmall, InnerContainer } from '../../generalStyles';
@@ -11,6 +11,11 @@ const Login = () => {
   const [triggerForm, setTriggerForm] = useState(false);
   const [index, setIndex] = useState(0);
   const container = useRef(null);
+
+  useEffect(() => {
+    // focus the window to enable input
+    container.current.focus();
+  }, []);
 
   const keyDownHandler = ({ nativeEvent }) => {
     const { keyCode } = nativeEvent;
