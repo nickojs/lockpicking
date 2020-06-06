@@ -39,17 +39,18 @@ const Forms = ({ index, changeForm }) => {
 
   const onSubmitSignup = (payload) => setOptions({
     method: 'POST',
-    url: 'http://localhost:5000/users',
+    url: `http://${process.env.REACT_APP_BACKEND}/users`,
     data: payload
   });
 
   const onSubmitLogin = (payload) => setOptions({
     method: 'POST',
-    url: 'http://localhost:5000/login',
+    url: `http://${process.env.REACT_APP_BACKEND}/login`,
     data: payload
   });
 
   let form = null;
+  console.log(process.env.REACT_APP_BACKEND);
 
   switch (index) {
     case 0:
