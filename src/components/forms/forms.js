@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-import * as S from './styles';
 import Dialog from '../dialog/dialog';
 import useRequest from '../../hooks/request';
 
@@ -11,26 +10,10 @@ import TokenForm from './tokenForm/tokenForm';
 const Forms = ({ index, changeForm }) => {
   const [options, setOptions] = useState({});
   const [requestData, clear] = useRequest(options);
-  const { data } = requestData;
-
-  useEffect(() => {
-    // if (index === 0 && data) {
-    //   setTimeout(() => {
-    //     clear();
-    //     changeForm(1);
-    //   }, 500);
-    // }
-    if (index === 2 && data) {
-      console.log(data);
-      setTimeout(() => {
-        clear();
-      }, 500);
-    }
-  }, [index, data, changeForm, clear]);
-
-  let form = null;
 
   const requestHandler = (payload) => setOptions(payload);
+
+  let form = null;
 
   switch (index) {
     case 0:
