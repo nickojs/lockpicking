@@ -25,32 +25,33 @@ const Forms = ({ index, changeForm }) => {
       }, 500);
     }
     if (index === 1 && data) {
+      console.log(data);
       setTimeout(() => {
         history.push('/');
         const payload = {
           auth: true,
-          token: 'blablabla',
-          username: data.username
+          token: data.token,
+          username: 'placeholder'
         };
         return dispatch(setAuth(payload));
       }, 1500);
     }
   }, [index, data, changeForm, clear, history, dispatch]);
 
+
   const onSubmitSignup = (payload) => setOptions({
     method: 'POST',
-    url: `http://${process.env.REACT_APP_BACKEND}/users`,
+    url: `https://${process.env.REACT_APP_BACKEND}/auth/signup`,
     data: payload
   });
 
   const onSubmitLogin = (payload) => setOptions({
     method: 'POST',
-    url: `http://${process.env.REACT_APP_BACKEND}/login`,
+    url: `https://${process.env.REACT_APP_BACKEND}/auth/login`,
     data: payload
   });
 
   let form = null;
-  console.log(process.env.REACT_APP_BACKEND);
 
   switch (index) {
     case 0:
@@ -66,19 +67,8 @@ const Forms = ({ index, changeForm }) => {
   return (
     <Dialog>
       <S.MsgContainer>
-        {error
-           && (
-           <div>
-             <S.ErrorMsg>
-               Something went wrong:
-               <br />
-               <br />
-               {error}
-             </S.ErrorMsg>
-           </div>
-           )}
-        {loading
-          && <p>Loading...</p>}
+        {error && <S.ErrorMsg>{error}</S.ErrorMsg> }
+        {loading && <p>Loading...</p>}
         {data && <p>Redirecting...</p>}
       </S.MsgContainer>
       {form}
