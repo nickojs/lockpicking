@@ -2,14 +2,26 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as S from '../styles';
 
-const LoginForm = ({ submit }) => {
+const LoginForm = ({ optionsHandler, dataHandler }) => {
   const [togglePassword, setTogglePassword] = useState(true);
   const { register, handleSubmit, errors } = useForm({
     mode: 'onBlur', validateCriteriaMode: 'all'
   });
+  const { loading, error, data } = dataHandler;
+
+  const submit = (payload) => optionsHandler({
+    method: 'POST',
+    url: `https://${process.env.REACT_APP_BACKEND}/auth/login`,
+    data: payload
+  });
 
   return (
     <>
+      <S.MsgContainer>
+        {error && <S.ErrorMsg>{error}</S.ErrorMsg> }
+        {loading && <p>Loading...</p>}
+        {data && <p>Redirecting...</p>}
+      </S.MsgContainer>
       <S.SmallTitle>Wait... I know you</S.SmallTitle>
       <S.Form key={1} onSubmit={handleSubmit(submit)} id="loginForm">
         <S.FormInputs>

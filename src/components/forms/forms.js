@@ -8,8 +8,10 @@ import { setAuth } from '../../store/actions/user';
 import * as S from './styles';
 import Dialog from '../dialog/dialog';
 import useRequest from '../../hooks/request';
+
 import SignupForm from './signupForm/signupForm';
 import LoginForm from './loginForm/loginForm';
+import TokenForm from './tokenForm/tokenForm';
 
 const Forms = ({ index, changeForm }) => {
   const [options, setOptions] = useState({});
@@ -37,28 +39,42 @@ const Forms = ({ index, changeForm }) => {
         }));
       }, 1500);
     }
+    if (index === 2 && data) {
+      console.log(data);
+      setTimeout(() => {
+        clear();
+      }, 500);
+    }
   }, [index, data, changeForm, clear, history, dispatch]);
-
-  const onSubmitSignup = (payload) => setOptions({
-    method: 'POST',
-    url: `https://${process.env.REACT_APP_BACKEND}/auth/signup`,
-    data: payload
-  });
-
-  const onSubmitLogin = (payload) => setOptions({
-    method: 'POST',
-    url: `https://${process.env.REACT_APP_BACKEND}/auth/login`,
-    data: payload
-  });
 
   let form = null;
 
+  const requestHandler = (payload) => setOptions(payload);
+
   switch (index) {
     case 0:
-      form = <SignupForm submit={onSubmitSignup} />;
+      form = (
+        <SignupForm
+          optionsHandler={requestHandler}
+          dataHandler={requestData}
+        />
+      );
       break;
     case 1:
-      form = <LoginForm submit={onSubmitLogin} />;
+      form = (
+        <LoginForm
+          optionsHandler={requestHandler}
+          dataHandler={requestData}
+        />
+      );
+      break;
+    case 2:
+      form = (
+        <TokenForm
+          optionsHandler={requestHandler}
+          dataHandler={requestData}
+        />
+      );
       break;
     default:
       break;
@@ -66,11 +82,6 @@ const Forms = ({ index, changeForm }) => {
 
   return (
     <Dialog>
-      <S.MsgContainer>
-        {error && <S.ErrorMsg>{error}</S.ErrorMsg> }
-        {loading && <p>Loading...</p>}
-        {data && <p>Redirecting...</p>}
-      </S.MsgContainer>
       {form}
     </Dialog>
   );
