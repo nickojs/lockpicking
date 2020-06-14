@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import jwt from 'jsonwebtoken';
-
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setAuth } from '../../store/actions/user';
 
 import * as S from './styles';
 import Dialog from '../dialog/dialog';
@@ -16,10 +11,7 @@ import TokenForm from './tokenForm/tokenForm';
 const Forms = ({ index, changeForm }) => {
   const [options, setOptions] = useState({});
   const [requestData, clear] = useRequest(options);
-  const { loading, error, data } = requestData;
-
-  const history = useHistory();
-  const dispatch = useDispatch();
+  const { data } = requestData;
 
   useEffect(() => {
     if (index === 0 && data) {
@@ -28,24 +20,13 @@ const Forms = ({ index, changeForm }) => {
         changeForm(1);
       }, 500);
     }
-    if (index === 1 && data) {
-      setTimeout(() => {
-        history.push('/');
-        const payload = jwt.decode(data.token);
-        return dispatch(setAuth({
-          auth: true,
-          token: data.token,
-          ...payload
-        }));
-      }, 1500);
-    }
     if (index === 2 && data) {
       console.log(data);
       setTimeout(() => {
         clear();
       }, 500);
     }
-  }, [index, data, changeForm, clear, history, dispatch]);
+  }, [index, data, changeForm, clear]);
 
   let form = null;
 

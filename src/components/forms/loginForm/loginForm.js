@@ -1,19 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import jwt from 'jsonwebtoken';
+
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setAuth } from '../../../store/actions/user';
+
 import * as S from '../styles';
 
 const LoginForm = ({ optionsHandler, dataHandler }) => {
+  const { loading, error, data } = dataHandler;
   const [togglePassword, setTogglePassword] = useState(true);
   const { register, handleSubmit, errors } = useForm({
     mode: 'onBlur', validateCriteriaMode: 'all'
   });
-  const { loading, error, data } = dataHandler;
+
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const submit = (payload) => optionsHandler({
     method: 'POST',
     url: `https://${process.env.REACT_APP_BACKEND}/auth/login`,
     data: payload
   });
+
+  useEffect(() => {
+    if (!data) return;
+    setTimeout(() => {
+      history.push('/');
+      const payload = jwt.decode(data.token);
+      return dispatch(setAuth({
+        auth: true,
+        token: data.token,
+        ...payload
+      }));
+    }, 1000);
+  }, [data, dispatch, history]);
 
   return (
     <>
