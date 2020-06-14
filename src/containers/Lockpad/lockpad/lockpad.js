@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,7 +16,8 @@ import distanceMeter from '../../../helpers/distance-meter';
 
 
 const Lockpad = () => {
-  const { input, movement, pick, game } = useSelector((state) => state);
+  const { input, movement, pick, game, user } = useSelector((state) => state);
+  const { token, username } = user;
   const { keyDown, event, keyPressMoment } = input;
   const { turning, rotation, distanceFromUnlock, isUnlockable } = movement;
   const { pickLife, pickLives } = pick;
@@ -26,6 +27,23 @@ const Lockpad = () => {
   const dispatch = useDispatch();
   const pickRef = useRef(null);
   const pickPosition = useAngle(pickRef, event, hotzone);
+
+  const postStats = useCallback((time, picks) => {
+    console.log('posting stats...');
+
+    fetch(`https://${process.env.REACT_APP_BACKEND}/stats`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username,
+        time,
+        picks
+      })
+    });
+  }, [token, username]);
 
   // defines if the pick is on the hotzone
   useEffect(() => {
@@ -115,8 +133,11 @@ const Lockpad = () => {
         pathname: '/endgame',
         state: gameData
       }));
+
+      // post stats if there is an authenticated user
+      if (username) postStats(totalTime, picks);
     }
-  }, [unlock, gameOver, pickLives, startingTime, dispatch]);
+  }, [unlock, gameOver, pickLives, startingTime, dispatch, postStats, username]);
 
   return (
     <>
