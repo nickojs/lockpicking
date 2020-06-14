@@ -9,7 +9,6 @@ import About from '../containers/About/About';
 import Login from '../containers/Login/Login';
 import Logout from '../containers/Logout/Logout';
 
-import withAnimation from '../hoc/withAnimation';
 import withNavigation from '../hoc/withNavigation';
 
 const routesArray = [
@@ -23,10 +22,10 @@ const routesArray = [
 
 const routes = (
   <Switch>
-    <Route exact path="/" component={withAnimation(Home)} />
+    <Route exact path="/" component={Home} />
     {routesArray.map(
       ({ path, Component }) => (
-        <Route key={path} path={path} component={withAnimation(withNavigation(Component))} />
+        <Route key={path} path={path} component={withNavigation(Component)} />
       )
     )}
     <Redirect to="/" />
