@@ -39,7 +39,6 @@ const Forms = ({ index, changeForm }) => {
     }
   }, [index, data, changeForm, clear, history, dispatch]);
 
-
   const onSubmitSignup = (payload) => setOptions({
     method: 'POST',
     url: `https://${process.env.REACT_APP_BACKEND}/auth/signup`,
