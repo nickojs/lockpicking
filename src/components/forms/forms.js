@@ -14,12 +14,12 @@ const Forms = ({ index, changeForm }) => {
   const { data } = requestData;
 
   useEffect(() => {
-    if (index === 0 && data) {
-      setTimeout(() => {
-        clear();
-        changeForm(1);
-      }, 500);
-    }
+    // if (index === 0 && data) {
+    //   setTimeout(() => {
+    //     clear();
+    //     changeForm(1);
+    //   }, 500);
+    // }
     if (index === 2 && data) {
       console.log(data);
       setTimeout(() => {
@@ -38,6 +38,8 @@ const Forms = ({ index, changeForm }) => {
         <SignupForm
           optionsHandler={requestHandler}
           dataHandler={requestData}
+          changeForm={changeForm}
+          clear={clear}
         />
       );
       break;

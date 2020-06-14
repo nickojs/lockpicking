@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as S from '../styles';
 
-const SignupForm = ({ optionsHandler, dataHandler }) => {
+const SignupForm = ({ optionsHandler, dataHandler, changeForm, clear }) => {
+  const { loading, error, data } = dataHandler;
   const [togglePassword, setTogglePassword] = useState(true);
   const { register, handleSubmit, errors } = useForm({
     mode: 'onBlur', validateCriteriaMode: 'all'
   });
-  const { loading, error, data } = dataHandler;
 
   const submit = (payload) => optionsHandler({
     method: 'POST',
     url: `https://${process.env.REACT_APP_BACKEND}/auth/signup`,
     data: payload
   });
+
+  useEffect(() => {
+    if (!data) return;
+    setTimeout(() => {
+      clear();
+      changeForm(1);
+    }, 500);
+  }, [changeForm, data, clear]);
 
   return (
     <>
