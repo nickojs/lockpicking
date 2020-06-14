@@ -12,8 +12,8 @@ const Login = () => {
   const [index, setIndex] = useState(0);
   const container = useRef(null);
 
+  // focus the window to enable input
   useEffect(() => {
-    // focus the window to enable input
     container.current.focus();
   }, []);
 
@@ -36,7 +36,7 @@ const Login = () => {
           break;
         case 83:
         case 40:
-          if (index < 1) setIndex((prevIndex) => prevIndex + 1);
+          if (index < 2) setIndex((prevIndex) => prevIndex + 1);
           break;
         case 68:
         case 39:
