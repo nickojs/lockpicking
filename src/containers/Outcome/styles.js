@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import background from '../../assets/image/texture.png';
+import Dialog from '../../components/dialog/dialog';
 
 export const Container = styled.div`
   position: absolute;
@@ -37,4 +38,8 @@ export const Button = styled.a`
 
   &:hover{ text-shadow: 1px 1px 10px grey; }
   &:visited{ color: grey; }
+`;
+
+export const DialogPadded = styled(Dialog)`
+  padding: 30px;
 `;

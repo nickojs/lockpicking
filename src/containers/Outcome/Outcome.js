@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import * as S from './styles';
 import Unlocked from './unlocked/unlocked';
 import GameOver from './gameOver/gameOver';
-import Dialog from '../../components/dialog/dialog';
 
 const Outcome = () => {
   const history = useHistory();
@@ -28,7 +27,7 @@ const Outcome = () => {
 
   return (
     <S.Container>
-      <Dialog>
+      <S.DialogPadded>
         {unlocked}
         {gameover}
         <S.Navigation>
@@ -37,7 +36,7 @@ const Outcome = () => {
           </S.Button>
           {/* <p>Share</p> */}
         </S.Navigation>
-      </Dialog>
+      </S.DialogPadded>
     </S.Container>
   );
 };
