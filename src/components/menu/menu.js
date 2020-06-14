@@ -26,7 +26,7 @@ const Menu = ({ keyPressed, toggle, clicked }) => {
           </S.RowWrapper>
         </S.MenuLeft>
 
-        <S.MenuRight>
+        <S.MenuRight isAuth={isAuth}>
           <S.RowWrapper>
             <S.ArrowRight active={key === 'd' ? 1 : 0} />
           </S.RowWrapper>
