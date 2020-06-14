@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import jwt from 'jsonwebtoken';
+
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setAuth } from '../../store/actions/user';
@@ -25,15 +27,14 @@ const Forms = ({ index, changeForm }) => {
       }, 500);
     }
     if (index === 1 && data) {
-      console.log(data);
       setTimeout(() => {
         history.push('/');
-        const payload = {
+        const payload = jwt.decode(data.token);
+        return dispatch(setAuth({
           auth: true,
           token: data.token,
-          username: 'placeholder'
-        };
-        return dispatch(setAuth(payload));
+          ...payload
+        }));
       }, 1500);
     }
   }, [index, data, changeForm, clear, history, dispatch]);
