@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form';
 import * as S from '../styles';
 
 const TokenForm = ({ optionsHandler, dataHandler }) => {
+  const { loading, error, data } = dataHandler;
   const { register, handleSubmit, errors } = useForm({
     mode: 'onBlur', validateCriteriaMode: 'all'
   });
-  const { loading, error, data } = dataHandler;
 
   const submit = (payload) => optionsHandler({
     method: 'POST',
@@ -14,19 +14,16 @@ const TokenForm = ({ optionsHandler, dataHandler }) => {
     data: payload
   });
 
-  console.log(data);
-
   return (
     <>
       <S.MsgContainer>
         {error && <S.ErrorMsg>{error}</S.ErrorMsg> }
         {loading && <p>Loading...</p>}
+        {data && <p>{data.message}</p>}
       </S.MsgContainer>
-      <S.SmallTitle>I used to be an adventurer like you</S.SmallTitle>
-      <hr />
       <S.SmallTitle>
-        Forgot your password, or want to change your user account?
-        Request a temporary token to change your account data!
+        Forgot your password or want to change your user data?
+        Request a temporary token!
       </S.SmallTitle>
 
       <S.Form key={2} onSubmit={handleSubmit(submit)} id="resetTokenForm">
