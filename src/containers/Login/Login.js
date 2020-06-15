@@ -36,7 +36,7 @@ const Login = () => {
           break;
         case 83:
         case 40:
-          if (index < 2) setIndex((prevIndex) => prevIndex + 1);
+          if (index < 3) setIndex((prevIndex) => prevIndex + 1);
           break;
         case 68:
         case 39:

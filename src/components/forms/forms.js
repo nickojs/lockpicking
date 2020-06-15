@@ -6,6 +6,7 @@ import useRequest from '../../hooks/request';
 import SignupForm from './signupForm/signupForm';
 import LoginForm from './loginForm/loginForm';
 import TokenForm from './tokenForm/tokenForm';
+import UpdateForm from './updateForm/updateForm';
 
 const Forms = ({ index, changeForm }) => {
   const [options, setOptions] = useState({});
@@ -37,6 +38,14 @@ const Forms = ({ index, changeForm }) => {
     case 2:
       form = (
         <TokenForm
+          optionsHandler={requestHandler}
+          dataHandler={requestData}
+        />
+      );
+      break;
+    case 3:
+      form = (
+        <UpdateForm
           optionsHandler={requestHandler}
           dataHandler={requestData}
         />
