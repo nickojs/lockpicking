@@ -8,6 +8,7 @@ import Outcome from '../containers/Outcome/Outcome';
 import About from '../containers/About/About';
 import Login from '../containers/Login/Login';
 import Logout from '../containers/Logout/Logout';
+import Stats from '../containers/Stats/Stats';
 
 import withNavigation from '../hoc/withNavigation';
 
@@ -17,7 +18,8 @@ const routesArray = [
   { path: '/endgame', name: 'Endgame', Component: Outcome },
   { path: '/about', name: 'About', Component: About },
   { path: '/login', name: 'Login', Component: Login },
-  { path: '/logout', name: 'Logout', Component: Logout }
+  { path: '/logout', name: 'Logout', Component: Logout },
+  { path: '/stats', name: 'Stats', Component: Stats }
 ];
 
 const routes = (
