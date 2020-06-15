@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
+
 import * as S from '../styles';
+import useRequest from '../../../../hooks/request';
 
 const UpdateForm = ({ optionsHandler, dataHandler }) => {
   const { loading, error, data } = dataHandler;
@@ -11,9 +13,33 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
 
   const submit = (payload) => optionsHandler({
     method: 'POST',
-    url: `https://${process.env.REACT_APP_BACKEND}/auth/update-user`,
+    url: `https://${process.env.REACT_APP_BACKEND}/auth/update-user/`,
     data: payload
   });
+
+  const [options, setOptions] = useState({});
+  const [userData] = useRequest(options);
+  const { loadingUser, errorUser, dataUser } = userData;
+
+  const inputRef = {
+    token: useRef(),
+    username: useRef(),
+    email: useRef(),
+    password: useRef()
+  };
+
+  const retrieveUser = (event) => {
+    const token = event.target.value;
+    console.log(inputRef);
+    // if (!isExpired) {
+    //   console.log('not expired');
+
+    //   setOptions({
+    //     method: 'GET',
+    //     url: `https://${process.env.REACT_APP_BACKEND}/auth/update-user/${token}`
+    //   });
+    // }
+  };
 
   return (
     <>
@@ -22,6 +48,10 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
         {loading && <p>Loading...</p>}
         {data && <p>Redirecting...</p>}
       </S.MsgContainer>
+      <S.MsgContainer>
+        {errorUser && <S.ErrorMsg>{errorUser}</S.ErrorMsg> }
+        {loadingUser && <p>loading user...</p>}
+      </S.MsgContainer>
       <S.SmallTitle>Insert new user data</S.SmallTitle>
       <S.Form key={3} onSubmit={handleSubmit(submit)} id="updateAccountForm">
         <S.FormInputs>
@@ -29,15 +59,22 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
             type="text"
             placeholder="token"
             name="token"
-            ref={register({ required: true })}
+            onBlur={(e) => retrieveUser(e)}
+            ref={(e) => {
+              register({ required: true });
+              inputRef.token.current = e;
+            }}
           />
-          {errors?.username?.types?.required
+          {errors?.token?.types?.required
             && <S.ErrorMsg>token required</S.ErrorMsg>}
           <S.Input
             type="text"
             placeholder="username"
             name="username"
-            ref={register({ required: true, minLength: 4, maxLength: 18 })}
+            ref={(e) => {
+              register({ required: true, minLength: 4, maxLength: 18 });
+              inputRef.username.current = e;
+            }}
           />
           {errors?.username?.types?.required
             && <S.ErrorMsg>username required</S.ErrorMsg>}
@@ -49,7 +86,10 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
             type="email"
             placeholder="email"
             name="email"
-            ref={register({ required: true, pattern: /(.+)@(.+){2,}\.(.+){2,}/ })}
+            ref={(e) => {
+              register({ required: true, pattern: /(.+)@(.+){2,}\.(.+){2,}/ });
+              inputRef.email.current = e;
+            }}
           />
           {errors?.email?.types?.required
             && <S.ErrorMsg>email required</S.ErrorMsg>}
@@ -60,7 +100,10 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
               type={togglePassword ? 'password' : 'text'}
               placeholder="password"
               name="password"
-              ref={register({ required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ })}
+              ref={(e) => {
+                register(inputRef, { required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ });
+                inputRef.password.current = e;
+              }}
             />
             <S.PasswordIndicator
               onClick={() => setTogglePassword(!togglePassword)}
