@@ -16,15 +16,18 @@ const routesArray = [
   { path: '/game-options', name: 'Options', Component: LockpadMenu },
   { path: '/game', name: 'Game', Component: Lockpad },
   { path: '/endgame', name: 'Endgame', Component: Outcome },
-  { path: '/about', name: 'About', Component: About },
-  { path: '/auth', name: 'Auth', Component: Auth },
-  { path: '/logout', name: 'Logout', Component: Logout },
-  { path: '/stats', name: 'Stats', Component: Stats }
+  //  { path: '/about', name: 'About', Component: About },
+  //  { path: '/auth', name: 'Auth', Component: Auth },
+  { path: '/logout', name: 'Logout', Component: Logout }
+  //  { path: '/stats', name: 'Stats', Component: Stats }
 ];
 
 const routes = (
   <Switch>
     <Route exact path="/" component={Home} />
+    <Route path="/auth" component={Auth} />
+    <Route path="/about" component={About} />
+    <Route path="/stats" component={Stats} />
     {routesArray.map(
       ({ path, Component }) => (
         <Route key={path} path={path} component={withNavigation(Component)} />
