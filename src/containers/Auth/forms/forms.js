@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import Dialog from '../dialog/dialog';
-import useRequest from '../../hooks/request';
+import Dialog from '../../../components/dialog/dialog';
+import useRequest from '../../../hooks/request';
 
 import SignupForm from './signupForm/signupForm';
 import LoginForm from './loginForm/loginForm';

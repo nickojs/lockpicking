@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
-import { Container as C } from '../../generalStyles';
-import arrow from '../../assets/sideMenuArrow.png';
+import { Container as C } from '../../../generalStyles';
+import arrow from '../../../assets/sideMenuArrow.png';
 
 const animItem = keyframes`
   from{

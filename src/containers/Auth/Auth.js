@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import * as S from './styles';
 import { Title, TextSmall, InnerContainer } from '../../generalStyles';
-import Forms from '../../components/forms/forms';
+import Forms from './forms/forms';
 
-import SideMenu from '../../components/sideMenu/sideMenu';
+import SideMenu from './sideMenu/sideMenu';
 
 const Auth = () => {
   const [toggleMenu, setToggleMenu] = useState(false);

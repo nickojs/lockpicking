@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setAuth } from '../../../store/actions/user';
+import { setAuth } from '../../../../store/actions/user';
 
 import * as S from '../styles';
 
