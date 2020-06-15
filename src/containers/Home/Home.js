@@ -32,7 +32,7 @@ const Home = () => {
     },
     68: {
       key: 'd',
-      path: isAuth ? '/logout' : '/login'
+      path: isAuth ? '/logout' : '/auth'
     },
     83: {
       key: 's',

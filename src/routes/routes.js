@@ -6,7 +6,7 @@ import LockpadMenu from '../containers/LockpadMenu/LockpadMenu';
 import Lockpad from '../containers/Lockpad/Lockpad';
 import Outcome from '../containers/Outcome/Outcome';
 import About from '../containers/About/About';
-import Login from '../containers/Login/Login';
+import Auth from '../containers/Auth/Auth';
 import Logout from '../containers/Logout/Logout';
 import Stats from '../containers/Stats/Stats';
 
@@ -17,7 +17,7 @@ const routesArray = [
   { path: '/game', name: 'Game', Component: Lockpad },
   { path: '/endgame', name: 'Endgame', Component: Outcome },
   { path: '/about', name: 'About', Component: About },
-  { path: '/login', name: 'Login', Component: Login },
+  { path: '/auth', name: 'Auth', Component: Auth },
   { path: '/logout', name: 'Logout', Component: Logout },
   { path: '/stats', name: 'Stats', Component: Stats }
 ];

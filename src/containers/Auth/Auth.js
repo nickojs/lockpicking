@@ -6,7 +6,7 @@ import Forms from '../../components/forms/forms';
 
 import SideMenu from '../../components/sideMenu/sideMenu';
 
-const Login = () => {
+const Auth = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [triggerForm, setTriggerForm] = useState(false);
   const [index, setIndex] = useState(0);
@@ -80,4 +80,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Auth;
