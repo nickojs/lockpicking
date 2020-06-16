@@ -83,8 +83,7 @@ const Home = () => {
     <div>
       <S.Container ref={container} tabIndex="0" onKeyDown={keyDownHandler} isMenuOpen={menuToggle}>
         <InnerContainer>
-          <Title>Skyrim</Title>
-          <Text>lockpick simulator</Text>
+          <Title>lockpicking simulator</Title>
           <hr />
           <TextSmall>Press space to start</TextSmall>
         </InnerContainer>
