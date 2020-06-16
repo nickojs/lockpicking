@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import * as S from './styles';
+import Hint from '../hint/hint';
 
 const Menu = ({ keyPressed, toggle, clicked }) => {
   const { key } = keyPressed !== null && keyPressed;
@@ -8,8 +9,10 @@ const Menu = ({ keyPressed, toggle, clicked }) => {
 
   const menuContainer = toggle && (
     <S.MenuContainer onClick={clicked}>
-      <S.HintText>Use the wasd keys to control the menu</S.HintText>
-      <S.HintText>Select an option and press the same key again to enter</S.HintText>
+      <Hint>
+        Use the WASD keys to control the menu <br />
+        Select an option and press the same key again to enter
+      </Hint>
       <S.MenuLayer>
 
         <S.MenuTop>
