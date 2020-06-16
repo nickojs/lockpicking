@@ -19,6 +19,7 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
   });
 
   const [options, setOptions] = useState({});
+  const [filled, setFilled] = useState(false);
   const [userData] = useRequest(options);
 
   const inputRef = {
@@ -47,6 +48,7 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
         inputs[each].current.value = user[each];
       }
     });
+    setFilled(true);
   };
 
   const retrieveUser = (event) => {
@@ -69,10 +71,16 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
   useEffect(() => {
     if (userData.data) {
       toggleInputs(inputRef, false);
+      if (!filled) {
+        // fill the inputs if not filled before
+        // then focus the username
+        feedInputs(inputRef, userData.data);
+        inputRef.username.current.focus();
+      }
       // locks the token if valid, to make the proper request
       inputRef.token.current.disabled = true;
     }
-  }, [userData.data, inputRef]);
+  }, [filled, inputRef, userData.data]);
 
   return (
     <>
@@ -98,6 +106,7 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
               value={userData.data.user.id}
               style={{ display: 'none' }}
               ref={register()}
+              readOnly
             />
             )
           }
