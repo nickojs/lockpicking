@@ -85,12 +85,12 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
   return (
     <>
       <S.MsgContainer>
-        {error && <S.ErrorMsg>{error}</S.ErrorMsg> }
+        {error && <S.ErrorMsg>{error.error}</S.ErrorMsg> }
         {loading && <p>Loading...</p>}
         {data && <p>Updated account. Check your email</p>}
       </S.MsgContainer>
       <S.MsgContainer>
-        {userData.error && <S.ErrorMsg>{userData.error}</S.ErrorMsg> }
+        {userData.error && <S.ErrorMsg>{userData.error.error}</S.ErrorMsg> }
         {userData.loading && <p>loading user data...</p>}
       </S.MsgContainer>
       <S.SmallTitle>Insert new user data</S.SmallTitle>
@@ -110,8 +110,6 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
             />
             )
           }
-          {errors?.token?.types?.required
-            && <S.ErrorMsg>token required</S.ErrorMsg>}
           <S.Input
             type="text"
             placeholder="token"

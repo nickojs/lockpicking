@@ -26,7 +26,7 @@ const SignupForm = ({ optionsHandler, dataHandler, changeForm, clear }) => {
   return (
     <>
       <S.MsgContainer>
-        {error && <S.ErrorMsg>{error}</S.ErrorMsg> }
+        {error && <S.ErrorMsg>{error.error}</S.ErrorMsg> }
         {loading && <p>Loading...</p>}
         {data && <p>Redirecting...</p>}
       </S.MsgContainer>

@@ -37,7 +37,7 @@ const Stats = () => {
       </InnerContainer>
       <InnerContainer>
         <S.MsgContainer>
-          {error && <S.ErrorMsg>{error}</S.ErrorMsg> }
+          {error && <S.ErrorMsg>{error.message}</S.ErrorMsg> }
           {loading && <p>Loading...</p>}
         </S.MsgContainer>
         {data
