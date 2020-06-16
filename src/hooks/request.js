@@ -42,26 +42,7 @@ const requestReducer = (state, action) => {
 export default (options) => {
   const [requestState, dispatch] = useReducer(requestReducer, initialState);
 
-  const postRequest = useCallback(async () => {
-    dispatch({ type: 'LOADING', status: true });
-    try {
-      const request = await axios({
-        ...options,
-        responseType: 'json'
-      });
-      dispatch({ type: 'DATA', data: request.data });
-    } catch (err) {
-      if (err.response) {
-        dispatch({ type: 'ERROR', error: err.response.data.error });
-      } else if (err.request) {
-        dispatch({ type: 'ERROR', error: 'Couldn\'t reach server.' });
-      } else {
-        dispatch({ type: 'ERROR', error: err.message });
-      }
-    }
-  }, [options]);
-
-  const getRequest = useCallback(async () => {
+  const fetchData = useCallback(async () => {
     dispatch({ type: 'LOADING', status: true });
     try {
       const request = await axios({
@@ -83,14 +64,10 @@ export default (options) => {
   const clearState = () => dispatch({ type: 'CLEAR' });
 
   useEffect(() => {
-    if (options.method === 'POST'
-      && options.data) {
-      postRequest();
+    if (options.method) {
+      fetchData();
     }
-    if (options.method === 'GET') {
-      getRequest();
-    }
-  }, [options, getRequest, postRequest]);
+  }, [options, fetchData]);
 
   return [requestState, clearState];
 };
