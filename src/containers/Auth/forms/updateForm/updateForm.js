@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+/* eslint-disable no-param-reassign */
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 import * as S from '../styles';
@@ -19,7 +20,6 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
 
   const [options, setOptions] = useState({});
   const [userData] = useRequest(options);
-  const { loadingUser, errorUser, dataUser } = userData;
 
   const inputRef = {
     token: useRef(),
@@ -28,18 +28,52 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
     password: useRef()
   };
 
+  const toggleInputs = (inputs, toggle = false) => {
+    const mappedInputs = Object.keys(inputs);
+
+    mappedInputs.forEach((each) => {
+      inputs[each].current.disabled = toggle;
+    });
+  };
+
+  const feedInputs = (inputs, result) => {
+    const { user } = result;
+    const mappedInputs = Object.keys(inputs);
+    const mappedUser = Object.keys(user);
+    // checks for common ground between user and inputs
+    // in order to fill them, accordingly
+    mappedInputs.forEach((each) => {
+      if (mappedUser.includes(each)) {
+        inputs[each].current.value = user[each];
+      }
+    });
+  };
+
   const retrieveUser = (event) => {
     const token = event.target.value;
-    console.log(inputRef);
-    // if (!isExpired) {
-    //   console.log('not expired');
-
-    //   setOptions({
-    //     method: 'GET',
-    //     url: `https://${process.env.REACT_APP_BACKEND}/auth/update-user/${token}`
-    //   });
-    // }
+    if (token) {
+      toggleInputs(inputRef, true);
+      setOptions({
+        method: 'GET',
+        url: `https://${process.env.REACT_APP_BACKEND}/auth/update-user/${token}`
+      });
+    }
   };
+
+  useEffect(() => {
+    if (userData.error) {
+      toggleInputs(inputRef, false);
+    }
+  }, [userData.error, inputRef]);
+
+  useEffect(() => {
+    if (userData.data) {
+      toggleInputs(inputRef, false);
+      feedInputs(inputRef, userData.data);
+      // locks the token if valid, to make the proper request
+      inputRef.token.current.disabled = true;
+    }
+  }, [userData.data, inputRef]);
 
   return (
     <>
@@ -49,8 +83,8 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
         {data && <p>Redirecting...</p>}
       </S.MsgContainer>
       <S.MsgContainer>
-        {errorUser && <S.ErrorMsg>{errorUser}</S.ErrorMsg> }
-        {loadingUser && <p>loading user...</p>}
+        {userData.error && <S.ErrorMsg>{userData.error}</S.ErrorMsg> }
+        {userData.loading && <p>loading user data...</p>}
       </S.MsgContainer>
       <S.SmallTitle>Insert new user data</S.SmallTitle>
       <S.Form key={3} onSubmit={handleSubmit(submit)} id="updateAccountForm">
@@ -61,7 +95,7 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
             name="token"
             onBlur={(e) => retrieveUser(e)}
             ref={(e) => {
-              register({ required: true });
+              register(e, { required: true });
               inputRef.token.current = e;
             }}
           />
@@ -72,7 +106,7 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
             placeholder="username"
             name="username"
             ref={(e) => {
-              register({ required: true, minLength: 4, maxLength: 18 });
+              register(e, { required: true, minLength: 4, maxLength: 18 });
               inputRef.username.current = e;
             }}
           />
@@ -87,7 +121,7 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
             placeholder="email"
             name="email"
             ref={(e) => {
-              register({ required: true, pattern: /(.+)@(.+){2,}\.(.+){2,}/ });
+              register(e, { required: true, pattern: /(.+)@(.+){2,}\.(.+){2,}/ });
               inputRef.email.current = e;
             }}
           />
@@ -101,7 +135,7 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
               placeholder="password"
               name="password"
               ref={(e) => {
-                register(inputRef, { required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ });
+                register(e, { required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ });
                 inputRef.password.current = e;
               }}
             />
