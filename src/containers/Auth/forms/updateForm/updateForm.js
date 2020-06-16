@@ -13,7 +13,7 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
   });
 
   const submit = (payload) => optionsHandler({
-    method: 'POST',
+    method: 'PUT',
     url: `https://${process.env.REACT_APP_BACKEND}/auth/update-user/`,
     data: payload
   });
@@ -69,7 +69,6 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
   useEffect(() => {
     if (userData.data) {
       toggleInputs(inputRef, false);
-      feedInputs(inputRef, userData.data);
       // locks the token if valid, to make the proper request
       inputRef.token.current.disabled = true;
     }
@@ -80,7 +79,7 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
       <S.MsgContainer>
         {error && <S.ErrorMsg>{error}</S.ErrorMsg> }
         {loading && <p>Loading...</p>}
-        {data && <p>Redirecting...</p>}
+        {data && <p>Updated account. Check your email</p>}
       </S.MsgContainer>
       <S.MsgContainer>
         {userData.error && <S.ErrorMsg>{userData.error}</S.ErrorMsg> }
@@ -89,6 +88,21 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
       <S.SmallTitle>Insert new user data</S.SmallTitle>
       <S.Form key={3} onSubmit={handleSubmit(submit)} id="updateAccountForm">
         <S.FormInputs>
+          {
+            userData.data
+            && (
+            <S.Input
+              type="text"
+              placeholder="id"
+              name="id"
+              value={userData.data.user.id}
+              style={{ display: 'none' }}
+              ref={register()}
+            />
+            )
+          }
+          {errors?.token?.types?.required
+            && <S.ErrorMsg>token required</S.ErrorMsg>}
           <S.Input
             type="text"
             placeholder="token"
