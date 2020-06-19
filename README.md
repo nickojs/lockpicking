@@ -20,14 +20,14 @@ The player inserts input (wasd, clicks, hold buttons, events), to determine pick
 
 To reproduce this system, I implemented input and configuration layers (as seen above), and some reducers to deal with those layers. 
 
-### zones
+## zones
 To give the player a nice feedback, like if he is close to unlock, custom lockpad rotation, and so on, I've implemented an array system (or something like that), where two arrays are randomly generated, based on difficulty. 
   1. Hotzone
    This zone shows the user that he is getting closer to unlock, changes the lockpad rotation.
   2. Unlockzone
    As the name suggests, this zone determines the opening of the lock.
 
-### reducers
+## reducers
 0. **Input**
 
     This reducer just records user inupt, like keyDown/Up, mouseDown/Up, mousemove event, and also for how long a key is being pressed. 
@@ -63,4 +63,9 @@ To give the player a nice feedback, like if he is close to unlock, custom lockpa
    General configuration, like notifications, or wheter the game is over or the player wins.
 
 
-It is also important to understand the *useAngle* custom hook. This hook receives an input event, which is the mousemove event, and then sets the pick's position accordingly. It will also determine angle limits, which currently are *-115deg* and *115deg* - this is important both to the UI and to the engine. To the UI makes sense that the pick only slides 'til a certain point, and for the engine, 
+It is also important to understand the *useAngle* custom hook. This hook receives an input event, which is the mousemove event, and then sets the pick's position accordingly. It will also determine angle limits, which currently are *-115deg* and *115deg* - this is important both to the UI and to the engine.
+
+# Future updates
+   
+   * Fix the current bug of unlocking instantly in some difficulties
+   * Export the menu (home menu and auth menu) to a separated package on NPM
