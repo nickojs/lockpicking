@@ -16,16 +16,12 @@ const UpdateForm = ({ optionsHandler, dataHandler }) => {
     url: `https://${process.env.REACT_APP_BACKEND}/auth/delete-user/`,
     data: payload
   });
+  // 2d1516bf27af92631cd17c59bd98c6a1f2e9c0fa8a81793125a10d9ba25266a4
 
   return (
     <>
       <S.MsgContainer>
-        {error && (
-        <>
-          <S.ErrorMsg>{error.error}</S.ErrorMsg>
-          <S.ErrorMsg>{error}</S.ErrorMsg>
-        </>
-        )}
+        {error && <S.ErrorMsg>{error.error}</S.ErrorMsg>}
         {loading && <p>Loading...</p>}
         {data && <p>Updated account. Check your email</p>}
       </S.MsgContainer>

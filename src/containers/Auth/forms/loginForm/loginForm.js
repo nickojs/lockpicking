@@ -40,12 +40,7 @@ const LoginForm = ({ optionsHandler, dataHandler }) => {
   return (
     <>
       <S.MsgContainer>
-        {error && (
-        <>
-          <S.ErrorMsg>{error.error}</S.ErrorMsg>
-          <S.ErrorMsg>{error}</S.ErrorMsg>
-        </>
-        )}
+        {error && <S.ErrorMsg>{error.error}</S.ErrorMsg>}
         {loading && <p>Loading...</p>}
         {data && <p>Redirecting...</p>}
       </S.MsgContainer>
