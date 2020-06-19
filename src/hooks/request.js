@@ -56,7 +56,7 @@ export default (options) => {
       } else if (err.request) {
         dispatch({ type: 'ERROR', error: 'Couldn\'t reach server.' });
       } else {
-        dispatch({ type: 'ERROR', error: err.message });
+        dispatch({ type: 'ERROR', error: 'Couldn\'t reach server.' });
       }
     }
   }, [options]);

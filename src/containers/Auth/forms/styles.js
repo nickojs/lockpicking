@@ -112,6 +112,7 @@ export const ConfirmButton = styled.input`
 
 export const MsgContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
