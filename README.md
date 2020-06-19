@@ -64,3 +64,8 @@ To give the player a nice feedback, like if he is close to unlock, custom lockpa
 
 
 It is also important to understand the *useAngle* custom hook. This hook receives an input event, which is the mousemove event, and then sets the pick's position accordingly. It will also determine angle limits, which currently are *-115deg* and *115deg* - this is important both to the UI and to the engine.
+
+# Future updates
+   
+   * Fix the current bug of unlocking instantly in some difficulties
+   * Export the menu (home menu and auth menu) to a separated package on NPM
