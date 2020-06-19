@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setNavigation } from '../../store/actions/user';
 
 import * as S from './styles';
-import { Title, Text, TextSmall, InnerContainer } from '../../generalStyles';
+import { Title, TextSmall, InnerContainer } from '../../generalStyles';
 
 import Menu from '../../components/menu/menu';
 
